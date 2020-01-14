@@ -1,8 +1,8 @@
 include musicpd
 
 def play_pause():
-	if client.status()['state'] == 'pause':
-		client.pause(0)
+	if client.status()['state'] != 'play': 
+		client.play()
 	else:
 		client.pause(1)
 		
