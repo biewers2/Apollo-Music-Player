@@ -9,7 +9,7 @@ def play_pause():
 def list_all_songs():
 	for song in client.listall():
 		for x in song:
-			if song[x][-1] == '3':		
+			if song[x][-1] == '3':	#only shows .mp3 files (or any file extension that ends in '3')	
 				print(song[x])
 				
 def song_stripper(s):  #test code -- might have bugs
