@@ -5,6 +5,12 @@ def play_pause():
 		client.pause(0)
 	else:
 		client.pause(1)
+		
+def list_all_songs():
+	for song in client.listall():
+		for x in song:
+			if song[x][-1] == '3':		
+				print(song[x])
 
 client = musicpd.MPDClient()       # create client object
 client.connect()
