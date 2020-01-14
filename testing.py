@@ -13,7 +13,7 @@ def list_all_songs(): #will list only .mp3 files in the music directory, as well
 				print(song[x])
 				#print(song_stripper(song[x])) instead of above line to strip out directory, numbering, and extension data
 				
-def song_stripper(s):  #test code -- might have bugs
+def song_stripper(s): 
 	#finds last slash in filename to remove directories
 	index_of_slash = s.rfind('/') 
 	if index_of_slash != -1:
@@ -34,7 +34,7 @@ def song_stripper(s):  #test code -- might have bugs
 	#can mess up file names of songs that start with a number or character
 	size = len(temp_string) - 1
 	for e in range(6): 
-		if e == size:  #TEST
+		if e == size:  
 			break		
 		elif temp_string[e].isalpha():
 			temp_string = temp_string[e:]
