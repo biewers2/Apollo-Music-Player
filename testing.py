@@ -12,7 +12,7 @@ def list_all_songs():
 			if song[x][-1] == '3':		
 				print(song[x])
 				
-def song_stripper(s):  #test code =-- might have bugs
+def song_stripper(s):  #test code -- might have bugs
 	#finds last slash in filename to remove directories
 	index_of_slash = s.rfind('/') 
 	if index_of_slash != -1:
