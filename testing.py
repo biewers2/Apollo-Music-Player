@@ -1,5 +1,19 @@
 import musicpd
 
+client = musicpd.MPDClient()       # create client object
+client.connect()
+#print(client.mpd_version) 
+client.command_list_ok_begin()       # start a command list
+results = client.command_list_end()
+client.update()
+
+#client.status()
+#client.stats()
+
+# adds the song given in 'filename' to the current playlist/queue
+def add_song_to_playlist(filename):
+    client.add(filename)
+
 def play_pause():
 	if client.status()['state'] != 'play': 
 		client.play()
@@ -41,15 +55,7 @@ def song_stripper(s):  #test code -- might have bugs
 
 	return temp_string
 
-
-client = musicpd.MPDClient()       # create client object
-client.connect()
-print(client.mpd_version) 
-client.command_list_ok_begin()       # start a command list
-client.update()                      
-client.status()                      
-client.stats()
-results = client.command_list_end() 
+play_pause()
 print(results)
 
-
+client.disconnect()
