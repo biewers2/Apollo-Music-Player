@@ -12,7 +12,7 @@ except socket.error as err:
 port = 6600
   
 try: 
-    host_ip = ("0.0.0.0")
+    host_ip = ("localhost")
 except socket.gaierror: 
   
     # this means could not resolve the host 
