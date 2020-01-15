@@ -86,7 +86,7 @@ while user_input != 'q':
 	if user_input == " ":
 		play_pause()
 	if user_input == "s":
-		skip_song()
+		next_song()
 	if user_input == "p":
 		back_song()
 	if user_input == "k":
