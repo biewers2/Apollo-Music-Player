@@ -1,4 +1,30 @@
+import socket # for socket 
+import sys 
 import musicpd
+  
+try: 
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    print ("Socket successfully created")
+except socket.error as err: 
+    print ("socket creation failed with error %s") %(err) 
+  
+# default port for socket 
+port = 6600
+  
+try: 
+    host_ip = ("localhost")
+except socket.gaierror: 
+  
+    # this means could not resolve the host 
+    print ("there was an error resolving the host")
+    sys.exit() 
+  
+# connecting to the server 
+s.connect((host_ip, port)) 
+  
+print ("the socket has successfully connected")
+
+#Functions below
 
 
 def seek(s):
@@ -69,12 +95,11 @@ def song_stripper(s):
 
 	return temp_string
 
-
 client = musicpd.MPDClient()       # create client object
-client.connect()
+client.connect(host_ip , port)
 print(client.mpd_version) 
 client.command_list_ok_begin()       # start a command list
-client.update()                      
+client.update()                     
 client.status()                      
 client.stats()
 results = client.command_list_end() 
