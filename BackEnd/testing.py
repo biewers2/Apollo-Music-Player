@@ -11,8 +11,21 @@ client.update()
 #client.stats()
 
 # adds the song given in 'filename' to the current playlist/queue
+# prints an error message if the song could not be found in the files and returns 1
 def add_song_to_playlist(filename):
-    client.add(filename)
+	song_in_files = False
+	# check each song in the library to see if the filename matches any known paths
+	for song_dict in client.listall():
+		for key in song_dict:
+			if filename == song_dict[key]:
+				song_in_files = True
+				break
+	if song_in_files:
+		client.add(filename)
+		return 0
+	else:
+		print("Could not find song: " + filename + " in files")
+		return 1
 
 def play_pause():
 	if client.status()['state'] != 'play': 
@@ -55,7 +68,23 @@ def song_stripper(s):  #test code -- might have bugs
 
 	return temp_string
 
-play_pause()
-print(results)
+client.clear()
+#list_all_songs()
+
+add_song_to_playlist('open/summer_os.mp3')
+print(client.playlist())
+print("")
+
+add_song_to_playlist('summer_os.mp3')
+print(client.playlist())
+print("")
+
+add_song_to_playlist('lksdsdfjksdf')
+print(client.playlist())
+print("")
+
+#client.play()
+#play_pause()
+#print(results)
 
 client.disconnect()
