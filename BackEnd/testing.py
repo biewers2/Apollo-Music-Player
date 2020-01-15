@@ -1,7 +1,10 @@
 import musicpd
 
 def seek(s):
-	client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
+	if s < client.status()['duration']:
+		client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
+	else: clinet.next()
+
 	
 
 def list_songs(): #lists songs in the playlist
