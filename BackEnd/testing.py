@@ -31,7 +31,7 @@ def seek(s):
 	if 'duration' in client.status():
 		if s < float(client.status()['duration']):
 			client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
-		else: clinet.next()
+		else: client.next()
 
 	
 
