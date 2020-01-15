@@ -4,6 +4,12 @@ def seek(s):
 	client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
 	
 
+def list_songs(): #lists songs in the playlist
+	for song in client.playlistinfo():
+		temp_string = (song["file"]) 
+		temp_string = song_stripper(temp_string)
+		print(temp_string)
+
 def next_song():
 	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
 		client.next()
