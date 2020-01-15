@@ -11,25 +11,28 @@ client.update()
 #client.stats()
 
 def return_all_songs_as_list():
-	list = []
+	listOfSongs = []
 	for song in client.listall():
 		for x in song:
-			if song[x][-1] == '3':		
-				list.add(song[x])
-	return list
+			if song[x][-1:] == '3':		
+				listOfSongs.append(song[x])
+	return listOfSongs
+
 # adds the song given in 'filename' to the current playlist/queue
 # prints an error message if the song could not be found in the files and returns 1
 def add_song_to_playlist(filename):
 	song_in_files = False
 	# check each song in the library to see if the filename matches any known paths
-	for song_dict in client.listall():
-		for key in song_dict:
-			if filename == song_dict[key]:
-				song_in_files = True
-				break
+	listOfSongs = return_all_songs_as_list()
+	for song in listOfSongs:
+		if filename == song:
+			song_in_files = True
+			break
+	# if it found the song, add it
 	if song_in_files:
 		client.add(filename)
 		return 0
+	#if not, tell us we failed
 	else:
 		print("Could not find song: " + filename + " in files")
 		return 1
