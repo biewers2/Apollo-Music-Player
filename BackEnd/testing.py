@@ -1,5 +1,9 @@
 import musicpd
 
+def seek(s):
+	client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
+	
+
 def next_song():
 	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
 		client.next()
