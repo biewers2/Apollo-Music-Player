@@ -1,5 +1,18 @@
 import musicpd
 
+def next_song():
+	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
+		client.next()
+
+def prev_song():
+	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
+		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
+			client.seekcur(0)  
+		else:
+			client.previous()
+
+
+
 def play_pause():
 	if client.status()['state'] != 'play': 
 		client.play()
