@@ -88,7 +88,7 @@ while user_input != 'q':
 	if user_input == "s":
 		next_song()
 	if user_input == "p":
-		back_song()
+		prev_song()
 	if user_input == "k":
 		position = float(input("What position do you want?"))
 		seek(position)
