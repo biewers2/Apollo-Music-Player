@@ -27,7 +27,10 @@ print ("the socket has successfully connected")
 #Functions below
 
 def seek(s):
-	client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
+	if s < float(client.status()['duration']):
+		client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
+	else: clienet.next()
+
 	
 
 def list_songs(): #lists songs in the playlist
@@ -91,9 +94,6 @@ def song_stripper(s):
 
 	return temp_string
 
-
-#test menu
-
 client = musicpd.MPDClient()       # create client object
 client.connect(host_ip , port)
 print(client.mpd_version) 
@@ -103,3 +103,17 @@ client.status()
 client.stats()
 results = client.command_list_end() 
 print(results)
+
+user_input = b' '
+
+while user_input != 'q':
+	if user_input == " ":
+		play_pause()
+	if user_input == "s":
+		next_song()
+	if user_input == "p":
+		prev_song()
+	if user_input == "k":
+		position = float(input("What position do you want?"))
+		seek(position)
+	user_input = input()
