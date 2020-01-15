@@ -28,9 +28,10 @@ print ("the socket has successfully connected")
 
 
 def seek(s):
-	if s < float(client.status()['duration']):
-		client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
-	else: client.next()
+	if 'duration' in client.status():
+		if s < float(client.status()['duration']):
+			client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
+		else: clinet.next()
 
 	
 
