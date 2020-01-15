@@ -10,6 +10,12 @@ client.update()
 #client.status()
 #client.stats()
 
+def return_all_songs_as_list():
+	list = []
+	for song in client.listall():
+		for x in song:
+			if song[x][-1] == '3':		
+				list.add(song[x])
 # adds the song given in 'filename' to the current playlist/queue
 # prints an error message if the song could not be found in the files and returns 1
 def add_song_to_playlist(filename):
