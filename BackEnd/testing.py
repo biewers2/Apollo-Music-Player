@@ -1,5 +1,9 @@
 import musicpd
 
+def get_volume(): #there doesn't seem to be a current volume when there isn't a song playing
+	if client.status()['state'] == 'play': 
+		return int(client.status()['volume'])
+
 def seek(s):
 	if s < float(client.status()['duration']):
 		client.seekcur(s) #should i put checks to make sure negs dont go backwards and a num too high doesn't change songs?
