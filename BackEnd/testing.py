@@ -1,7 +1,8 @@
 import socket # for socket 
 import sys 
 import musicpd
-  
+
+desired_volume = 50
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     print ("Socket successfully created")
@@ -29,8 +30,8 @@ print ("the socket has successfully connected")
 def get_volume(): #there doesn't seem to be a current volume when there isn't a song playing
 	if client.status()['state'] == 'play': 
 		return int(client.status()['volume'])
-
-def set_volume(s): #setvol seems to only allow changes when there is a song playing
+	
+def set_volume(s): #testing functionality to change volume when song is not playing
 	if s >= 0 and s <= 100:
 		client.setvol(s)
 
@@ -76,10 +77,18 @@ def prev_song():
 			client.seekcur(0)  
 		elif client.status()['song'] != '0':
 			client.previous()
-
+'''
 def play_pause():
 	if client.status()['state'] != 'play': 
 		client.play()
+	else:
+		client.pause(1)
+'''
+def play_pause():
+	if client.status()['state'] != 'play': 
+		client.play()
+		set_volume(desired_volume)
+		
 	else:
 		client.pause(1)
 ''' 
