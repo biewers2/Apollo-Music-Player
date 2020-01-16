@@ -41,15 +41,11 @@ def list_songs(): #lists songs in the playlist
 		temp_string = song_stripper(temp_string)
 		print(temp_string)
 '''
-#works and marked final, but testing another version of the function
+#works and marked final, but testing another version of each function
 def next_song():
 	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
 		client.next()
-'''
 
-def next_song():
-	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1: 
-		client.next()
 
 
 def prev_song():
@@ -58,8 +54,21 @@ def prev_song():
 			client.seekcur(0)  
 		else:
 			client.previous()
+'''
 
 
+def next_song():
+	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1: 
+		client.next()
+
+			
+			
+def prev_song():
+	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
+		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
+			client.seekcur(0)  
+		elif client.status()['song'] != '0':
+			client.previous()
 
 def play_pause():
 	if client.status()['state'] != 'play': 
