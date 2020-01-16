@@ -10,12 +10,21 @@ client.update()
 #client.status()
 #client.stats()
 
+'''
 def return_all_songs_as_list():
 	listOfSongs = []
 	for song in client.listall():
 		for x in song:
 			if song[x][-1] == '3':		
 				listOfSongs.append(song[x])
+	return listOfSongs
+'''
+def return_all_songs_as_list():
+	listOfSongs = []
+	for path in client.listall():
+		for type in song:
+			if path[type].endswith('.mp3'):		
+				listOfSongs.append([type])
 	return listOfSongs
 
 # adds the song given in 'filename' to the current playlist/queue
