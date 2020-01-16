@@ -24,9 +24,9 @@ def return_all_songs_as_list():
 def return_all_songs_as_list():
 	listOfSongs = []
 	for path in client.listall():
-		for type in song:
-			if path[type].endswith('.mp3'):
-				listOfSongs.append([type])
+		for x in song:
+			if path[x].endswith('.mp3'):
+				listOfSongs.append([x])
 	return listOfSongs
 
 
@@ -136,9 +136,8 @@ def song_stripper(s):  #test code -- might have bugs
 	return temp_string
 
 client.clear()
+
 # list_all_songs()
-client.add('open/summer_os.mp3')
-print(return_playList_songs_as_list())
 
 x = input('select option: ' )
 
@@ -153,7 +152,7 @@ while x != 'stop':
                 # client.next()
                 next_song()
         elif x == 'back':
-               prev_song() 
+               prev_song()
         elif x == 'add':
                 list_all_songs()
                 y = input('add song to playlist: ' )
@@ -166,6 +165,15 @@ while x != 'stop':
                 remove_song_from_playlist(y)
         else:
                 print('not a command')
+        elif x.startswith('savePlaylist'):
+            y = x[13:]
+            client.save(y)
+        elif x.startswith('addToPlaylist'):
+            client.listplaylists()
+            y = input('playlist name to add to: ')
+            list_all_songs()
+            z = input('choose song to add: ')
+            client.playlistadd(y,z)
         x = input('select option: ' )
 
 # client.play()
