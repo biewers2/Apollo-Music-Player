@@ -48,7 +48,7 @@ def next_song():
 '''
 
 def next_song():
-	if client.status()['state'] == 'play' and int(client.status()['song']) != (int(client.status()['playlistlength']) -1): 
+	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1: 
 		client.next()
 
 
