@@ -159,4 +159,7 @@ while user_input != 'q':
 	if user_input == "k":
 		position = float(input("What position do you want?"))
 		seek(position)
+	if user_input == "sv":
+		desired_volume = int(input("\nWhat do you want to set the volume to?: "))
+		set_volume(desired_volume)
 	user_input = input()
