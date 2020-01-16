@@ -29,7 +29,7 @@ def return_all_songs_as_list():
 
 # adds the song given in 'filename' to the current playlist/queue
 # prints an error message if the song could not be found in the files and returns 1
-def add_song_to_playlist(filename):
+"""def add_song_to_playlist(filename):
 	song_in_files = False
 	# check each song in the library to see if the filename matches any known paths
 	listOfSongs = return_all_songs_as_list()
@@ -44,7 +44,13 @@ def add_song_to_playlist(filename):
 	#if not, tell us we failed
 	else:
 		print("Could not find song: " + filename + " in files")
-		return 1
+		return 1"""
+
+def add_song_to_playlist(filename):
+	try:	
+		client.add(filename)
+	except:
+		print("Could not find the file: " + filename)
 
 def play_pause():
 	if client.status()['state'] != 'play': 
