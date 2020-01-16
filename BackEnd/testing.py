@@ -40,10 +40,17 @@ def list_songs(): #lists songs in the playlist
 		temp_string = (song["file"]) 
 		temp_string = song_stripper(temp_string)
 		print(temp_string)
-
+'''
+#works and marked final, but testing another version of the function
 def next_song():
 	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
 		client.next()
+'''
+
+def next_song():
+	if client.status()['state'] == 'play' and int(client.status()['song']) != (int(client.status()['playlistlength']) -1): 
+		client.next()
+
 
 def prev_song():
 	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
