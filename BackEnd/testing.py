@@ -14,7 +14,7 @@ def return_all_songs_as_list():
 	listOfSongs = []
 	for song in client.listall():
 		for x in song:
-			if song[x][-1:] == '3':		
+			if song[x][-1] == '3':		
 				listOfSongs.append(song[x])
 	return listOfSongs
 
