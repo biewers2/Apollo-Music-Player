@@ -34,6 +34,7 @@ def set_volume(s): #testing functionality to change volume when song is not play
 	if s >= 0 and s <= 100:
 		client.setvol(s)'''
 def set_volume(vol): #wont let desired_volume be higher than 100 or lower than 0
+	global desired_volume
 	if vol >= 0 and vol <= 100:
 		desired_volume = vol
 	elif vol < 0:
