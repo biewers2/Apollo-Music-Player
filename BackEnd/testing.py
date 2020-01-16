@@ -83,7 +83,10 @@ def remove_song_from_playlist(fileName):  # get back to this
             pos = pos + 1
                 
         if song_in_playlist:
+            try:
                 client.delete(pos)
+            except:
+                print("something went horribly wrong with the remove function")
 
 def play_pause():
 	if client.status()['state'] != 'play': 
