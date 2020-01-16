@@ -87,6 +87,12 @@ def list_all_songs():
 		for x in song:
 			if song[x][-1] == '3':		
 				print(song[x])
+
+def list_songs(): #lists songs in the playlist
+	for song in client.playlistinfo():
+		temp_string = (song["file"]) 
+		temp_string = song_stripper(temp_string)
+		print(temp_string)				
 				
 def song_stripper(s):  #test code -- might have bugs
 	#finds last slash in filename to remove directories
