@@ -27,9 +27,8 @@ print ("the socket has successfully connected")
 
 #Functions below
 
-def get_volume(): #there doesn't seem to be a current volume when there isn't a song playing
-	if client.status()['state'] == 'play': 
-		return int(client.status()['volume'])
+def get_volume(): #now works when a song is not playing
+ 	return desired_volume
 	
 def set_volume(s): #testing functionality to change volume when song is not playing
 	if s >= 0 and s <= 100:
