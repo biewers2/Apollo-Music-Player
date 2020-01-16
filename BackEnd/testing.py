@@ -29,10 +29,19 @@ print ("the socket has successfully connected")
 
 def get_volume(): #now works when a song is not playing
  	return desired_volume
-	
+'''	
 def set_volume(s): #testing functionality to change volume when song is not playing
 	if s >= 0 and s <= 100:
-		client.setvol(s)
+		client.setvol(s)'''
+def set_volume(vol): #wont let desired_volume be higher than 100 or lower than 0
+	if vol >= 0 and vol <= 100:
+		desired_volume = vol
+	elif vol < 0:
+		desired_volume = 0
+	else:
+		desired_volume = 100
+		
+	client.setvol(desired_volume)
 
 def seek(s):
 	if 'duration' in client.status():
@@ -159,6 +168,6 @@ while user_input != 'q':
 		position = float(input("What position do you want?"))
 		seek(position)
 	if user_input == "sv":
-		desired_volume = int(input("\nWhat do you want to set the volume to?: "))
-		set_volume(desired_volume)
+		vol = int(input("What do you want to set the volume to?: "))			
+		set_volume(vol)		
 	user_input = input()
