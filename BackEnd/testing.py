@@ -26,6 +26,13 @@ print ("the socket has successfully connected")
 
 #Functions below
 
+def get_volume(): #there doesn't seem to be a current volume when there isn't a song playing
+	if client.status()['state'] == 'play': 
+		return int(client.status()['volume'])
+
+def set_volume(s): #setvol seems to only allow changes when there is a song playing
+	if s >= 0 and s <= 100:
+		client.setvol(s)
 
 def seek(s):
 	if 'duration' in client.status():
