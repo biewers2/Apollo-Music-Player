@@ -52,6 +52,30 @@ def add_song_to_playlist(filename):
 	except:
 		print("Could not find the file: " + filename)
 
+def return_playList_songs_as_list(): ##Returns a list of the playlist
+	playListOfSongsList = []
+	for song in client.playlist():
+		if song.endswith('.mp3'):		
+			playListOfSongsList.append(song)
+				
+	return playListOfSongsList		
+
+def remove_song_from_playlist(fileName):  #########get back to this
+        song_in_playlist = False
+        #check each song in the playlist to see if the filename matches what is in playlist
+        #playlistSongs = return_playList_songs_as_list()
+        #should it go with append or with the remove function because of the UI element
+        playListOfSongs = return_playList_songs_as_list()
+        pos = 0
+        for song in playListOfSongs:
+                if fileName == song:
+                        song_in_playlist = True
+                        break
+                pos = pos + 1
+                
+        if song_in_playlist:
+                client.delete(pos)
+
 def play_pause():
 	if client.status()['state'] != 'play': 
 		client.play()
