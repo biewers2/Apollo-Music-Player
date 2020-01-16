@@ -120,17 +120,33 @@ def song_stripper(s):  #test code -- might have bugs
 client.clear()
 #list_all_songs()
 
-add_song_to_playlist('open/summer_os.mp3')
-print(client.playlist())
-print("")
+x = input('select option: ' )
 
-add_song_to_playlist('summer_os.mp3')
-print(client.playlist())
-print("")
-
-add_song_to_playlist('lksdsdfjksdf')
-print(client.playlist())
-print("")
+while x != 'stop':
+        if x == 'play':
+               #client.play()
+                play_pause()
+        elif x == 'pause':
+                #client.pause()
+               play_pause()
+        elif x == 'next':
+                #client.next()
+                next_song()
+        elif x == 'back':
+               prev_song() 
+        elif x == 'addToPlaylist':
+                list_all_songs()
+                y = input('add song to playlist: ' )
+                add_song_to_playlist(y)
+        elif x == 'seePlaylist':
+                list_songs()
+        elif x == 'removeSong':
+                list_all_songs()
+                y = input('what song would you like to remove: ' )
+                remove_song_from_playlist(y)
+        else:
+                print('not a command')
+        x = input('select option: ' )
 
 #client.play()
 #play_pause()
