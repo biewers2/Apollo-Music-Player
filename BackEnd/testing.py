@@ -75,14 +75,23 @@ def play_pause():
 		client.play()
 	else:
 		client.pause(1)
-		
+''' 
+#works and marked final but testing another version
 def list_all_songs(): #will list only .mp3 files in the music directory, as well as in any directories inside 
 	for song in client.listall():
 		for x in song:
 			if song[x][-1] == '3':	#only shows .mp3 files (or any file extension that ends in '3')	
 				print(song[x])
 				#print(song_stripper(song[x])) instead of above line to strip out directory, numbering, and extension data
-				
+'''
+
+def list_all_songs():
+	for path in client.listall():
+		for type in path:
+			if path[type].endswith('.mp3'):
+				print(song_stripper(path[type]))
+
+
 def song_stripper(s): 
 	#finds last slash in filename to remove directories
 	index_of_slash = s.rfind('/') 
