@@ -2,30 +2,33 @@ import musicpd
 
 client = musicpd.MPDClient()       # create client object
 client.connect()
-#print(client.mpd_version) 
+# print(client.mpd_version)
 client.command_list_ok_begin()       # start a command list
 results = client.command_list_end()
 client.update()
 
-#client.status()
-#client.stats()
+# client.status()
+# client.stats()
 
 '''
 def return_all_songs_as_list():
 	listOfSongs = []
 	for song in client.listall():
 		for x in song:
-			if song[x][-1] == '3':		
+			if song[x][-1] == '3':
 				listOfSongs.append(song[x])
 	return listOfSongs
 '''
+
+
 def return_all_songs_as_list():
 	listOfSongs = []
 	for path in client.listall():
 		for type in song:
-			if path[type].endswith('.mp3'):		
+			if path[type].endswith('.mp3'):
 				listOfSongs.append([type])
 	return listOfSongs
+
 
 # adds the song given in 'filename' to the current playlist/queue
 # prints an error message if the song could not be found in the files and returns 1
@@ -41,37 +44,43 @@ def return_all_songs_as_list():
 	if song_in_files:
 		client.add(filename)
 		return 0
-	#if not, tell us we failed
+	# if not, tell us we failed
 	else:
 		print("Could not find song: " + filename + " in files")
 		return 1"""
 
+
 def add_song_to_playlist(filename):
-	try:	
+	try:
 		client.add(filename)
 	except:
 		print("Could not find the file: " + filename)
 
-def return_playList_songs_as_list(): ##Returns a list of the playlist
+
+def return_playList_songs_as_list():  # Returns a list of the playlist
 	playListOfSongsList = []
 	for song in client.playlist():
-		if song.endswith('.mp3'):		
-			playListOfSongsList.append(song)
-				
-	return playListOfSongsList		
+		if song.endswith('.mp3'):
+			playListOfSongsList.append(song[6:])
 
-def remove_song_from_playlist(fileName):  #########get back to this
+	return playListOfSongsList
+
+
+def remove_song_from_playlist(fileName):  # get back to this
         song_in_playlist = False
-        #check each song in the playlist to see if the filename matches what is in playlist
-        #playlistSongs = return_playList_songs_as_list()
-        #should it go with append or with the remove function because of the UI element
+        # check each song in the playlist to see if the filename matches what is in playlist
+        # playlistSongs = return_playList_songs_as_list()
+        # should it go with append or with the remove function because of the UI element
         playListOfSongs = return_playList_songs_as_list()
         pos = 0
         for song in playListOfSongs:
-                if fileName == song:
-                        song_in_playlist = True
-                        break
-                pos = pos + 1
+            print(pos)
+            print(fileName)
+            print(song)
+            if fileName == song:
+                song_in_playlist = True
+                break
+            pos = pos + 1
                 
         if song_in_playlist:
                 client.delete(pos)
@@ -95,14 +104,14 @@ def list_songs(): #lists songs in the playlist
 		print(temp_string)				
 				
 def song_stripper(s):  #test code -- might have bugs
-	#finds last slash in filename to remove directories
+	# finds last slash in filename to remove directories
 	index_of_slash = s.rfind('/') 
 	if index_of_slash != -1:
 		temp_string = s[index_of_slash + 1:]
 	else:
 		temp_string = s
 
-	#finds '.' at the end of file names to remove filetypes
+	# finds '.' at the end of file names to remove filetypes
 	neg_size = len(temp_string) * -1
 	for e in range(-1,-5,-1): 
 		if e < neg_size:
@@ -111,8 +120,8 @@ def song_stripper(s):  #test code -- might have bugs
 			temp_string = temp_string[0:e]
 			break
 
-	#finds the first letter in the file name to remove track numbers
-	#can mess up file names of songs that start with a number or character
+	# finds the first letter in the file name to remove track numbers
+	# can mess up file names of songs that start with a number or character
 	size = len(temp_string) - 1
 	for e in range(6): 
 		if e == size:  #TEST
@@ -124,29 +133,31 @@ def song_stripper(s):  #test code -- might have bugs
 	return temp_string
 
 client.clear()
-#list_all_songs()
+# list_all_songs()
+client.add('open/summer_os.mp3')
+print(return_playList_songs_as_list())
 
 x = input('select option: ' )
 
 while x != 'stop':
         if x == 'play':
-               #client.play()
+               # client.play()
                 play_pause()
         elif x == 'pause':
-                #client.pause()
+                # client.pause()
                play_pause()
         elif x == 'next':
-                #client.next()
+                # client.next()
                 next_song()
         elif x == 'back':
                prev_song() 
-        elif x == 'addToPlaylist':
+        elif x == 'add':
                 list_all_songs()
                 y = input('add song to playlist: ' )
                 add_song_to_playlist(y)
-        elif x == 'seePlaylist':
+        elif x == 'playlist':
                 list_songs()
-        elif x == 'removeSong':
+        elif x == 'remove':
                 list_all_songs()
                 y = input('what song would you like to remove: ' )
                 remove_song_from_playlist(y)
@@ -154,8 +165,8 @@ while x != 'stop':
                 print('not a command')
         x = input('select option: ' )
 
-#client.play()
-#play_pause()
-#print(results)
+# client.play()
+# play_pause()
+# print(results)
 
 client.disconnect()
