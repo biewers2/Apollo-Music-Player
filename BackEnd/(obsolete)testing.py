@@ -1,7 +1,8 @@
 import socket # for socket 
 import sys 
 import musicpd
-  
+
+desired_volume = 50
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     print ("Socket successfully created")
@@ -26,6 +27,22 @@ print ("the socket has successfully connected")
 
 #Functions below
 
+def get_volume(): #now works when a song is not playing
+ 	return desired_volume
+'''	
+def set_volume(s): #testing functionality to change volume when song is not playing
+	if s >= 0 and s <= 100:
+		client.setvol(s)'''
+def set_volume(vol): #wont let desired_volume be higher than 100 or lower than 0
+	global desired_volume
+	if vol >= 0 and vol <= 100:
+		desired_volume = vol
+	elif vol < 0:
+		desired_volume = 0
+	else:
+		desired_volume = 100
+		
+	client.setvol(desired_volume)
 
 def seek(s):
 	if 'duration' in client.status():
@@ -69,10 +86,18 @@ def prev_song():
 			client.seekcur(0)  
 		elif client.status()['song'] != '0':
 			client.previous()
-
+'''
 def play_pause():
 	if client.status()['state'] != 'play': 
 		client.play()
+	else:
+		client.pause(1)
+'''
+def play_pause():
+	if client.status()['state'] != 'play': 
+		client.play()
+		set_volume(desired_volume)
+		
 	else:
 		client.pause(1)
 ''' 
@@ -131,6 +156,13 @@ client.stats()
 results = client.command_list_end() 
 print(results)
 
+
+desired_volume = 50
+#checks to see if mpd is playing and if it is, sets the client volume to the mpd volume 
+if 'volume' in client.status() and client.status()['volume'] != '-1': 
+	desired_volume = int(client.status()['volume'])
+set_volume(desired_volume)
+
 user_input = b' '
 
 while user_input != 'q':
@@ -143,4 +175,7 @@ while user_input != 'q':
 	if user_input == "k":
 		position = float(input("What position do you want?"))
 		seek(position)
+	if user_input == "sv":
+		vol = int(input("What do you want to set the volume to?: "))			
+		set_volume(vol)		
 	user_input = input()
