@@ -178,7 +178,7 @@ def remove_song_from_queue(fileName):  # get back to this
         # check each song in the playlist to see if the filename matches what is in playlist
         # playlistSongs = return_playList_songs_as_list()
         # should it go with append or with the remove function because of the UI element
-        playListOfSongs = return_playList_songs_as_list()
+        playListOfSongs = return_queue_songs_as_list()
         pos = 0
         for song in playListOfSongs:
             print(pos)
