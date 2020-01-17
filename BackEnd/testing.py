@@ -50,7 +50,7 @@ def return_all_songs_as_list():
 		return 1"""
 
 
-def add_song_to_playlist(filename):
+def add_song_to_queue(filename):
 	try:
 		client.add(filename)
 	except:
@@ -66,7 +66,7 @@ def return_playList_songs_as_list():  # Returns a list of the playlist
 	return playListOfSongsList
 
 
-def remove_song_from_playlist(fileName):  # get back to this
+def remove_song_from_queue(fileName):  # get back to this
         song_in_playlist = False
         # check each song in the playlist to see if the filename matches what is in playlist
         # playlistSongs = return_playList_songs_as_list()
@@ -156,15 +156,13 @@ while x != 'stop':
         elif x == 'add':
                 list_all_songs()
                 y = input('add song to playlist: ' )
-                add_song_to_playlist(y)
+                add_song_to_queue(y)
         elif x == 'playlist':
                 list_songs()
         elif x == 'remove':
                 list_all_songs()
                 y = input('what song would you like to remove: ' )
-                remove_song_from_playlist(y)
-        else:
-                print('not a command')
+                remove_song_from_queue(y)
         elif x.startswith('savePlaylist'):
             y = x[13:]
             client.save(y)
@@ -173,7 +171,9 @@ while x != 'stop':
             y = input('playlist name to add to: ')
             list_all_songs()
             z = input('choose song to add: ')
-            client.playlistadd(y,z)
+            client.playlistadd(y, z)
+        else:
+                print('not a command')
         x = input('select option: ' )
 
 # client.play()
