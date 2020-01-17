@@ -13,6 +13,10 @@
 	cursor: pointer;
 }
 
+.logoButton{
+	width: 35%;
+}
+
 .addToPlaylist{
 	cursor: pointer;
 }
