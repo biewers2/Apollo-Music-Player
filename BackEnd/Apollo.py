@@ -18,7 +18,6 @@ import socket # for socket
 import sys 
 import musicpd
 
-desired_volume = 50
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     print ("Socket successfully created")
@@ -175,7 +174,6 @@ desired_volume = 50
 if 'volume' in client.status() and client.status()['volume'] != '-1': 
 	desired_volume = int(client.status()['volume'])
 set_volume(desired_volume)
-
 
 print()
 print("q for quit")
