@@ -43,13 +43,22 @@ print ("the socket has successfully connected")
 
 #Functions below
 
-def get_volume(): #there doesn't seem to be a current volume when there isn't a song playing
-	if client.status()['state'] == 'play': 
-		return int(client.status()['volume'])
-	
+def get_volume(): #now works when a song is not playing
+ 	return desired_volume
+'''	
 def set_volume(s): #testing functionality to change volume when song is not playing
 	if s >= 0 and s <= 100:
-		client.setvol(s)
+		client.setvol(s)'''
+def set_volume(vol): #wont let desired_volume be higher than 100 or lower than 0
+	global desired_volume
+	if vol >= 0 and vol <= 100:
+		desired_volume = vol
+	elif vol < 0:
+		desired_volume = 0
+	else:
+		desired_volume = 100
+		
+	client.setvol(desired_volume)
 
 def seek(s):
 	if 'duration' in client.status():
@@ -159,6 +168,13 @@ client.status()
 client.stats()
 results = client.command_list_end() 
 print(results)
+
+
+desired_volume = 50
+#checks to see if mpd is playing and if it is, sets the client volume to the mpd volume 
+if 'volume' in client.status() and client.status()['volume'] != '-1': 
+	desired_volume = int(client.status()['volume'])
+set_volume(desired_volume)
 
 
 print()
