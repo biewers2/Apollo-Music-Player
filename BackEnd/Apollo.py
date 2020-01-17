@@ -65,8 +65,6 @@ def seek(s):
 			client.seekcur(s) 
 		else: client.next()
 
-	
-
 def list_songs(): #lists songs in the playlist
 	for song in client.playlistinfo():
 		temp_string = (song["file"]) 
@@ -157,6 +155,46 @@ def song_stripper(s):
 			break
 
 	return temp_string
+
+
+def add_song_to_queue(filename):
+	try:
+		client.add(filename)
+	except:
+		print("Could not find the file: " + filename)
+
+
+def return_queue_songs_as_list():  # Returns a list of the playlist
+	retval = []
+	for song in client.playlist():
+		if song.endswith('.mp3'):
+			retval.append(song[6:])
+
+	return retval
+
+
+def remove_song_from_queue(fileName):  # get back to this
+        song_in_playlist = False
+        # check each song in the playlist to see if the filename matches what is in playlist
+        # playlistSongs = return_playList_songs_as_list()
+        # should it go with append or with the remove function because of the UI element
+        playListOfSongs = return_playList_songs_as_list()
+        pos = 0
+        for song in playListOfSongs:
+            print(pos)
+            print(fileName)
+            print(song)
+            if fileName == song:
+                song_in_playlist = True
+                break
+            pos = pos + 1
+                
+        if song_in_playlist:
+            try:
+                client.delete(pos)
+            except:
+                print("something went horribly wrong with the remove function")
+
 
 client = musicpd.MPDClient()       # create client object
 client.connect(host_ip , port)
