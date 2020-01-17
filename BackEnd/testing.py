@@ -156,6 +156,13 @@ client.stats()
 results = client.command_list_end() 
 print(results)
 
+
+desired_volume = 50
+#checks to see if mpd is playing and if it is, sets the client volume to the mpd volume 
+if 'volume' in client.status() and client.status()['volume'] != '-1': 
+	desired_volume = int(client.status()['volume'])
+set_volume(desired_volume)
+
 user_input = b' '
 
 while user_input != 'q':
