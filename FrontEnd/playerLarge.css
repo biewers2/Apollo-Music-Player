@@ -1,0 +1,56 @@
+.item1 { 
+	grid-area: header;
+	text-align: right;
+	border: 4px dotted blue;
+}
+.item2 {
+	grid-area: artwork; 
+	float: center;
+	border: 4px dotted blue;
+
+}
+.item3 {
+	grid-area: cueTitle; 
+	border-color: coral;
+	border: 4px dotted blue;
+}
+.item4 {
+	grid-area: filteredPlaylist; 
+}
+.item5 {
+	grid-area: footer;
+	overflow: hidden;
+	position: fixed;
+	bottom: 0;
+	width: 100%; 
+	border: 4px dotted blue;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header'
+    'artwork artwork cueTitle cueTitle'
+    'artwork artwork filteredPlaylist filteredPlaylist'
+    'footer footer footer footer';
+  grid-gap: 10px;
+  padding: 10px;
+  height: 100%;
+  border: 4px dotted blue;
+}
+
+.grid-container > div {
+  padding: 20px 0;
+  font-size: 30px;
+  border: 4px dotted blue;
+}
+
+.currentArtwork{
+	max-width: 75%;
+	height: auto;
+	border: 4px dotted blue;
+}
+
+.controlButtons{
+
+}
