@@ -1,0 +1,305 @@
+body{
+  font-family: Azonix;
+  color: white;
+  background: #1A1A1A;
+}
+
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#mainAlbums {
+  transition: margin-left .5s;
+  padding-top: 5%;
+  display: block;
+
+}
+
+.mainAlbums {
+  margin-left: 30%;
+  width: 70%;
+
+}
+#mainPlaylists {
+  transition: margin-left .5s;
+  padding-top: 5%;
+  display: none;
+
+}
+
+.mainPlaylists {
+  margin-left: 30%;
+  width: 70%;
+
+}
+
+#mainArtists {
+  transition: margin-left .5s;
+  padding-top: 5%;
+  display: none;
+
+}
+
+.mainArtists {
+  margin-left: 30%;
+  width: 70%;
+}
+
+
+
+.square{
+  max-width: 30%;
+  margin: none;
+  border: none;
+}
+
+.circle {
+  max-width: 30%;
+  padding: 2% 2% 2% 2%;
+  border-radius: 50%;
+}
+
+.navigation-bar{
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  background-color: #1A1A1A;
+  overflow: hidden;
+}
+
+#tableCont{
+  color: inherit;
+  width: 100%;
+  text-align: left;
+}
+
+.resultsTable{
+  text-align: left;
+  width: 100%;
+  padding: 5%;
+  text-align: left;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
+}
+
+.closebtn, .searchText{
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
+
+}
+
+td{
+  padding-top: 4%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logo-button{
+  padding-top: 1%;
+  padding-left: 1%;
+  max-width: 5%;
+  border:none;
+  float: left;
+  background-color: Transparent;
+
+}
+
+.apolloBrand{
+  height: 10%;
+  color: white;
+  letter-spacing: 3px;
+  float: left;
+  padding-top: 2%;
+  padding-left: 2%;
+}
+
+.searchButton{
+  padding-top: 2.5%;
+  padding-right: 5%;
+  float: right;
+
+}
+.albums{
+  padding-top: 2.5%;
+  padding-right: 5%;
+  float: right;
+
+}
+.playlist{
+  float: right;
+  padding-right: 5%;
+  padding-top: 2.5%;
+
+
+}
+
+.artists{
+  float: right;
+  padding-right: 5%;
+  padding-top: 2.5%;
+
+
+}
+
+.overlay {
+
+  height: 100%;
+  width: 100%;
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  color: white;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9); /* Black with a little bit see-through */
+}
+
+/* The content */
+.overlay-content {
+
+  position: relative;
+  top: 25%;
+  width: 80%;
+  padding-left: 10%;
+  padding-right: 10%;
+  text-align: center;
+  margin-top: 30px;
+  margin: auto;
+}
+
+/* Close button */
+.overlay .closebtn {
+
+  position: absolute;
+  top: 3.7%;
+  right: 5%;
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+}
+
+.overlay .closebtn:hover {
+  color: #ccc;
+}
+
+/* Style the search field */
+.overlay input[type=text] {
+  padding: 15px;
+  font-size: 17px;
+  border: none;
+  float: left;
+  width: 100%;
+  background: white;
+}
+
+.overlay input[type=text]:hover {
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+.overlay button {
+  float: left;
+  width: 20%;
+  padding: 15px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.overlay button:hover {
+  background: #bbb;
+}
+
+
+.currentlyPlaying{
+  float: left;
+  width: 30%;
+  position: fixed;
+
+}
+
+.collapseAlbumInfo{
+}
+
+
+.playerAlbumArt{
+  padding-top: 5%;
+  padding-left: 10%;
+  padding-right: auto;
+  max-width: 90%;
+}
+
+.currentArtist{
+  padding-left: 10%;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
+  padding-bottom: 10%;
+}
+
+.currentSong{
+  padding-left: 10%;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
+}
+
+.progressBar {
+  padding-left: 10%;
+  width: 90%;
+}
+
+.bar{
+  width: 80%;
+  padding-bottom: 3%;
+}
+
+.volumeBar{
+  padding-top: 5%;
+  width: 100%;
+  padding-left: 10%;
+}
+
+.playbackControls{
+  color: white;
+  justify-content: center;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.backButton{
+  padding-left: 10%;
+  padding-top: .5%;
+}
+
+.playButton{
+  margin-left: 25%;
+  margin-right: 25%;
+
+}
+
+.ffButton{
+  padding-right: 10%;
+  padding-top: .5%;
+}
+
+.volume{
+  padding-left: 10%;
+  width: 90%;
+  max-width: 100%;
+}
+
+.Shuffle{
+  float: left;
+  padding-left: 15%;
+}
+
+.Repeat{
+  float: right;
+  padding-right: 10%;
+}
