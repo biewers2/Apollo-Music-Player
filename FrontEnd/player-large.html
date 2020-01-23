@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="/Users/SamuelSantiago/Documents/Agile/mpd3/css/playerLarge.css"/>
 	<script src="/Users/SamuelSantiago/Documents/Agile/mpd3/js/openPlayer.js"></script>
 	<script src="/Users/SamuelSantiago/Documents/Agile/mpd3/js/create-library.js"></script>
+	<script src="buttons.js"></script>
 
 </head>
 <body>	
@@ -62,7 +63,8 @@
 		<div class=" playbackControls link">
 			<i class="fas fa-random"></i>
 			<i class="backButton fas fa-step-backward"></i>
-			<i class="playButton fas fa-play"></i>
+			<i onclick="togglePlaying()" id="play" class="playButton fas fa-play"></i>
+			<i  onclick="toggleStopped()" id="pause" class="fas fa-pause pause"></i>
 			<i class="ffButton fas fa-step-forward"></i>
 			<i class="fas fa-redo-alt"></i>
 
