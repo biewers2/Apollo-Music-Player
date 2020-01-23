@@ -280,7 +280,7 @@ td{
 .playButton{
   margin-left: 25%;
   margin-right: 25%;
-
+  display: inline;
 }
 
 .ffButton{
@@ -303,3 +303,10 @@ td{
   float: right;
   padding-right: 10%;
 }
+
+.pause{
+  display: none;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
