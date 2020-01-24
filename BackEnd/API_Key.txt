@@ -1,0 +1,4 @@
+Application name 	Apollo
+API key 	d1915a9d435d47526a61dc0210978583
+Shared secret 	9a38017f79b7017d606a65b4564afd09
+Registered to 	MIndstormer_
