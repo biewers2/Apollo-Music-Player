@@ -186,7 +186,7 @@ function toggleStopped()
 
 function nextSong()
     {
-        fetch('http://localhost:5000/next_song', {
+        fetch('http://localhost:5000/next', {
 
             method: 'GET',
             mode: "cors"
@@ -209,7 +209,7 @@ function nextSong()
 
 function prevSong()
     {
-        fetch('http://localhost:5000/prev_song', {
+        fetch('http://localhost:5000/previous', {
 
             method: 'GET',
             mode: "cors"
