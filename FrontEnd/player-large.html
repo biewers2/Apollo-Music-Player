@@ -60,15 +60,6 @@
 			<input id="vol-control" class="volume" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)">	
 			</input>
 		</div>
-		<script>
-		    function SetVolume(val)
-		    {
-		        var player = document.getElementById('video');
-		        console.log('Before: ' + player.volume);
-		        player.volume = val / 100;
-		        console.log('After: ' + player.volume);
-		    }
-		</script>
 	</div>
 
 	<div class = "mainPages">
