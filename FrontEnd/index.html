@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<body onload="boot()">
+	<title>
+		playerLarge
+	</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" inegrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Baumans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/ab83053a15.js" crossorigin="anonymous"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="./main.css"/>
+	<script src="./main.js"></script>
+
+</head>
+<body>	
+
+<dir class="navigation-bar">
+		<i onclick="openSearch()" role="button" aria-expanded="false" class="fas fa-search searchButton navigation-bar"></i>
+		<i class="albums fas fa-compact-disc navigation-bar" href="#" onclick="go2Albums()">Albums</i>
+		<i class="playlist fas fa-list navigation-bar" href="#"onclick="go2Playlists()">Playlists</i>
+		<i class="artists fas fa-user-astronaut navigation-bar" href="#"onclick="go2Artists()">Artists</i>
+	<div class="logoContainer">
+		<img id="logoBTN" class="logo-button" data-toggle="collapse" data-target="currentlyPlaying"src="/Users/SamuelSantiago/Documents/Agile/mpd3/images/Logo.png"/>
+	</div>
+	<div class="apolloBrand" href="#">
+		APOLLO
+	</div>
+</dir>
+
+	<div id="currentlyPlaying"class="currentlyPlaying">
+        <div class="currentlyShowing">
+			<i href="#" class = "artwork" id="returnCurrentAlbum"  onclick="filterSelection()"><img class="playerAlbumArt" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/4-44_album_cover.png"/>
+			</i>
+		</div>
+		<div class="currentSong link">
+			<i id="returnCurrentSong"  href="#" onclick="filterSelection()" >
+			</i>
+		</div>
+		<div class="currentArtist link">
+			<i id="returnCurrentArtist" href="#" onclick="filterSelection()" >
+			</i>
+		</div>
+		<i class="progressBar">
+			<progress class="bar" max="100" value="80"></progress>
+		</i>
+		<div class=" playbackControls link">
+			<i class="fas fa-random"></i>
+			<i class="backButton fas fa-step-backward"></i>
+			<i class="playButton fas fa-play"></i>
+			<i class="ffButton fas fa-step-forward"></i>
+			<i class="fas fa-redo-alt"></i>
+		</div>
+		<div class="volumeBar">
+			<input id="vol-control" class="volume" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)">	
+			</input>
+		</div>
+		<script>
+		    function SetVolume(val)
+		    {
+		        var player = document.getElementById('video');
+		        console.log('Before: ' + player.volume);
+		        player.volume = val / 100;
+		        console.log('After: ' + player.volume);
+		    }
+		</script>
+	</div>
+
+	<div class = "mainPages">
+		<div id="mainArtists">
+		</div>
+		<div id="mainPlaylists">
+		</div>	
+		<div id="mainAlbums">	
+		</div>
+	</div>
+
+
+	<div id="myOverlay" class="overlay">
+		<span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
+			<div id="search"class="overlay-content mainPages">
+			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search"/>
+			<div id="library">
+				<table id="libraryTable" class="resultsTable">
+				  <thead>
+				    <tr>
+				      <th scope="col"></th>
+				      <th scope="col"></th>
+				      <th scope="col"></th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody id="libraryBody">
+				  </tbody>
+		  		</table>
+			</div>
+		</div>
+	</div>
+
+
+	
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+	</script>
+</body>
+</html>
