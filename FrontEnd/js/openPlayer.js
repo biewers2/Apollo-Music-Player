@@ -228,5 +228,30 @@ function prevSong()
     });
   }
 
+ function SetVolume(val) 
+  {
+          var player = document.getElementById('vol-control');
+          console.log('Before: ' + player.volume);
+          player.volume = val / 100;
+          console.log('After: ' + player.volume);
 
+          var asJSON = JSON.stringify({'volume':val});
+          console.log(asJSON)
+
+    //POST
+    fetch('http://localhost:5000/volume', {
+              method: 'POST',
+              mode: "cors",
+              body: asJSON,
+              headers:{
+                  "Content-Type": 'application/json'
+              }
+    }).then(function(response){
+      return response.text();
+    }).then(function(text){
+      console.log('POST reponse: ');
+
+      console.log(text);
+    });
+  }
 
