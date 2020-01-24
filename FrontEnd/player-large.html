@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<body onload="boot()">
 	<title>
 		playerLarge
 	</title>
@@ -12,25 +13,17 @@
 	<link href="https://fonts.googleapis.com/css?family=Baumans&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/ab83053a15.js" crossorigin="anonymous"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="/Users/SamuelSantiago/Documents/Agile/mpd3/css/playerLarge.css"/>
-	<script src="/Users/SamuelSantiago/Documents/Agile/mpd3/js/openPlayer.js"></script>
-	<script src="/Users/SamuelSantiago/Documents/Agile/mpd3/js/create-library.js"></script>
-	<script src="buttons.js"></script>
+	<link rel="stylesheet" href="./playerLarge.css"/>
+	<script src="./main.js"></script>
 
 </head>
 <body>	
-<!--
-	<div id="playerCard" class="sidePlayer">
-		<div id="album-display"> <img class="album-display" src="https://i1.sndcdn.com/artworks-000420441756-ryf30u-t500x500.jpg"></div>
-		<a id= "album-name">ASTROWORLD </a>
-		<a id="artist-name">Travis Scott</a>
-	</div>
--->
+
 <dir class="navigation-bar">
 		<i onclick="openSearch()" role="button" aria-expanded="false" class="fas fa-search searchButton navigation-bar"></i>
-		<i class="albums  navigation-bar" href="#" onclick="go2Albums()" style="font-family: Azonix;">Albums</i>
-		<i class="playlist  navigation-bar" href="#"onclick="go2Playlists()" style="font-family: Azonix;">Playlists</i>
-		<i class="artists  navigation-bar" href="#"onclick="go2Artists()"style="font-family: Azonix;">Artists</i>
+		<i class="albums fas fa-compact-disc navigation-bar" href="#" onclick="go2Albums()">Albums</i>
+		<i class="playlist fas fa-list navigation-bar" href="#"onclick="go2Playlists()">Playlists</i>
+		<i class="artists fas fa-user-astronaut navigation-bar" href="#"onclick="go2Artists()">Artists</i>
 	<div class="logoContainer">
 		<img id="logoBTN" class="logo-button" data-toggle="collapse" data-target="currentlyPlaying"src="/Users/SamuelSantiago/Documents/Agile/mpd3/images/Logo.png"/>
 	</div>
@@ -39,38 +32,32 @@
 	</div>
 </dir>
 
-	<div id="returnCurrentlyPlaying"class="currentlyPlaying">
-
+	<div id="currentlyPlaying"class="currentlyPlaying">
         <div class="currentlyShowing">
-					<!--clicks call function to filter db-->
-			<i href="#" class = "artwork" id="returnCurrentAlbum"  onclick="filterSelection()"><img class="playerAlbumArt" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/4-44_album_cover.png"/>
-				</i>
+			<i href="#" class = "artwork" id="returnCurrentAlbum"  onclick="filterSelection()"><img id="currentAlbum"class="playerAlbumArt" src="/Users/SamuelSantiago/Documents/Agile/mpd3/images/Logo.png"/>
+			</i>
 		</div>
 		<div class="currentSong link">
 			<i id="returnCurrentSong"  href="#" onclick="filterSelection()" >
-				Song1
 			</i>
 		</div>
 		<div class="currentArtist link">
 			<i id="returnCurrentArtist" href="#" onclick="filterSelection()" >
-				Jay-Z
 			</i>
 		</div>
-
 		<i class="progressBar">
 			<progress class="bar" max="100" value="80"></progress>
 		</i>
 		<div class=" playbackControls link">
 			<i class="fas fa-random"></i>
 			<i class="backButton fas fa-step-backward"></i>
-			<i onclick="togglePlaying()" id="play" class="playButton fas fa-play"></i>
-			<i  onclick="toggleStopped()" id="pause" class="fas fa-pause pause"></i>
+			<i class="playButton fas fa-play"></i>
 			<i class="ffButton fas fa-step-forward"></i>
 			<i class="fas fa-redo-alt"></i>
-
 		</div>
 		<div class="volumeBar">
-			<input id="vol-control" class="volume" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
+			<input id="vol-control" class="volume" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)">	
+			</input>
 		</div>
 		<script>
 		    function SetVolume(val)
@@ -81,45 +68,23 @@
 		        console.log('After: ' + player.volume);
 		    }
 		</script>
-
 	</div>
 
-<div class="collapseAlbumInfo">
-	<div class="collapse" id="collapseExample">
-		Jay -x 
+	<div class = "mainPages">
+		<div id="mainArtists">
+		</div>
+		<div id="mainPlaylists">
+		</div>	
+		<div id="mainAlbums">	
+		</div>
 	</div>
-</div>
-	<div id="mainArtists" class="mainArtists">
-		<img class="circle" src="https://cdn4.picryl.com/photo/1977/01/01/missing-pieces-exhibit-popes-museum-pelham-georgia-99be05-1024.jpg"/>
-		<img class="circle" src="https://cdn4.picryl.com/photo/1977/01/01/missing-pieces-exhibit-popes-museum-pelham-georgia-99be05-1024.jpg"/>
-		<img class="circle" src="https://cdn4.picryl.com/photo/1977/01/01/missing-pieces-exhibit-popes-museum-pelham-georgia-99be05-1024.jpg"/>
-		<img class="circle" src="https://cdn4.picryl.com/photo/1977/01/01/missing-pieces-exhibit-popes-museum-pelham-georgia-99be05-1024.jpg"/>
-		<img class="circle" src="https://cdn4.picryl.com/photo/1977/01/01/missing-pieces-exhibit-popes-museum-pelham-georgia-99be05-1024.jpg"/>
-		<img class="circle" src="https://cdn4.picryl.com/photo/1977/01/01/missing-pieces-exhibit-popes-museum-pelham-georgia-99be05-1024.jpg"/>
-	</div>
-	<div id="mainPlaylists" class="mainPlaylists">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Three_Friends%2C_by_William_H._Johnson.jpg"/>
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Three_Friends%2C_by_William_H._Johnson.jpg"/>
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Three_Friends%2C_by_William_H._Johnson.jpg"/>
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Three_Friends%2C_by_William_H._Johnson.jpg"/>
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Three_Friends%2C_by_William_H._Johnson.jpg"/>
-	</div>	
-	<div id="mainAlbums" class = "mainAlbums">	
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/4-44_album_cover.png"/>
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/6/63/Naviband_Adnoj_Darohaj_Album_Cover.jpg">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Album_cover%2C_How_To_Build_A_Clock.jpeg">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"src="https://upload.wikimedia.org/wikipedia/commons/6/63/Naviband_Adnoj_Darohaj_Album_Cover.jpg">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Album_cover%2C_How_To_Build_A_Clock.jpeg">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/6/63/Naviband_Adnoj_Darohaj_Album_Cover.jpg">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Album_cover%2C_How_To_Build_A_Clock.jpeg">
-		<img class=" square btn btn-link" id="4:44" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" src="https://upload.wikimedia.org/wikipedia/commons/6/63/Naviband_Adnoj_Darohaj_Album_Cover.jpg">
-	</div>
+
 
 	<div id="myOverlay" class="overlay">
 		<span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
-		<div class="overlay-content">
-			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search">
-			<div id="tableCont">
+			<div id="search"class="overlay-content mainPages">
+			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search"/>
+			<div id="library">
 				<table id="libraryTable" class="resultsTable">
 				  <thead>
 				    <tr>
@@ -129,180 +94,15 @@
 				      <th scope="col"></th>
 				    </tr>
 				  </thead>
-				  <tbody>
-		  			<tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">1</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44636346346346436346436346346</td>
-				      <td class="filterDiv Song">2</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-abcdefghijklmnopqrstuvwxyz</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">3</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">444</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">5</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">6</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">7</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">8</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Jay-Z</td>
-				      <td class="filterDiv Album">4:44</td>
-				      <td class="filterDiv Song">9</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				     <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">Song4</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">Song1</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">Song2</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">Song4</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				      <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">5</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">6</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">7</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">NAVIBAND</td>
-				      <td class="filterDiv Album">Adnoj Darohaj</td>
-				      <td class="filterDiv Song">8</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">1</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-    			    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">2</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-    			    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">3</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">4</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				     <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">5</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-    			    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">6</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
-				    <tr>
-				      <th scope="row"></th>
-				      <td class="filterDiv Artist">Three Circles</td>
-				      <td class="filterDiv Album">Three Circles</td>
-				      <td class="filterDiv Song">7</td>
-				      <td class="ATPButton"  href="#"> + </td>
-				    </tr>
+				  <tbody id="libraryBody">
 				  </tbody>
-				</table>
+		  		</table>
 			</div>
 		</div>
 	</div>
+
+
+	
 
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
@@ -311,6 +111,5 @@
 	</script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
-	<script src="/Users/SamuelSantiago/Documents/Agile/mpd3/js/search.js"></script>
 </body>
 </html>
