@@ -4,57 +4,33 @@ body{
   background: #1A1A1A;
 }
 
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#mainAlbums {
-  transition: margin-left .5s;
-  padding-top: 5%;
-  display: block;
-
-}
-
-.mainAlbums {
-  margin-left: 30%;
-  width: 70%;
-
-}
-#mainPlaylists {
-  transition: margin-left .5s;
-  padding-top: 5%;
+#browseAll {
   display: none;
-
-}
-
-.mainPlaylists {
-  margin-left: 30%;
-  width: 70%;
-
-}
-
-#mainArtists {
-  transition: margin-left .5s;
-  padding-top: 5%;
-  display: none;
-
-}
-
-.mainArtists {
-  margin-left: 30%;
-  width: 70%;
-}
-
-
-
-.square{
-  max-width: 30%;
-  margin: none;
-  border: none;
 }
 
 .circle {
   max-width: 30%;
   padding: 2% 2% 2% 2%;
   border-radius: 50%;
+}
+
+#mainAlbums {
+  display: block;
+}
+
+#mainArtists {
+  display: none;
+}
+
+.mainPages{
+  margin-left: 30%;
+  width: 70%;
+  transition: margin-left .5s;
+  padding-top: 5%;
+  z-index: 1;
+}
+#mainPlaylists {
+  display: none;
 }
 
 .navigation-bar{
@@ -65,22 +41,34 @@ body{
   overflow: hidden;
 }
 
+.resultsTable{
+  text-align: left;
+  width: 100%;
+  padding: 5%;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
+}
+
+#showAlbum{
+  display: none;
+}
+
+.square{
+  max-width: 30%;
+  margin: 1%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  border: none;
+}
+
 #tableCont{
   color: inherit;
   width: 100%;
   text-align: left;
 }
 
-.resultsTable{
-  text-align: left;
-  width: 100%;
-  padding: 5%;
-  text-align: left;
-  letter-spacing: 3px;
-  font-size: 20px;
-  font-family: "Helvetica Neue";
-  font-weight: 200;
-}
 
 .closebtn, .searchText{
   font-size: 20px;
@@ -140,9 +128,8 @@ td{
   float: right;
   padding-right: 5%;
   padding-top: 2.5%;
-
-
 }
+
 
 .overlay {
 
@@ -155,10 +142,9 @@ td{
   left: 0;
   color: white;
   background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.9); /* Black with a little bit see-through */
+  background-color: rgba(0,0,0, 0.9); 
 }
 
-/* The content */
 .overlay-content {
 
   position: relative;
@@ -171,7 +157,6 @@ td{
   margin: auto;
 }
 
-/* Close button */
 .overlay .closebtn {
 
   position: absolute;
@@ -186,7 +171,6 @@ td{
   color: #ccc;
 }
 
-/* Style the search field */
 .overlay input[type=text] {
   padding: 15px;
   font-size: 17px;
@@ -200,7 +184,6 @@ td{
   background: #f1f1f1;
 }
 
-/* Style the submit button */
 .overlay button {
   float: left;
   width: 20%;
@@ -215,17 +198,12 @@ td{
   background: #bbb;
 }
 
-
 .currentlyPlaying{
   float: left;
   width: 30%;
   position: fixed;
 
 }
-
-.collapseAlbumInfo{
-}
-
 
 .playerAlbumArt{
   padding-top: 5%;
@@ -280,7 +258,7 @@ td{
 .playButton{
   margin-left: 25%;
   margin-right: 25%;
-  display: inline;
+
 }
 
 .ffButton{
@@ -304,9 +282,39 @@ td{
   padding-right: 10%;
 }
 
-.pause{
-  display: none;
-  margin-left: 25%;
-  margin-right: 25%;
+.albumArt{
+  max-width: 30%;
+  float: left;
+  padding-top: 10%;
+}
+
+.exit{
+  float: left;
+}
+
+.selectedAlbum{
+  float: right;
+  text-align: left;
+  width: 50%;
+  padding: 5%;
+  text-align: left;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
+}
+
+.duration{
+  float: right;
+}
+
+.artistDisplay{
+  text-align: left;
+  width: 100%;
+  padding: 5%;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+  font-weight: 200;
 }
 
