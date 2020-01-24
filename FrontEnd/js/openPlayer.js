@@ -142,7 +142,7 @@ function togglePlaying()
   document.getElementById("pause").style.display = "inline";
   document.getElementById("play").style.display = "none";
   
-  var j =fetch('http://localhost:5000/play_pause', {
+  var j =fetch('http://localhost:5000/play', {
 
     method: 'POST',
     mode: "cors"//,
@@ -169,7 +169,7 @@ function toggleStopped()
   document.getElementById("pause").style.display = "none";
   document.getElementById("play").style.display = "inline";
 
-  fetch('http://localhost:5000/play_pause', {
+  fetch('http://localhost:5000/play', {
 
     method: 'POST',
     mode: "cors"//,
