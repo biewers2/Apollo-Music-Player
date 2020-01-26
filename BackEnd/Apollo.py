@@ -183,34 +183,18 @@ def song_stripper(s):
 
 @app.route('/all_songs', methods = ['GET'])
 def return_database_songs_as_list():
-	listOfSongs = []
-	client.rescan()
+	client.rescan()	
 	list = client.listallinfo()
-
-	for type in list:
-		if 'file' in type and type['file'].endswith('.mp3'):
-			song = {}
-			#if 'title' in type:
-				#song['title'] = type['title']
-			#else:
-			song['title'] = song_stripper(type['file'])
-
-			#if song['title'] == 'Let it go (test)':
-			
-			song['AlbumArtMedium'] = AlbumArtGenerator(type['album'],type['artist'],'medium')
-			song['AlbumArtMega'] = AlbumArtGenerator(type['album'],type['artist'],'mega')
-			if 'artist' in type:
-				song['artist'] = type['artist']
-
-		
-			if 'album' in type:
-				song['album'] = type['album']
-			if 'date' in type:
-				song['year'] = type['date']
-			if 'duration' in type:
-				song['duration'] = type['duration']
-			listOfSongs.append(song)
-
+	listOfSongs = []
+	for song in list:
+		temp = songBuilder(song,['file','artist','album','date','duration'])
+		try:
+			temp['title'] = temp.pop('file')
+			temp['title'] = song_stripper(temp['title'])
+		except:
+			continue		
+		temp['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist']) if 'album' in song and 'artist' in song else 'none'
+		listOfSongs.append(temp)
 	return json.dumps(listOfSongs)
 
 @app.route('/get_vol', methods = ['GET'])
