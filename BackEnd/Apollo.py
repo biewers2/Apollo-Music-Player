@@ -124,21 +124,6 @@ def seek():
 		else: next_song()   
 		
 	return 'OK',200
-'''
-@app.route('/next', methods = ['POST'])
-def next_song():
-	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
-		client.next()
-	return 'OK',200
-@app.route('/previous', methods = ['POST'])
-def prev_song():
-	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
-		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
-			client.seekcur(0)
-		elif client.status()['song'] != '0':
-			client.previous()
-	return 'OK',200
-'''
 
 @app.route('/next', methods = ['GET'])
 def next_song():
@@ -191,9 +176,9 @@ def return_database_songs_as_list():
 		try:
 			temp['title'] = temp.pop('file')
 			temp['title'] = song_stripper(temp['title'])
+			temp['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist']) if 'album' in song and 'artist' in song else 'none'
 		except:
 			continue		
-		temp['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist']) if 'album' in song and 'artist' in song else 'none'
 		listOfSongs.append(temp)
 	return json.dumps(listOfSongs)
 
