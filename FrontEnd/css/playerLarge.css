@@ -318,3 +318,9 @@ td{
   font-weight: 200;
 }
 
+.pause
+{
+  display: none;
+  margin-left: 25%;
+  margin-right: 25%;
+}
