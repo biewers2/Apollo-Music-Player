@@ -1,0 +1,59 @@
+
+def add_song_to_playlist(this, song, playlist):
+    try:
+        this.playlistadd(playlist, song)
+        return True
+    except:
+        print("Could not add song: " + song + " to playlist: " + playlist)
+        return False
+
+def remove_song_from_playlist(this, songPos, playlist):
+    try:
+        this.playlistdelete(playlist, songPos)
+        return True
+    except:
+        print("Could not remove song from position: " + songPos + " from the playlist: " + playlist)
+        return False
+
+
+
+@app.route('/add_to_playlist', methods=['POST'])
+def add_to_playlist():
+    # this should take the incoming json, get the file name and playlist name and call the add_song_to_playlist function
+    print("Incoming..")
+
+    appRequest = request.get_json(force=True)
+
+    print(appRequest)
+
+    songname = appRequest["song"]
+    playlistname = appRequest["playlist"]
+
+    good = add_song_to_playlist(client, songname, playlistname)
+    #good = add_song_to_playlist(client, 'open/summer_os.mp3','Mobile Servo Heap')
+
+    if(good):
+        return 'OK', 200
+    else:
+        return 'BAD', 400
+
+
+@app.route('/remove_from_playlist', methods=['POST'])
+def remove_from_playlist():
+    # this should take the incoming json, get the file name and playlist name and call the add_song_to_playlist function
+    print("Incoming..")
+
+    appRequest = request.get_json(force=True)
+
+    print(appRequest)
+
+    songPos = appRequest["songPos"]
+    playlistname = appRequest["playlist"]
+
+    good = remove_song_from_playlist(client, songPos, playlistname)
+    #good = add_song_to_playlist(client, 'open/summer_os.mp3','Mobile Servo Heap')
+
+    if(good):
+        return 'OK', 200
+    else:
+        return 'BAD', 400
