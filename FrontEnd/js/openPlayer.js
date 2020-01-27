@@ -232,19 +232,20 @@ async function add_to_playlist(song, playlist) {
   console.log(text);
 }
 
-function remove_from_playlist(songPos, playlist) {
+async function remove_from_playlist(songPos, playlist) {
   var songObj = { "songPos": songPos, "playlist": playlist };
   var asJSON = JSON.stringify(songOBJ);
 
   //POST
-  fetch('/remove_from_playlist', {
+  const response = await fetch('http://localhost:5000/remove_from_playlist', {
     method: 'POST',
+    mode:'cors',
     body: asJSON
-  }).then((response) => {
-    return response.text();
-  }).then((text) => {
-    console.log("POST response: ");
-
-    console.log(text);
   });
+  
+  const text = await response.text();
+
+  console.log("POST response: ");
+  // Should be 'OK' if everything was successful
+  console.log(text);
 }
