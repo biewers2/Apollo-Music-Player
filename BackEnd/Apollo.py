@@ -12,23 +12,49 @@
 \_\___\     /____/_/\/_/       \/_________/ \_______\/    \_______\/    \/_________/                                                                                    
 Music Player using MPD
 '''
-import musicpd
-import msvcrt
-import json
-import subprocess
-import os
-import time
-import requests
+import musicpd, msvcrt, json, subprocess, os, time, requests, traceback
 import xml.etree.ElementTree  as ET
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
+from waitress import serve
 
 app = Flask(__name__)
-CORS(app)  #is cors causing disconnects?
+CORS(app)
 client = musicpd.MPDClient()
-desired_volume = 50
+
+desired_volume = 50 #at start = 50
+
+def startup_func():
+	global desired_volume,client
+	program = 'C:/mpd/mpd.exe' #make sure your path is correct
+	args = 'C:/mpd/mpd.conf' #make sure your path is correct
+	try:
+		client.connect()
+	except:
+		Popen([program, args],creationflags = CREATE_NEW_CONSOLE) #CREATE_NEW_CONSOLE MAY ONLY WORK IN WINDOWS
+		client.connect()
+	if client.status()['state'] == 'play':
+		desired_volume = int(client.status()['volume'])	
+	else:
+		client.rescan()
+		client.clear()
+		temp_list = client.listall() 
+		for songs in temp_list: #builds a queue with all songs. can also use a playlist
+			if 'file' in songs and songs['file'].endswith('.mp3'):
+				client.add(songs['file'])
+	return 'OK'
+
+def songBuilder(song, attributes): 
+	curr_song = {}
+	for x in attributes:		
+		try:
+			curr_song[x] = song[x]			
+		except:
+			curr_song[x] = 'none'	
+	return curr_song
+startup_func()
 
 def AlbumArtGenerator(album,artist):
 	api_key = 'd1915a9d435d47526a61dc0210978583'
@@ -45,28 +71,19 @@ def AlbumArtGenerator(album,artist):
 	except:
 		return 'none'
 
-#@app.route('/start', methods = ['POST'])     #####PROBABLY SHOULDN'T HAVE A ROUTE
-def startup_func():
-	global desired_volume,client
-	program = 'C:/mpd/mpd.exe' #make sure your path is correct
-	args = 'C:/mpd/mpd.conf' #make sure your path is correct
-	try:
-		client.connect()
-	except:
-		Popen([program, args],creationflags = CREATE_NEW_CONSOLE) #CREATE_NEW_CONSOLE MAY ONLY WORK IN WINDOWS
-		client.connect()
-	#time.sleep(1) #was this just here to format the menu?
-	#if 'volume' in client.status():
-	if client.status()['state'] == 'play':
-		desired_volume = int(client.status()['volume'])	
-	else:
-		client.rescan()
-		client.clear()
-		temp_list = client.listall() 
-		for songs in temp_list: #builds a queue with all songs. can also use a playlist    ######################################Add -1 AS DEFAULT ARGUEMENT TO return_all_songs_as_list
-			if 'file' in songs and songs['file'].endswith('.mp3'):
-				client.add(songs['file'])
-	#client.add("Frozen 2 (Original Motion Picture Soundtrack)")
+@app.route('/all_songs', methods = ['GET'])
+def return_database_songs_as_list():
+	client.rescan()	
+	list = client.listallinfo()
+	listOfSongs = []
+	for song in list:
+		temp = songBuilder(song,['title','artist','album','date','duration','albumArt'])
+		try:
+			temp['albumArt'] = AlbumArtGenerator(song['album'],song['artist'])
+		except:
+			pass
+		listOfSongs.append(temp)
+	return json.dumps(listOfSongs)
 
 @app.route('/play', methods = ['POST'])
 def play_pause():
@@ -76,16 +93,13 @@ def play_pause():
 		#set_volume to work and avoid misreadings of the volume level
 		if 'volume' not in client.status():
 			time.sleep(1)
-		#desired_volume = int(client.status()['volume'])   ###
-		#client.setvol(desired_volume)  this one or the one above?
-
 		set_volume(desired_volume) 
 	else:
 		client.pause(1)
 	return 'OK',200
 
 @app.route('/volume', methods = ['POST'])
-def set_volume(x = -1): #wont let desired_volume be higher than 100 or lower than 0. default variable lets me call the function from another function
+def set_volume(x = -1): #won't let desired_volume be higher than 100 or lower than 0
 	global desired_volume	
 	
 	if x != -1:
@@ -93,7 +107,6 @@ def set_volume(x = -1): #wont let desired_volume be higher than 100 or lower tha
 	else:
 		req = request.get_json()
 		vol = int(req['volume'])	
-	
 	if vol >= 0 and vol <= 100:
 		desired_volume = vol
 	elif vol < 0:
@@ -113,8 +126,7 @@ def seek():
 		if pos < float(client.status()['duration']):			
 			pos = int(pos)
 			client.seekcur(pos)
-		else: next_song()   
-		
+		else: next_song()   	
 	return 'OK',200
 
 @app.route('/next', methods = ['GET'])
@@ -125,7 +137,7 @@ def next_song():
 
 @app.route('/previous', methods = ['GET'])
 def prev_song():
-	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
+	if client.status()['state'] == 'play': #this is a check
 		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
 			client.seekcur(0)
 		elif client.status()['song'] != '0':
@@ -158,25 +170,10 @@ def song_stripper(s):
 			break
 	return temp_string
 
-@app.route('/all_songs', methods = ['GET'])
-def return_database_songs_as_list():
-	client.rescan()	
-	list = client.listallinfo()
-	listOfSongs = []
-	for song in list:
-		temp = songBuilder(song,['title','artist','album','date','duration','albumArt'])
-		try:
-			temp['albumArt'] = AlbumArtGenerator(song['album'],song['artist'])
-		except:
-			pass
-		listOfSongs.append(temp)
-	return json.dumps(listOfSongs)
-
 @app.route('/get_vol', methods = ['GET'])
-def get_volume(): #now works when a song is not playing	##
+def get_volume(): 
 	retVal = {'volume':desired_volume}
 	return json.dumps(retVal) 
-
 
 @app.route('/get_cur', methods = ['GET'])
 def return_current_song(): #will currently return an empty list if nothing is return from client.currentsong()
@@ -201,13 +198,3 @@ def return_current_song(): #will currently return an empty list if nothing is re
 	except:
 		pass
 	return json.dumps(curr_song)
-
-def songBuilder(song, attributes): 
-	curr_song = {}
-	for x in attributes:		
-		try:
-			curr_song[x] = song[x]			
-		except:
-			curr_song[x] = 'none'	
-	return curr_song
-startup_func()
