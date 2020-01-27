@@ -3,7 +3,7 @@
 <head>
 	<body onload="boot()">
 	<title>
-		playerLarge
+		Apollo
 	</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -63,39 +63,35 @@
 	</div>
 
 	<div class = "mainPages">
+		<div id="currentCue">
+		</div>
 		<div id="mainArtists">
 		</div>
 		<div id="mainPlaylists">
 		</div>	
 		<div id="mainAlbums">	
 		</div>
-	</div>
-
-
-	<div id="myOverlay" class="overlay">
-		<span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
-			<div id="search"class="overlay-content mainPages">
-			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search"/>
-			<div id="library">
-				<table id="libraryTable" class="resultsTable">
-				  <thead>
-				    <tr>
-				      <th scope="col"></th>
-				      <th scope="col"></th>
-				      <th scope="col"></th>
-				      <th scope="col"></th>
-				    </tr>
-				  </thead>
-				  <tbody id="libraryBody">
-				  </tbody>
-		  		</table>
+		<div id="mainSearch">	
+			<div id="search">
+			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search" onkeyup="search();"/>
+				<div id="library">
+					<table id="libraryTable" class="resultsTable">
+					  <thead>
+					    <tr>
+					      <th scope="col"></th>
+					      <th scope="col"></th>
+					      <th scope="col"></th>
+					      <th scope="col"></th>
+					      <th scope="col"></th>
+					    </tr>
+					  </thead>
+					  <tbody id="libraryBody">
+					  </tbody>
+			  		</table>
+				</div>
 			</div>
 		</div>
 	</div>
-
-
-	
-
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
 	</script>
