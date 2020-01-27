@@ -12,9 +12,9 @@
 \_\___\     /____/_/\/_/       \/_________/ \_______\/    \_______\/    \/_________/                                                                                    
 Music Player using MPD
 '''
-import musicpd, json, subprocess, os, time, requests, traceback
+import musicpd, json, subprocess, os, time, requests, traceback, msvcrt
 import xml.etree.ElementTree  as ET
-#from subprocess import Popen, CREATE_NEW_CONSOLE
+from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
@@ -33,7 +33,7 @@ def startup_func():
 	try:
 		client.connect()
 	except:
-		#Popen([program, args],creationflags = CREATE_NEW_CONSOLE) #CREATE_NEW_CONSOLE MAY ONLY WORK IN WINDOWS
+		Popen([program, args],creationflags = CREATE_NEW_CONSOLE) #CREATE_NEW_CONSOLE MAY ONLY WORK IN WINDOWS
 		client.connect()
 	if client.status()['state'] == 'play':
 		desired_volume = int(client.status()['volume'])	
@@ -72,18 +72,18 @@ def AlbumArtGenerator(album,artist):
 		return 'none'
 
 
-def add_song_to_playlist(this, song, playlist):
+def add_song_to_playlist(song, playlist):
     try:
-        this.playlistadd(playlist, song)
+        client.playlistadd(playlist, song)
         return True
     except:
         print("Could not add song: " + song + " to playlist: " + playlist)
         return False
 
 
-def remove_song_from_playlist(this, songPos, playlist):
+def remove_song_from_playlist(songPos, playlist):
     try:
-        this.playlistdelete(playlist, songPos)
+        client.playlistdelete(playlist, songPos)
         return True
     except:
         print("Could not remove song from position: " +
@@ -224,18 +224,13 @@ def return_current_song(): #will currently return an empty list if nothing is re
 @app.route('/add_to_playlist', methods=['POST'])
 def add_to_playlist():
     # this should take the incoming json, get the file name and playlist name and call the add_song_to_playlist function
-    print("Incoming..")
 
     appRequest = request.get_json(force=True)
-
-    print(appRequest)
 
     songname = appRequest["song"]
     playlistname = appRequest["playlist"]
 
-    good = add_song_to_playlist(client, songname, playlistname)
-    #good = add_song_to_playlist(client, 'open/summer_os.mp3','Mobile Servo Heap')
-
+    good = add_song_to_playlist(songname, playlistname)
     if(good):
         return 'OK', 200
     else:
@@ -245,17 +240,13 @@ def add_to_playlist():
 @app.route('/remove_from_playlist', methods=['POST'])
 def remove_from_playlist():
     # this should take the incoming json, get the file name and playlist name and call the remove_song function
-    print("Incoming..")
 
     appRequest = request.get_json(force=True)
-
-    print(appRequest)
 
     songPos = appRequest["songPos"]
     playlistname = appRequest["playlist"]
 
-    good = remove_song_from_playlist(client, songPos, playlistname)
-    #good = add_song_to_playlist(client, 'open/summer_os.mp3','Mobile Servo Heap')
+    good = remove_song_from_playlist(songPos, playlistname)
 
     if(good):
         return 'OK', 200
