@@ -30,9 +30,9 @@ CORS(app)  #is cors causing disconnects?
 client = musicpd.MPDClient()
 desired_volume = 50
 
-def AlbumArtGenerator(album,artist,size):
-	key = 'd1915a9d435d47526a61dc0210978583'
-	retVal = 'http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=' + key +'&artist='  + artist + '&album=' + album + '&format=json'
+def AlbumArtGenerator(album,artist):
+	api_key = 'd1915a9d435d47526a61dc0210978583'
+	retVal = 'http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=' + api_key +'&artist='  + artist + '&album=' + album + '&format=json'
 
 	r = requests.get(url = retVal) 
 	r = r.content
@@ -40,18 +40,10 @@ def AlbumArtGenerator(album,artist,size):
 	k = json.loads(r)
 
 	try:
-		if size == 'medium':
-			if k['album']['image'][1]['#text'] != '':
-				return k['album']['image'][1]['#text']
-			else:
-				return './images/Logo1.png'
-		if size == 'mega':
-			if k['album']['image'][4]['#text'] != '':
-				return k['album']['image'][4]['#text']
-			else:
-				return './images/Logo1.png'
+		if k['album']['image'][4]['#text'] != '':
+			return k['album']['image'][4]['#text']
 	except:
-		return './images/Logo1.png'
+		return 'none'
 
 #@app.route('/start', methods = ['POST'])     #####PROBABLY SHOULDN'T HAVE A ROUTE
 def startup_func():
@@ -172,13 +164,11 @@ def return_database_songs_as_list():
 	list = client.listallinfo()
 	listOfSongs = []
 	for song in list:
-		temp = songBuilder(song,['file','artist','album','date','duration'])
+		temp = songBuilder(song,['title','artist','album','date','duration','albumArt'])
 		try:
-			temp['title'] = temp.pop('file')
-			temp['title'] = song_stripper(temp['title'])
-			temp['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist']) if 'album' in song and 'artist' in song else 'none'
+			temp['albumArt'] = AlbumArtGenerator(song['album'],song['artist'])
 		except:
-			continue		
+			pass
 		listOfSongs.append(temp)
 	return json.dumps(listOfSongs)
 
@@ -192,7 +182,7 @@ def get_volume(): #now works when a song is not playing	##
 def return_current_song(): #will currently return an empty list if nothing is return from client.currentsong()
 	#song = client.currentsong()
 	#x = client.playlistinfo(0)[0]
-	attributes = ['file','artist','album','date','duration']
+	attributes = ['file', 'title', 'artist','album','date','duration']
 	status = client.status()
 	song = client.currentsong() if status['state'] != 'stop' else client.playlistinfo(0)[0]
 	elapsed = status['elapsed'] if status['state'] != 'stop' else '0'
@@ -214,11 +204,10 @@ def return_current_song(): #will currently return an empty list if nothing is re
 
 def songBuilder(song, attributes): 
 	curr_song = {}
-	for x in attributes:
+	for x in attributes:		
 		try:
-			curr_song[x] = song[x]
+			curr_song[x] = song[x]			
 		except:
-			continue	
+			curr_song[x] = 'none'	
 	return curr_song
 startup_func()
-#print(return_database_songs_as_list())
