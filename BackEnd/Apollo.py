@@ -12,7 +12,7 @@
 \_\___\     /____/_/\/_/       \/_________/ \_______\/    \_______\/    \/_________/                                                                                    
 Music Player using MPD
 '''
-import musicpd, msvcrt, json, subprocess, os, time, requests, traceback
+import musicpd, json, subprocess, os, time, requests, traceback
 import xml.etree.ElementTree  as ET
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
