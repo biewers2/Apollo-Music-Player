@@ -22,6 +22,10 @@ body{
   display: none;
 }
 
+#mainSearch{
+  display: none;
+}
+
 .mainPages{
   margin-left: 30%;
   width: 70%;
@@ -39,6 +43,13 @@ body{
   top: 0;
   background-color: #1A1A1A;
   overflow: hidden;
+}
+
+#search , .searchText{
+  width: 90%;
+}
+#currentCue{
+  display: none;
 }
 
 .resultsTable{
@@ -128,74 +139,6 @@ td{
   float: right;
   padding-right: 5%;
   padding-top: 2.5%;
-}
-
-
-.overlay {
-
-  height: 100%;
-  width: 100%;
-  display: none;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  color: white;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.9); 
-}
-
-.overlay-content {
-
-  position: relative;
-  top: 25%;
-  width: 80%;
-  padding-left: 10%;
-  padding-right: 10%;
-  text-align: center;
-  margin-top: 30px;
-  margin: auto;
-}
-
-.overlay .closebtn {
-
-  position: absolute;
-  top: 3.7%;
-  right: 5%;
-  font-size: 30px;
-  cursor: pointer;
-  color: white;
-}
-
-.overlay .closebtn:hover {
-  color: #ccc;
-}
-
-.overlay input[type=text] {
-  padding: 15px;
-  font-size: 17px;
-  border: none;
-  float: left;
-  width: 100%;
-  background: white;
-}
-
-.overlay input[type=text]:hover {
-  background: #f1f1f1;
-}
-
-.overlay button {
-  float: left;
-  width: 20%;
-  padding: 15px;
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
-}
-
-.overlay button:hover {
-  background: #bbb;
 }
 
 .currentlyPlaying{
