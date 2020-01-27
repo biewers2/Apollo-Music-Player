@@ -213,3 +213,38 @@ function SetVolume(val)
     console.log(text);
   });
 }
+
+async function add_to_playlist(song, playlist) {
+  var songObj = { "song": song, "playlist": playlist };
+  var asJSON = JSON.stringify(songObj);
+
+  // POST
+  const response = await fetch('http://localhost:5000/add_to_playlist', {
+    method: 'POST',
+    mode: 'cors',
+    body: asJSON
+  });
+
+  const text = await response.text();
+
+  console.log('POST response: ');
+  // Should be 'OK' if everything was successful
+  console.log(text);
+}
+
+function remove_from_playlist(songPos, playlist) {
+  var songObj = { "songPos": songPos, "playlist": playlist };
+  var asJSON = JSON.stringify(songOBJ);
+
+  //POST
+  fetch('/remove_from_playlist', {
+    method: 'POST',
+    body: asJSON
+  }).then((response) => {
+    return response.text();
+  }).then((text) => {
+    console.log("POST response: ");
+
+    console.log(text);
+  });
+}
