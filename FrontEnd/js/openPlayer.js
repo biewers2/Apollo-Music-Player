@@ -125,22 +125,29 @@ function addPlaylists() {
 
 async function addArtists() { 
   var library = await fetchAllSongs();
-  var lastArtist = null;
+  let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
-  for(var i = 0; i < library.length; i++){
-  
-      var row = document.createElement("tr");
 
-      var artistName = document.createElement("td");
-      var artist = document.createTextNode(library[i].artist);
-      lastArtist = artist;
-      artistName.append(artist);
-      row.append(artistName);
-      artistTable.append(row);
-  }
+  for (var i=0; i < library.length; i++){
+    artistSet.add(library[i].artist);
+  };
 
-    document.getElementById("mainArtists").append(artistTable);
+  let artistArray = Array.from(artistSet);
+  artistArray.sort();
+  for(var i =0; i<artistArray.length; i++){
+
+    var row = document.createElement("tr");
+
+    var artistName = document.createElement("td");
+    var artist = document.createTextNode(artistArray[i]);
+    artistName.append(artist);
+    row.append(artistName);
+    row.setAttribute("id" , "artist-" + artistArray[i]);
+    artistTable.append(row);
+  } 
+
+  document.getElementById("mainArtists").append(artistTable);
 }
 
 function togglePlaying()
