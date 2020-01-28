@@ -41,7 +41,7 @@ function go2Artists(){
 }
 
 async function fetchAllSongs() {
-  const response = await fetch('http://localhost:5000/all_songs', {method: 'GET', mode: 'cors'});
+  const response = await fetch('http://localhost:5000/api/all_songs', {method: 'GET', mode: 'cors'});
   const allSongs = await response.json();
   return allSongs;
   //Using "await" for all async functions instead of ".then()"
@@ -155,7 +155,7 @@ function togglePlaying()
   document.getElementById("pause").style.display = "inline";
   document.getElementById("play").style.display = "none";
   
-  var j =fetch('http://localhost:5000/play', {method: 'POST', mode: 'cors'});
+  var j =fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'});
     j.then(function(response) { //fask should have printed 
     return response.text();
     }).then(function (text) {
@@ -170,14 +170,14 @@ function toggleStopped()
   document.getElementById("pause").style.display = "none";
   document.getElementById("play").style.display = "inline";
 
-  fetch('http://localhost:5000/play', {method: 'POST', mode: 'cors'}).then(function(response) {
+  fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'}).then(function(response) {
     console.log(response);
   });
 }
 
 function nextSong()
 {
-  fetch('http://localhost:5000/next', {method: 'GET', mode: 'cors'}).then(function(response) {
+  fetch('http://localhost:5000/api/next', {method: 'GET', mode: 'cors'}).then(function(response) {
   return response.text();
   }).then(function (text) {
   console.log('POST response: ');
@@ -187,7 +187,7 @@ function nextSong()
 
 function prevSong()
 {
-  fetch('http://localhost:5000/previous', {method: 'GET', mode: 'cors'}).then(function(response) { 
+  fetch('http://localhost:5000/api/previous', {method: 'GET', mode: 'cors'}).then(function(response) { 
   return response.text();
   }).then(function (text) {
     console.log('GET response: ');
@@ -206,7 +206,7 @@ function SetVolume(val)
   console.log(asJSON)
 
   //POST
-  fetch('http://localhost:5000/volume', {
+  fetch('http://localhost:5000/api/volume', {
             method: 'POST',
             mode: "cors",
             body: asJSON,

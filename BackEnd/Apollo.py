@@ -12,20 +12,23 @@
 \_\___\     /____/_/\/_/       \/_________/ \_______\/    \_______\/    \/_________/                                                                                    
 Music Player using MPD
 '''
-import musicpd, json, subprocess, os, time, requests, traceback
-import xml.etree.ElementTree  as ET
+# dependencies
+import musicpd, json, subprocess, os, time, requests, traceback, logging
+import xml.etree.ElementTree as ET
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
 from waitress import serve
 
-app = Flask(__name__)
-CORS(app)
-client = musicpd.MPDClient()
+# initialization
+app = Flask(__name__) #Flask
+CORS(app, resources=r'/api/*', allow_headers= ['Content-Type', 'Access-Control-Allow-Origin']) #Cross Origin for JSON
+logging.getLogger('flask_cors').level = logging.DEBUG #Debug
+client = musicpd.MPDClient() #mpd client
+desired_volume = 50 #volume at start = 50
 
-desired_volume = 50 #at start = 50
-
+# functions
 def startup_func():
 	global desired_volume,client
 	program = 'C:/mpd/mpd.exe' #make sure your path is correct
@@ -71,7 +74,7 @@ def AlbumArtGenerator(album,artist):
 	except:
 		return 'none'
 
-@app.route('/all_songs', methods = ['GET'])
+@app.route('/api/all_songs', methods = ['GET'])
 def return_database_songs_as_list():
 	client.rescan()	
 	list = client.listallinfo()
@@ -85,7 +88,7 @@ def return_database_songs_as_list():
 		listOfSongs.append(temp)
 	return json.dumps(listOfSongs)
 
-@app.route('/play', methods = ['POST'])
+@app.route('/api/play', methods = ['POST'])
 def play_pause():
 	if client.status()['state'] != 'play':
 		client.play()
@@ -98,7 +101,7 @@ def play_pause():
 		client.pause(1)
 	return 'OK',200
 
-@app.route('/volume', methods = ['POST'])
+@app.route('/api/volume', methods = ['POST'])
 def set_volume(x = -1): #won't let desired_volume be higher than 100 or lower than 0
 	global desired_volume	
 	
@@ -116,7 +119,7 @@ def set_volume(x = -1): #won't let desired_volume be higher than 100 or lower th
 	client.setvol(desired_volume)
 	return 'OK',200
 
-@app.route('/seek', methods = ['POST'])
+@app.route('/api/seek', methods = ['POST'])
 def seek():
 	req = request.get_json()
 	pos = float(req['seek'])
@@ -129,13 +132,13 @@ def seek():
 		else: next_song()   	
 	return 'OK',200
 
-@app.route('/next', methods = ['GET'])
+@app.route('/api/next', methods = ['GET'])
 def next_song():
 	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
 		client.next()
 	return json.dumps(return_current_song())
 
-@app.route('/previous', methods = ['GET'])
+@app.route('/api/previous', methods = ['GET'])
 def prev_song():
 	if client.status()['state'] == 'play': #this is a check
 		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
@@ -170,12 +173,12 @@ def song_stripper(s):
 			break
 	return temp_string
 
-@app.route('/get_vol', methods = ['GET'])
+@app.route('/api/get_vol', methods = ['GET'])
 def get_volume(): 
 	retVal = {'volume':desired_volume}
 	return json.dumps(retVal) 
 
-@app.route('/get_cur', methods = ['GET'])
+@app.route('/api/get_cur', methods = ['GET'])
 def return_current_song(): #will currently return an empty list if nothing is return from client.currentsong()
 	#song = client.currentsong()
 	#x = client.playlistinfo(0)[0]

@@ -3,7 +3,7 @@ function togglePlaying()
   document.getElementById("pause").style.display = "inline";
   document.getElementById("play").style.display = "none";
 
-  fetch('http://localhost:5000/play', {    method: 'POST',
+  fetch('http://localhost:5000/api/play', {    method: 'POST',
     mode: "cors"//,    //json payload
     //body: JSON.stringify({
         //"greeting": "Hello from the browser!"
@@ -21,7 +21,7 @@ function toggleStopped()
   document.getElementById("pause").style.display = "none";
   document.getElementById("play").style.display = "inline";
 
-  fetch('http://localhost:5000/play', {    method: 'POST',
+  fetch('http://localhost:5000/api/play', {    method: 'POST',
     mode: "cors"//,    //json payload
     //body: JSON.stringify({
         //"greeting": "Hello from the browser!"
