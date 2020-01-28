@@ -48,7 +48,7 @@ def startup_func():
 		for songs in temp_list: #builds a queue with all songs. can also use a playlist
 			if 'file' in songs and songs['file'].endswith('.mp3'):
 				client.add(songs['file'])
-	info = startup_info_builder()
+	info = info_obj_builder()
 	return 'OK'
 
 def songBuilder(song, attributes): 
@@ -59,7 +59,7 @@ def songBuilder(song, attributes):
 		except:
 			curr_song[x] = 'none'	
 	return curr_song
-startup_func()
+
 
 def AlbumArtGenerator(album,artist):
 	api_key = 'd1915a9d435d47526a61dc0210978583'
@@ -242,4 +242,6 @@ def shuffle():
 @app.route('/api/obj_list', methods = ['GET'])
 def startup_info_builder():
 	return json.dumps(info)
+
+startup_func()
 
