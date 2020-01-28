@@ -74,19 +74,49 @@ def AlbumArtGenerator(album,artist):
 	except:
 		return 'none'
 
-@app.route('/api/all_songs', methods = ['GET'])
-def return_database_songs_as_list():
-	client.rescan()	
-	list = client.listallinfo()
-	listOfSongs = []
-	for song in list:
-		temp = songBuilder(song,['title','artist','album','date','duration','albumArt'])
+@app.route('/api/obj_list', methods = ['GET'])
+def info_obj_builder():
+	albums_artist = set(())
+	albums =   artists = set()
+	songs = []
+	client.rescan()
+	tempList = client.listallinfo()
+	for x in tempList:
 		try:
-			temp['albumArt'] = AlbumArtGenerator(song['album'],song['artist'])
+			albums_artist.add((x['album'],x['artist']))
+			albums.add(x['album'])
+			artists.add(x['artist'])
+			songs.append((songBuilder(x,['title','artist','album','duration'])))
 		except:
-			pass
-		listOfSongs.append(temp)
-	return json.dumps(listOfSongs)
+			continue
+	albums_list = []
+	artists_list = []
+	seen = []
+	artist_seen = []
+	for albums,artist in albums_artist:
+		if artist not in artist_seen:
+			artist_seen.append(artist)
+			temp_artist = {}
+			artists_albums = []
+			temp_artist['Name'] = artist
+			artists_albums.append(AlbumArtGenerator(albums,artist))
+			temp_artist['Albums'] = artists_albums
+			artists_list.append(temp_artist)
+		else:
+			if albums not in seen :
+				for x in artists_list:
+					if x['Name'] == artist:
+						x["Albums"].append(AlbumArtGenerator(albums,artist))
+						break		
+		if albums not in seen:
+			album = {}
+			seen.append(albums)
+			album["AlbumName"] = albums
+			album['Pic'] = AlbumArtGenerator(albums,artist)  #make this one call
+			album['Artist'] = artist
+			albums_list.append(album)
+	retVal =[songs,albums_list,artists_list]
+	return json.dumps(retVal)
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
