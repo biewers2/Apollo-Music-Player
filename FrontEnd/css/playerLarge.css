@@ -267,3 +267,52 @@ td{
   margin-left: 25%;
   margin-right: 25%;
 }
+
+#currentCue{
+  float: center;
+  width: 60%;
+  position: fixed;
+  background-color:#1A1A1A;
+
+}
+
+#exit
+{
+  
+  float: left;
+  font-size: 120%;
+  color: white;
+  background: transparent;
+  border: transparent;
+  opacity: 0.6;
+}
+
+#exit:hover
+{
+  opacity: 1;
+}
+
+#Qart
+{
+  width: 50%;
+  height: 50%;
+  float: left;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#header
+{
+  float: left;
+
+}
+
+#Q
+{
+  float: left;
+  list-style-type: none;
+  font-size: medium;
+  font-family: Helvetics Neau;
+  font-size: 20px;
+
+}
