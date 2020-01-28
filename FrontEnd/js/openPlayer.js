@@ -226,3 +226,14 @@ function SetVolume(val)
     console.log(text);
   });
 }
+
+function shuffle()
+{
+    var j = fetch('http://localhost:5000/shuffle', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+}

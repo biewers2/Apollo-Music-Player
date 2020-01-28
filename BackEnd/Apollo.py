@@ -201,3 +201,8 @@ def return_current_song(): #will currently return an empty list if nothing is re
 	except:
 		pass
 	return json.dumps(curr_song)
+
+@app.route('/shuffle', methods = ['POST'])
+def shuffle():
+	client.shuffle()
+	return 'OK',200
