@@ -40,6 +40,20 @@ function go2Artists(){
   }
 }
 
+function current() {
+  
+  if (document.getElementById("currentCue").style.display = "none"){
+   document.getElementById("currentCue").style.display = "block";
+  }
+ }
+
+ function closeCurrent() {
+  
+  if (document.getElementById("currentCue").style.display = "block"){
+   document.getElementById("currentCue").style.display = "none";
+  }
+ }
+
 async function fetchAllSongs() {
   const response = await fetch('http://localhost:5000/api/all_songs', {method: 'GET', mode: 'cors'});
   const allSongs = await response.json();
@@ -123,10 +137,15 @@ async function albumButtons(){
 
 function addPlaylists() { 
       var img = document.createElement('img');
+      img.setAttribute('onclick', function newPlaylist(){
+        document.getElementById("mainPlaylist").append(img);
+      });
       img.src = "https://cdn.pixabay.com/photo/2018/11/13/21/43/instagram-3814051_1280.png"
       img.classList.add("square");
+      img.setAttribute("onclick" , "current()")
       document.getElementById("mainPlaylists").append(img);
 }
+
 
 async function addArtists() { 
   var library = await fetchAllSongs();
@@ -225,4 +244,15 @@ function SetVolume(val)
 
     console.log(text);
   });
+}
+
+function shuffle()
+{
+    var j = fetch('http://localhost:5000/shuffle', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
 }
