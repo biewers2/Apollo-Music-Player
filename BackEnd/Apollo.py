@@ -12,9 +12,9 @@
 \_\___\     /____/_/\/_/       \/_________/ \_______\/    \_______\/    \/_________/                                                                                    
 Music Player using MPD
 '''
-import musicpd, json, subprocess, os, time, requests, traceback, msvcrt
+import musicpd, json, subprocess, os, time, requests, traceback#, msvcrt
 import xml.etree.ElementTree  as ET
-from subprocess import Popen, CREATE_NEW_CONSOLE
+#from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
@@ -33,7 +33,7 @@ def startup_func():
 	try:
 		client.connect()
 	except:
-		Popen([program, args],creationflags = CREATE_NEW_CONSOLE) #CREATE_NEW_CONSOLE MAY ONLY WORK IN WINDOWS
+		#Popen([program, args],creationflags = CREATE_NEW_CONSOLE) #CREATE_NEW_CONSOLE MAY ONLY WORK IN WINDOWS
 		client.connect()
 	if client.status()['state'] == 'play':
 		desired_volume = int(client.status()['volume'])	
@@ -214,8 +214,8 @@ def return_current_song(): #will currently return an empty list if nothing is re
 			#print()###############################
 		curr_song['duration'] = song['duration']
 		curr_song['elapsed'] = elapsed
-		curr_song['AlbumArtMedium'] = AlbumArtGenerator(song['album'],song['artist'],'medium')
-		curr_song['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist'],'mega')
+		#curr_song['AlbumArtMedium'] = AlbumArtGenerator(song['album'],song['artist'],'medium')
+		#curr_song['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist'],'mega')
 	except:
 		pass
 	return json.dumps(curr_song)

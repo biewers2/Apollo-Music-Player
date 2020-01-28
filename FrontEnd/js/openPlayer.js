@@ -51,25 +51,30 @@ async function generateLibrary() {
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
     var song = document.createElement("tr");
+    song.id='tr'+i.toString();
 
       var cell = document.createElement("td");
+      cell.id='td'+i.toString()+':0';
       var songName = document.createTextNode(library[i].title);
       cell.appendChild(songName);
       song.appendChild(cell);
 
       cell = document.createElement("td");
+      cell.id = 'td' + i.toString() + ':1';
       var artistName = document.createTextNode(library[i].artist);
       cell.appendChild(artistName);
       song.appendChild(cell);
 
 
       cell = document.createElement("td");
+      cell.id = 'td' + i.toString() + ':2';
       var albumName = document.createTextNode(library[i].album);
       cell.appendChild(albumName);
       song.appendChild(cell);
 
 
       cell = document.createElement("td");
+      cell.id = 'td' + i.toString() + ':3';
       songLength = library[i].duration;
       minutes = (songLength/60);
       minutes = minutes.toFixed(2);

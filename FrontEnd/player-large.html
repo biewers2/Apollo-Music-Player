@@ -15,6 +15,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="./css/playerLarge.css"/>
 	<script src="./js/openPlayer.js"></script>
+	<script src="./js/search.js"></script>
 
 </head>
 <body>	
@@ -77,7 +78,7 @@
 	<div id="myOverlay" class="overlay">
 		<span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
 			<div id="search"class="overlay-content mainPages">
-			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search"/>
+			<input type="text" class="searchText" id="searchAll" placeholder="Search.." name="search" oninput="runSearchFilter(document.getElementById('searchAll').value)"/>
 			<div id="library">
 				<table id="libraryTable" class="resultsTable">
 				  <thead>
