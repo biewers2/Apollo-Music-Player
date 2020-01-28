@@ -27,10 +27,11 @@ CORS(app, resources=r'/api/*', allow_headers= ['Content-Type', 'Access-Control-A
 logging.getLogger('flask_cors').level = logging.DEBUG #Debug
 client = musicpd.MPDClient() #mpd client
 desired_volume = 50 #volume at start = 50
+info = []
 
 # functions
 def startup_func():
-	global desired_volume,client
+	global desired_volume,client,info
 	program = 'C:/mpd/mpd.exe' #make sure your path is correct
 	args = 'C:/mpd/mpd.conf' #make sure your path is correct
 	try:
@@ -47,6 +48,7 @@ def startup_func():
 		for songs in temp_list: #builds a queue with all songs. can also use a playlist
 			if 'file' in songs and songs['file'].endswith('.mp3'):
 				client.add(songs['file'])
+	info = info_obj_builder()
 	return 'OK'
 
 def songBuilder(song, attributes): 
@@ -57,7 +59,7 @@ def songBuilder(song, attributes):
 		except:
 			curr_song[x] = 'none'	
 	return curr_song
-startup_func()
+
 
 def AlbumArtGenerator(album,artist):
 	api_key = 'd1915a9d435d47526a61dc0210978583'
@@ -74,7 +76,6 @@ def AlbumArtGenerator(album,artist):
 	except:
 		return 'none'
 
-@app.route('/api/obj_list', methods = ['GET'])
 def info_obj_builder():
 	albums_artist = set(())
 	albums =   artists = set()
@@ -115,8 +116,9 @@ def info_obj_builder():
 			album['Pic'] = AlbumArtGenerator(albums,artist)  #make this one call
 			album['Artist'] = artist
 			albums_list.append(album)
-	retVal =[songs,albums_list,artists_list]
-	return json.dumps(retVal)
+	retVal = [songs,albums_list,artists_list]
+	return retVal
+	#return json.dumps(retVal)
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
@@ -236,3 +238,10 @@ def return_current_song(): #will currently return an empty list if nothing is re
 def shuffle():
 	client.shuffle()
 	return 'OK',200
+
+@app.route('/api/obj_list', methods = ['GET'])
+def startup_info_builder():
+	return json.dumps(info)
+
+startup_func()
+
