@@ -48,7 +48,7 @@ def startup_func():
 		for songs in temp_list: #builds a queue with all songs. can also use a playlist
 			if 'file' in songs and songs['file'].endswith('.mp3'):
 				client.add(songs['file'])
-	info = startup_info_builder()
+	info = info_obj_builder()
 	return 'OK'
 
 def songBuilder(song, attributes): 
