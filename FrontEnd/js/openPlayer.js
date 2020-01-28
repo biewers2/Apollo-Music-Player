@@ -87,7 +87,7 @@ async function addAlbums() {
   for(var i = 0; i < library.length; i++){
      if ((library[i].albumArt == null) || (library[i].albumArt == "none")){
         var img = document.createElement('img');
-        img.setAttribute("src", "./images/Logo1.png");
+        img.setAttribute("src", "./images/AlbumArt-01.png");
         img.classList.add("square");
         img.classList.add("albumType");
         img.setAttribute("id", library[i].album);
