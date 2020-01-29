@@ -77,6 +77,7 @@ def AlbumArtGenerator(album,artist):
 		return 'none'
 
 def info_obj_builder():
+	global info
 	albums_artist = set(())
 	albums =   artists = set()
 	songs = []
