@@ -230,8 +230,7 @@ def return_current_song(): #will currently return an empty list if nothing is re
 			#print()###############################
 		curr_song['duration'] = song['duration']
 		curr_song['elapsed'] = elapsed
-		curr_song['AlbumArtMedium'] = AlbumArtGenerator(song['album'],song['artist'],'medium')
-		curr_song['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist'],'mega')
+		curr_song['pic'] = AlbumArtGenerator(song['album'],song['artist'])
 	except:
 		pass
 	return json.dumps(curr_song)
