@@ -119,14 +119,8 @@ def info_obj_builder():
 			albums_list.append(album)
 			
 	
-	songs_ret = {"songs":songs}
-	albums_ret = {"albums":albums_list}
-	artist_ret = {"artists":artists_list}
-	
+	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
 
-
-		
-	return {"data":{'songs':songs_ret,'albums':albums_ret,'artists':artist_ret}}
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
