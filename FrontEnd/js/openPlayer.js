@@ -49,13 +49,18 @@ async function fetchAllSongs() {
 async function generateLibrary() {
   var library = await fetchAllSongs();
   var songList = document.getElementById("libraryBody");
-  for (var i = 0; i < library.length; i++) {
+  for (var i = 0; i < library.length; i++)(function(i) {
     var song = document.createElement("tr");
     song.id='tr'+i.toString();
+    var songFile = library[i].file;
+    song.onclick = async function() { await playSong(songFile) };
 
       var cell = document.createElement("td");
       cell.id='td'+i.toString()+':0';
       var songName = document.createTextNode(library[i].title);
+      if(songName.textContent=='none'){
+        songName = document.createTextNode(library[i].file);
+      }
       cell.appendChild(songName);
       song.appendChild(cell);
 
@@ -83,7 +88,7 @@ async function generateLibrary() {
       song.appendChild(cell);
 
     songList.appendChild(song);
-  }
+  }(i));
 }
 
 async function addAlbums() { 
@@ -248,6 +253,23 @@ async function remove_from_playlist(songPos, playlist) {
     body: asJSON
   });
   
+  const text = await response.text();
+
+  console.log("POST response: ");
+  // Should be 'OK' if everything was successful
+  console.log(text);
+}
+
+async function playSong(songName){
+  var songOBJ={"file":songName};
+  var asJSON = JSON.stringify(songOBJ);
+
+  const response = await fetch('http://localhost:5000/play_song', {
+    method: 'POST',
+    mode:'cors',
+    body:asJSON
+  });
+
   const text = await response.text();
 
   console.log("POST response: ");

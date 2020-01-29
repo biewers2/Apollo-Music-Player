@@ -48,7 +48,7 @@ def startup_func():
 
 def songBuilder(song, attributes): 
 	curr_song = {}
-	for x in attributes:		
+	for x in attributes:
 		try:
 			curr_song[x] = song[x]			
 		except:
@@ -98,12 +98,15 @@ def return_database_songs_as_list():
 	list = client.listallinfo()
 	listOfSongs = []
 	for song in list:
-		temp = songBuilder(song,['title','artist','album','date','duration','albumArt'])
 		try:
-			temp['albumArt'] = AlbumArtGenerator(song['album'],song['artist'])
+			song['directory']
 		except:
-			pass
-		listOfSongs.append(temp)
+			temp = songBuilder(song,['title','artist','album','date','duration','albumArt','file'])
+			try:
+				temp['albumArt'] = AlbumArtGenerator(song['album'],song['artist'])
+			except:
+				pass
+			listOfSongs.append(temp)
 	return json.dumps(listOfSongs)
 
 @app.route('/play', methods = ['POST'])
@@ -252,3 +255,21 @@ def remove_from_playlist():
         return 'OK', 200
     else:
         return 'BAD', 400
+
+@app.route('/play_song', methods=['POST'])
+def play_song():
+
+	appRequest = request.get_json(force=True)
+
+	songName = appRequest["file"]
+
+	try:
+		client.clear()
+		client.add(songName)
+		client.play()
+		return 'OK',200
+	except:
+		return 'BAD', 400
+
+client.clear()
+#print(client.listallinfo())
