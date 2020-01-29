@@ -116,8 +116,14 @@ def info_obj_builder():
 			album['Pic'] = AlbumArtGenerator(albums,artist)  #make this one call
 			album['Artist'] = artist
 			albums_list.append(album)
-	retVal = [songs,albums_list,artists_list]
-	return retVal
+			
+	
+	songs_ret = {"Songs":songs}
+	albums_ret = {"Albums":albums_list}
+	artist_ret = {"Artists":artists_list}
+
+		
+	return [songs_ret,albums_ret,artist_ret]
 	#return json.dumps(retVal)
 
 @app.route('/api/play', methods = ['POST'])
