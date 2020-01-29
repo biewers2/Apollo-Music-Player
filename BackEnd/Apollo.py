@@ -27,8 +27,6 @@ CORS(app, resources=r'/api/*', allow_headers= ['Content-Type', 'Access-Control-A
 logging.getLogger('flask_cors').level = logging.DEBUG #Debug
 client = musicpd.MPDClient() #mpd client
 desired_volume = 50 #volume at start = 50
-repeatsong = False
-repeatplaylist = False
 info = []
 
 # functions
@@ -251,26 +249,18 @@ startup_func()
 
 @app.route('/api/repeatSong', methods = ['POST'])
 def repeat_song():
-	global repeatsong
-	if repeatsong == False:
-		repeatsong = True
-		client.single(1)
-		client.repeat(1)
-	else:
-		repeatsong = False
-		client.single(0)
-		client.repeat(0)
+	client.single(1)
+	client.repeat(1)
 	return 'Ok',200
 
 @app.route('/api/repeat', methods = ['POST'])
 def repeat_playlist():
-	global repeatplaylist
-	if repeatplaylist == False:
-		repeatplaylist = True
-		client.repeat(1)
-		client.single(0)
-	else:
-		repeatplaylist = False
-		client.repeat(0)
-		client.single(0)
+	client.repeat(1)
+	client.single(0)
+	return 'Ok',200
+
+@app.route('/api/repeatoff', methods = ['POST'])
+def repeat_off():
+	client.repeat(0)
+	client.single(0)
 	return 'Ok',200
