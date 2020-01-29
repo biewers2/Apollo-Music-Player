@@ -301,3 +301,23 @@ function shuffle()
         console.log(text);
     });
 }
+
+function repeatSong() {
+    var j = fetch('http://localhost:5000/repeatSong', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+}
+
+function repeat() {
+    var j = fetch('http://localhost:5000/repeat', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+}
