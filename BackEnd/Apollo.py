@@ -119,9 +119,9 @@ def info_obj_builder():
 			albums_list.append(album)
 			
 	
-	songs_ret = {"Songs":songs}
-	albums_ret = {"Albums":albums_list}
-	artist_ret = {"Artists":artists_list}
+	songs_ret = {"songs":songs}
+	albums_ret = {"albums":albums_list}
+	artist_ret = {"artists":artists_list}
 	
 
 
