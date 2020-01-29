@@ -53,7 +53,13 @@ async function generateLibrary() {
     var song = document.createElement("tr");
     song.id='tr'+i.toString();
     var songFile = library[i].file;
-    song.onclick = async function() { await playSong(songFile) };
+    song.onclick = async function () { await playSong(songFile) };
+    song.innerHTML = "< span class=\"popuptext\" id = \"myPopup\" display=\"none\"> Popup text...</span >";
+
+    song.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      document.getElementById("myPopup").display="block";
+    });
 
       var cell = document.createElement("td");
       cell.id='td'+i.toString()+':0';
