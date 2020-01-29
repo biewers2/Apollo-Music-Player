@@ -27,6 +27,8 @@ CORS(app, resources=r'/api/*', allow_headers= ['Content-Type', 'Access-Control-A
 logging.getLogger('flask_cors').level = logging.DEBUG #Debug
 client = musicpd.MPDClient() #mpd client
 desired_volume = 50 #volume at start = 50
+repeatsong = False
+repeatplaylist = False
 info = []
 
 # functions
