@@ -293,7 +293,7 @@ function SetVolume(val)
 
 function shuffle()
 {
-    var j = fetch('http://localhost:5000/shuffle', { method: 'POST', mode: 'cors' });
+    var j = fetch('http://localhost:5000/api/shuffle', { method: 'POST', mode: 'cors' });
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
@@ -303,7 +303,7 @@ function shuffle()
 }
 
 function repeatSong() {
-    var j = fetch('http://localhost:5000/repeatSong', { method: 'POST', mode: 'cors' });
+    var j = fetch('http://localhost:5000/api/repeatSong', { method: 'POST', mode: 'cors' });
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
@@ -313,7 +313,7 @@ function repeatSong() {
 }
 
 function repeat() {
-    var j = fetch('http://localhost:5000/repeat', { method: 'POST', mode: 'cors' });
+    var j = fetch('http://localhost:5000/api/repeat', { method: 'POST', mode: 'cors' });
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
