@@ -113,7 +113,7 @@ def info_obj_builder():
 		if albums not in seen:
 			album = {}
 			seen.append(albums)
-			album["albumName"] = albums
+			album["albumname"] = albums
 			album['pic'] = AlbumArtGenerator(albums,artist)  #make this one call
 			album['artist'] = artist
 			albums_list.append(album)
