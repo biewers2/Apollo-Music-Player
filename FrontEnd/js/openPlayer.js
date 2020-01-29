@@ -312,3 +312,12 @@ function shuffle()
         console.log(text);
     });
 }
+
+function currentlyPlaying(){
+  let obj = JSON.parse('{"title": "Let It Go", "artist": "Demi Lovato", "album": "Frozen", "duration": "256.549", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png"}');
+
+  document.getElementById('currentAlbum').setAttribute('src' , obj.pic);
+  document.getElementById('returnCurrentSong').innerHTML = obj.title;
+  document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+
+}
