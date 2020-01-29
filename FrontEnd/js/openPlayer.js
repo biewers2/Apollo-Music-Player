@@ -1,10 +1,14 @@
-var objList = [{},{},{}];
+var objList;
+
+function boot2(){
+addAlbums();
+ addPlaylists();
+ addArtists();
+ generateLibrary();
+}
+
 function boot(){
   fetchAllSongs();
-  addAlbums();
-  addPlaylists();
-  addArtists();
-  generateLibrary();
 }
 
 function openSearch() {
@@ -102,15 +106,16 @@ function fetchAllSongs() {
     console.log(obj);
     objList = obj;
     console.log(objList);
-    console.log('Array Test: ' + objList[0].songs[0].title)
-    console.log('Array Test: ' + objList[2].artists[0].Name)
+    boot2();
   });
 }
 
 function generateLibrary() {
-  var library = objList.songs;
+  var library = [];
+  library = objList.songs;
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
+    console.log('Array Test: ' + library[i].title)
     var song = document.createElement("tr");
 
       var cell = document.createElement("td");
@@ -142,44 +147,50 @@ function generateLibrary() {
   }
 }
 
-async function addAlbums() { 
-  var library = objList[1].albums;
+
+function addAlbums() { 
+  var library = [];
+  library = objList.albums;
+  console.log('hello : ' + library);
   for(var i = 0; i < library.length; i++){
-     if ((library[i].albumArt == null) || (library[i].albumArt == "none")){
+     if ((library[i].pic == null) || (library[i].pic == "none")){
         var img = document.createElement('img');
         img.setAttribute("src", "./images/AlbumArt-01.png");
         img.classList.add("square");
         img.classList.add("albumType");
-        img.setAttribute("id", library[i].album);
+        img.setAttribute("id", library[i].pic);
         document.getElementById("mainAlbums").append(img);
     }
     else 
     {
       var img = document.createElement('img');
-      img.setAttribute("src" , library[i].albumArt);
+      img.setAttribute("src" , library[i].pic);
       img.classList.add("square");
       img.classList.add("albumType");
-      img.setAttribute("id" , library[i].album);
+      img.setAttribute("id" , library[i].pic);
       document.getElementById("mainAlbums").append(img);
+      console.log(img);
     }
   }
   albumButtons();
 }
 
 function albumButtons(){
-  var library = objList[1].albums;
+  var library = [];
+  library = objList.albums;
   for(var i = 0; i < library.length; i++){
-    if (library[i].albumArt == "./images/Logo1.png"){
+    if (library[i].pic == "./images/Logo1.png"){
       continue;
     }
     else 
     {
-    document.getElementById(library[i].album).setAttribute('onclick' ,function changePlaying() {
-      document.getElementById('currentAlbum').src=library[i].albumArt;
+    document.getElementById(library[i].pic).setAttribute('onclick' ,function changePlaying() {
+      document.getElementById('currentAlbum').src=library[i];
     });
   }
 }
 }
+
 
 function addPlaylists() { 
       var img = document.createElement('img');
@@ -193,13 +204,15 @@ function addPlaylists() {
 }
 
 function addArtists() { 
-  var library = objList[2].artists;
+  var library = [];
+  library = objList.artists;
+  console.log('Array Test push: ' + library)
   let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
 
   for (var i=0; i < library.length; i++){
-    artistSet.add(library[i].artist);
+    artistSet.add(library[i].name);
   };
 
   let artistArray = Array.from(artistSet);
