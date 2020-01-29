@@ -55,44 +55,6 @@ function current() {
   }
  }
 
-function shuffle() {
-  var x = document.getElementById("shuffle");
-  if (x.style.color === "white") {
-    x.style.color = "#f7931E";
-     /* shuffle on*/
-  } else {
-    x.style.color = "white";
-     /* shuffle off*/
-  }
-}
-
- function repeat() {
-  var x = document.getElementById("rewind");
-  if (x.style.color === "white") {
-    x.style.color = "#f7931E";
-    /* repeat playlist on*/
-  } else {
-    x.style.color = "white";
-     /* repeat off*/
-  }
-}
-
- function repeatSong() {
-  var x = document.getElementById("rewind");
-  var y = document.getElementById("rewindSong");
-  if (x.style.display === "inline") {
-    x.style.display = "none";
-    y.style.display = "inline";
-    /* repeat song on*/
-  } else {
-    x.style.color = "white";
-    x.style.display = "inline";
-    y.style.display = "none";
-     /* repeat off*/
-  }
- 
-}
-
 function fetchAllSongs() {
   fetch('http://localhost:5000/api/obj_list', {method: 'GET', mode: 'cors'})
   .then(function(response) {
@@ -300,6 +262,15 @@ function shuffle()
         console.log('POST response: ');
         console.log(text);
     });
+
+    var x = document.getElementById("shuffle");
+    if (x.style.color === "white") {
+        x.style.color = "#f7931E";
+        /* shuffle on*/
+    } else {
+        x.style.color = "white";
+        /* shuffle off*/
+    }
 }
 
 function repeatSong() {
@@ -310,6 +281,19 @@ function repeatSong() {
         console.log('POST response: ');
         console.log(text);
     });
+
+    var x = document.getElementById("rewind");
+    var y = document.getElementById("rewindSong");
+    if (x.style.display === "inline") {
+        x.style.display = "none";
+        y.style.display = "inline";
+        /* repeat song on*/
+    } else {
+        x.style.color = "white";
+        x.style.display = "inline";
+        y.style.display = "none";
+        /* repeat off*/
+    }
 }
 
 function repeat() {
@@ -320,4 +304,33 @@ function repeat() {
         console.log('POST response: ');
         console.log(text);
     });
+
+    var x = document.getElementById("rewind");
+    if (x.style.color === "white") {
+        x.style.color = "#f7931E";
+        /* repeat playlist on*/
+    } else {
+        x.style.color = "white";
+        /* repeat off*/
+    }
+}
+
+function repeatoff() {
+    var j = fetch('http://localhost:5000/api/repeatoff', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+
+    var x = document.getElementById("rewind");
+    var y = document.getElementById("rewindSong");
+
+    if (y.style.display === "inline" || x.style.color === "#f7931E") {
+        x.style.color = "white";
+        x.style.display = "inline";
+        y.style.display = "none";
+        /* repeat song off*/
+    }
 }
