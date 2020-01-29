@@ -316,3 +316,14 @@ td{
   font-size: 20px;
 
 }
+
+#rewind
+{
+  display: inline;
+}
+
+#rewindSong
+{
+  display: none;
+  color: #f7931E;
+}
