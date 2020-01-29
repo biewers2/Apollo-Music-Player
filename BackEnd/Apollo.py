@@ -100,22 +100,22 @@ def info_obj_builder():
 			artist_seen.append(artist)
 			temp_artist = {}
 			artists_albums = []
-			temp_artist['Name'] = artist
+			temp_artist['name'] = artist
 			artists_albums.append(AlbumArtGenerator(albums,artist))
-			temp_artist['Albums'] = artists_albums
+			temp_artist['albums'] = artists_albums
 			artists_list.append(temp_artist)
 		else:
 			if albums not in seen :
 				for x in artists_list:
-					if x['Name'] == artist:
-						x["Albums"].append(AlbumArtGenerator(albums,artist))
+					if x['name'] == artist:
+						x["albums"].append(AlbumArtGenerator(albums,artist))
 						break		
 		if albums not in seen:
 			album = {}
 			seen.append(albums)
-			album["AlbumName"] = albums
-			album['Pic'] = AlbumArtGenerator(albums,artist)  #make this one call
-			album['Artist'] = artist
+			album["albumName"] = albums
+			album['pic'] = AlbumArtGenerator(albums,artist)  #make this one call
+			album['artist'] = artist
 			albums_list.append(album)
 			
 	
@@ -126,7 +126,7 @@ def info_obj_builder():
 
 
 		
-	return [songs_ret,albums_ret,artist_ret]
+	return {"data":{songs_ret,albums_ret,artist_ret}}
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
