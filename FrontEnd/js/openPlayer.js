@@ -54,6 +54,44 @@ function current() {
   }
  }
 
+function shuffle() {
+  var x = document.getElementById("shuffle");
+  if (x.style.color === "white") {
+    x.style.color = "#f7931E";
+     /* shuffle on*/
+  } else {
+    x.style.color = "white";
+     /* shuffle off*/
+  }
+}
+
+ function repeat() {
+  var x = document.getElementById("rewind");
+  if (x.style.color === "white") {
+    x.style.color = "#f7931E";
+    /* repeat playlist on*/
+  } else {
+    x.style.color = "white";
+     /* repeat off*/
+  }
+}
+
+ function repeatSong() {
+  var x = document.getElementById("rewind");
+  var y = document.getElementById("rewindSong");
+  if (x.style.display === "inline") {
+    x.style.display = "none";
+    y.style.display = "inline";
+    /* repeat song on*/
+  } else {
+    x.style.color = "white";
+    x.style.display = "inline";
+    y.style.display = "none";
+     /* repeat off*/
+  }
+ 
+}
+
 async function fetchAllSongs() {
   const response = await fetch('http://localhost:5000/api/all_songs', {method: 'GET', mode: 'cors'});
   const allSongs = await response.json();
