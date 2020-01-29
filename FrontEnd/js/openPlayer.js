@@ -1,14 +1,14 @@
 var objList;
 
-function boot2(){
-addAlbums();
- addPlaylists();
- addArtists();
- generateLibrary();
-}
-
 function boot(){
   fetchAllSongs();
+}
+
+function boot2(){
+  addAlbums();
+  addPlaylists();
+  addArtists();
+  generateLibrary();
 }
 
 function openSearch() {
@@ -70,7 +70,7 @@ function shuffle() {
   }
 }
 
- function repeat() {
+function repeat() {
   var x = document.getElementById("rewind");
   if (x.style.color === "white") {
     x.style.color = "#f7931E";
@@ -81,7 +81,7 @@ function shuffle() {
   }
 }
 
- function repeatSong() {
+function repeatSong() {
   var x = document.getElementById("rewind");
   var y = document.getElementById("rewindSong");
   if (x.style.display === "inline") {
@@ -147,7 +147,6 @@ function generateLibrary() {
   }
 }
 
-
 function addAlbums() { 
   var library = [];
   library = objList.albums;
@@ -190,7 +189,6 @@ function albumButtons(){
   }
 }
 }
-
 
 function addPlaylists() { 
       var img = document.createElement('img');
