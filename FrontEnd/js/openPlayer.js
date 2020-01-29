@@ -1,3 +1,4 @@
+var objList = [{},{},{}];
 function boot(){
   fetchAllSongs();
   addAlbums();
@@ -92,15 +93,22 @@ function shuffle() {
  
 }
 
-async function fetchAllSongs() {
-  const response = await fetch('http://localhost:5000/api/all_songs', {method: 'GET', mode: 'cors'});
-  const allSongs = await response.json();
-  return allSongs;
-  //Using "await" for all async functions instead of ".then()"
+function fetchAllSongs() {
+  fetch('http://localhost:5000/api/obj_list', {method: 'GET', mode: 'cors'})
+  .then(function(response) {
+    return response.json();
+    }).then(function (obj) {
+    console.log('POST response: ');
+    console.log(obj);
+    objList = obj;
+    console.log(objList);
+    console.log('Array Test: ' + objList[0].songs[0].title)
+    console.log('Array Test: ' + objList[2].artists[0].Name)
+  });
 }
 
-async function generateLibrary() {
-  var library = await fetchAllSongs();
+function generateLibrary() {
+  var library = objList.songs;
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
     var song = document.createElement("tr");
@@ -135,7 +143,7 @@ async function generateLibrary() {
 }
 
 async function addAlbums() { 
-  var library = await fetchAllSongs();
+  var library = objList[1].albums;
   for(var i = 0; i < library.length; i++){
      if ((library[i].albumArt == null) || (library[i].albumArt == "none")){
         var img = document.createElement('img');
@@ -158,8 +166,8 @@ async function addAlbums() {
   albumButtons();
 }
 
-async function albumButtons(){
-  var library = await fetchAllSongs();
+function albumButtons(){
+  var library = objList[1].albums;
   for(var i = 0; i < library.length; i++){
     if (library[i].albumArt == "./images/Logo1.png"){
       continue;
@@ -184,9 +192,8 @@ function addPlaylists() {
       document.getElementById("mainPlaylists").append(img);
 }
 
-
-async function addArtists() { 
-  var library = await fetchAllSongs();
+function addArtists() { 
+  var library = objList[2].artists;
   let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
