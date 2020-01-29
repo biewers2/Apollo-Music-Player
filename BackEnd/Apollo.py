@@ -121,10 +121,11 @@ def info_obj_builder():
 	songs_ret = {"Songs":songs}
 	albums_ret = {"Albums":albums_list}
 	artist_ret = {"Artists":artists_list}
+	
+
 
 		
 	return [songs_ret,albums_ret,artist_ret]
-	#return json.dumps(retVal)
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
