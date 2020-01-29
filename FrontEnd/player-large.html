@@ -55,7 +55,7 @@
 			<i onclick="toggleStopped()" id="pause" class="fas fa-pause pause"></i>
 			<i onclick="nextSong()"class="ffButton fas fa-step-forward"></i>
 			<i onclick="repeat()" ondblclick="repeatSong()"  class="fas fa-redo-alt" id="rewind"  id="rewind"></i>
-			<i onclick="repeatSong()" id="rewindSong" class="fas fa-history" ></i>
+			<i onclick="repeatoff()" id="rewindSong" class="fas fa-history" ></i>
 		</div>
 		<div class="volumeBar">
 			<input id="vol-control" class="volume" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)">	
