@@ -247,3 +247,28 @@ def startup_info_builder():
 
 startup_func()
 
+@app.route('/api/repeatSong', methods = ['POST'])
+def repeat_song():
+	global repeatsong
+	if repeatsong == False:
+		repeatsong = True
+		client.single(1)
+		client.repeat(1)
+	else:
+		repeatsong = False
+		client.single(0)
+		client.repeat(0)
+	return 'Ok',200
+
+@app.route('/api/repeat', methods = ['POST'])
+def repeat_playlist():
+	global repeatplaylist
+	if repeatplaylist == False:
+		repeatplaylist = True
+		client.repeat(1)
+		client.single(0)
+	else:
+		repeatplaylist = False
+		client.repeat(0)
+		client.single(0)
+	return 'Ok',200
