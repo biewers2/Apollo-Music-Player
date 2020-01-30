@@ -231,7 +231,7 @@ td{
 .albumArt{
   max-width: 30%;
   float: left;
-  padding-top: 0%;
+  padding-top: 10%;
 }
 
 .exit{
