@@ -248,7 +248,7 @@ function SetVolume(val)
 
 function shuffle()
 {
-    var j = fetch('http://localhost:5000/shuffle', { method: 'POST', mode: 'cors' });
+    var j = fetch('http://localhost:5000/api/shuffle', { method: 'POST', mode: 'cors' });
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {

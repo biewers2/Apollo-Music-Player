@@ -57,7 +57,6 @@ def songBuilder(song, attributes):
 		except:
 			curr_song[x] = 'none'	
 	return curr_song
-startup_func()
 
 def AlbumArtGenerator(album,artist):
 	api_key = 'd1915a9d435d47526a61dc0210978583'
@@ -232,7 +231,104 @@ def return_current_song(): #will currently return an empty list if nothing is re
 		pass
 	return json.dumps(curr_song)
 
-@app.route('/api/shuffle', methods = ['POST'])
+@app.route('/api/shuffle', methods = ['POST']) #this will shuffle what is in the queue. It would not need to be changed if you had loaded a playlist
 def shuffle():
+	global current_playlist
+	current_playlist = client.playlistinfo()
+
+
+	print("before shuffle")
+	for songs in current_playlist:
+		print()
+		print(songs['file'])
+
+
 	client.shuffle()
+
+
+	print()
+	print("after shuffle")
+	for songs in client.playlistinfo():
+		print()
+		print(songs['file'])
+
+
 	return 'OK',200
+
+@app.route('/api/unshuffle', methods = ['POST']) #this will work under the assumption you had been playing from all of your music and not a specific playlist
+def unshuffle():
+		client.rescan() ### For stored playlists, you will have to have a variable to keep track of what playlist you are playing from. Default should be queue most likely and then each time a playlist is loaded you change that variable to that name
+				
+		#play_pause() not sure if we should pause before we do our stuff
+		playlistlength = int(client.status()['playlistlength']) #accoutnig for 0 based positions
+		#print("before delete ",playlistlength) #for testing
+		
+		for song in range(1,playlistlength):
+			client.delete(1)
+
+		#print("after delete ", int(client.status()['playlistlength'])) #for testing
+
+		pos=0
+		for songs in current_playlist: #builds a queue with all songs.
+			if songs['file'] != client.playlistinfo()[0]['file']:
+				client.add(songs['file'])
+				pos += 1
+			else:
+				client.move(0,pos)
+
+		#print("after adding", int(client.status()['playlistlength'])) #for testing	
+		
+		myplaylist = client.playlistinfo()
+		print("after unshuffle")
+		for songs in myplaylist:
+			print()
+			print(songs['file'])
+
+	
+		return 'OK', 200
+
+startup_func()
+
+print()
+print("q for quit")
+print("gvol for get volume")
+print("svol for set volume")
+print("space for play or pause")
+print("n for next song")
+print("p for previous song")
+print("k for seeking (go to a specific time in the song)")
+print("lsp for listing songs in the playlist")
+print("lss for listing all songs in mpd")
+print("ss for song stripper (except you probably shouldn't call it)")
+print("shuffle for shuffle")
+print("unshuffle for unshuffle")
+
+user_input = "b"
+
+while user_input != "q":
+	if user_input == "gvol":
+		print(get_volume())
+	elif user_input =="svol":
+		print("choose a number from one to one hundred")
+		vol = int(input())
+		set_volume(vol)
+	elif user_input == " ":
+		play_pause()
+	elif user_input == "n":
+		next_song()
+	elif user_input == "p":
+		prev_song()
+	elif user_input == "k":
+		position = float(input("What position do you want?"))
+		seek(position)
+	elif user_input == "lsp":
+		list_songs()
+	elif user_input == "lss":
+		list_all_songs()
+	elif user_input == "ss":
+		song_stripper()
+	elif user_input == "shuffle":
+		shuffle()
+	elif user_input == "unshuffle":
+		unshuffle()
+	user_input = input()
