@@ -13,13 +13,18 @@
 Music Player using MPD
 '''
 # dependencies
-import musicpd, json, subprocess, os, time, requests, traceback, logging
+import musicpd, json, subprocess, os, sys, io, time, requests, traceback, logging
 import xml.etree.ElementTree as ET
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
 from waitress import serve
+from colorthief import ColorThief
+if sys.version_info < (3, 0):
+    from urllib2 import urlopen
+else:
+    from urllib.request import urlopen
 
 # initialization
 app = Flask(__name__) #Flask
@@ -125,19 +130,23 @@ def info_obj_builder():
 	for x in tempList:
 		if 'album' not in x:
 			if 'file' in x and x['file'].endswith('.mp3'):
-				album = {}
-				album['albumname'] = 'none'
-				album['pic']= 'none'
-				album['artist'] = x['artist'] if 'artist' in x else 'none'
-				albums_list.append(album)
+				if 'none' not in seen:
+					album = {}
+					seen.append('none')
+					album['albumname'] = 'none'
+					album['pic']= 'none'
+					album['artist'] = x['artist'] if 'artist' in x else 'none'
+					albums_list.append(album)
 
 	for x in tempList:
 		if 'artist' not in x:
 			if 'file' in x and x['file'].endswith('.mp3'):
-				temp_artist = {}
-				temp_artist['name'] = 'none'
-				temp_artist['albums'] = 'none'
-				artists_list.append(temp_artist)
+				if 'none' not in artist_seen:
+					temp_artist = {}
+					artist_seen.append('none')
+					temp_artist['name'] = 'none'
+					temp_artist['albums'] = 'none'
+					artists_list.append(temp_artist)
 
 	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
 
@@ -232,11 +241,11 @@ def get_volume():
 	retVal = {'volume':desired_volume}
 	return json.dumps(retVal) 
 
-@app.route('/api/get_cur', methods = ['GET'])
+@app.route('/api/get_current', methods = ['GET'])
 def return_current_song(): #will currently return an empty list if nothing is return from client.currentsong()
 	#song = client.currentsong()
 	#x = client.playlistinfo(0)[0]
-	attributes = ['file', 'title', 'artist','album','date','duration']
+	attributes = ['title', 'artist', 'album', 'date', 'duration', 'pic', 'palette']
 	status = client.status()
 	song = client.currentsong() if status['state'] != 'stop' else client.playlistinfo(0)[0]
 	elapsed = status['elapsed'] if status['state'] != 'stop' else '0'
@@ -251,6 +260,11 @@ def return_current_song(): #will currently return an empty list if nothing is re
 		curr_song['duration'] = song['duration']
 		curr_song['elapsed'] = elapsed
 		curr_song['pic'] = AlbumArtGenerator(song['album'],song['artist'])
+		fd = urlopen(curr_song['pic'])
+		f = io.BytesIO(fd.read())
+		color_thief = ColorThief(f)
+		palette = color_thief.get_palette(color_count=3)
+		curr_song['palette'] = palette
 	except:
 		pass
 	return json.dumps(curr_song)
