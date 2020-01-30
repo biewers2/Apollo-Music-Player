@@ -14,6 +14,7 @@
 	<script src="https://kit.fontawesome.com/ab83053a15.js" crossorigin="anonymous"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="./css/playerLarge.css"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<script src="./js/openPlayer.js"></script>
 
 </head>
@@ -45,9 +46,12 @@
 			<i id="returnCurrentArtist" href="#" onclick="filterSelection()" >
 			</i>
 		</div>
-		<i class="progressBar">
-			<progress class="bar" max="100" value="80"></progress>
-		</i>
+		<div class="w3-container">
+			<div class="w3-light-grey w3-round"">
+			  <div id="progBar" class="w3-green w3-round" style="height:7px;width:0%"></div>
+			</div>
+			<br>
+		</div>
 		<div class="playbackControls link">
 			<i onclick="shuffle()" id="shuffle" class="fas fa-random"></i>
 			<i onclick="prevSong()"class="backButton fas fa-step-backward"></i>

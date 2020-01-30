@@ -47,18 +47,16 @@ function go2Artists(){
 }
 
 function current() {
-  
   if (document.getElementById("currentCue").style.display = "none"){
    document.getElementById("currentCue").style.display = "block";
   }
- }
+}
 
- function closeCurrent() {
-  
+function closeCurrent() {
   if (document.getElementById("currentCue").style.display = "block"){
    document.getElementById("currentCue").style.display = "none";
   }
- }
+}
 
 function shuffle() {
   var x = document.getElementById("shuffle");
@@ -236,6 +234,7 @@ function togglePlaying()
     j.then(function(response) { //fask should have printed 
     return response.text();
     }).then(function (text) {
+    currentlyPlaying();
     console.log('POST response: ');
     console.log(text);
   });
@@ -257,6 +256,7 @@ function nextSong()
   fetch('http://localhost:5000/api/next', {method: 'GET', mode: 'cors'}).then(function(response) {
   return response.text();
   }).then(function (text) {
+  currentlyPlaying();
   console.log('POST response: ');
   console.log(text);
   });
@@ -267,6 +267,7 @@ function prevSong()
   fetch('http://localhost:5000/api/previous', {method: 'GET', mode: 'cors'}).then(function(response) { 
   return response.text();
   }).then(function (text) {
+    currentlyPlaying();
     console.log('GET response: ');
     console.log(text);
   });
@@ -305,6 +306,7 @@ function shuffle()
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
+        currentlyPlaying();
         console.log('POST response: ');
         console.log(text);
     });
@@ -324,6 +326,15 @@ function currentlyPlaying() {
     document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
     document.getElementById('currentAlbum').setAttribute('src', obj.pic);
     document.getElementById('returnCurrentSong').innerHTML = obj.title;
-    document.getElementById('returnCurrentArtist').innerHTML = obj.artist;    
+    document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+    setInterval(currentlyPlaying(), 750);
+    setInterval(progressBar(obj), 750);
+    delete obj
   });
+}
+
+function progressBar(obj) {
+  var bar = document.getElementById("progBar");
+    barPercent = (obj.elapsed / obj.duration) * 100;
+    bar.style.width = String(barPercent) + '%';
 }
