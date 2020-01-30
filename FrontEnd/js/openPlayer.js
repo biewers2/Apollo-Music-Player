@@ -324,7 +324,7 @@ function currentlyPlaying() {
     var g = obj.palette[0][1];
     var b = obj.palette[0][2];
     document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
-    if (obj.pic == '' | obj.pic == null) {
+    if (obj.pic == '' || obj.pic == null) {
       document.getElementById('currentAlbum').setAttribute('src', "./images/AlbumArt-01.png");
     }
     else {
