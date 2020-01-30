@@ -325,7 +325,7 @@ function currentlyPlaying() {
     var b = obj.palette[0][2];
     document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
     if (obj.pic == '' | obj.pic == null) {
-      document.getElementById('currentAlbum').setAttribute('src', "./images/Logo1.png");
+      document.getElementById('currentAlbum').setAttribute('src', "./images/AlbumArt-01.png");
     }
     else {
       document.getElementById('currentAlbum').setAttribute('src', obj.pic);
