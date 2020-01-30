@@ -332,8 +332,10 @@ function currentlyPlaying() {
     }
     document.getElementById('returnCurrentSong').innerHTML = obj.title;
     document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
-    setInterval(currentlyPlaying(), 750);
-    setInterval(progressBar(obj), 750);
+    document.getElementById('returnCurrentDuration').innerHTML = secondsTo_MMSS(obj.duration);
+    document.getElementById('returnCurrentElapsed').innerHTML = secondsTo_MMSS(obj.elapsed);
+    setInterval(currentlyPlaying(), 1000);
+    setInterval(progressBar(obj), 500);
     delete obj
   });
 }
@@ -342,4 +344,23 @@ function progressBar(obj) {
   var bar = document.getElementById("progBar");
     barPercent = (obj.elapsed / obj.duration) * 100;
     bar.style.width = String(barPercent) + '%';
+}
+
+function secondsTo_MMSS(seconds) {
+  durMin = seconds / 60;
+  durSec = seconds % 60;
+  durMin = durMin.toFixed(0);
+  durSec = durSec.toFixed(0);
+  function pad(value) {
+    if(value < 10) {
+        return '0' + value;
+    } else {
+        return value;
+    }
+  }
+  durMin = pad(durMin);
+  durSec = pad(durSec);
+  durMinStr = String(durMin);
+  durSecStr = String(durSec);
+  return durMinStr + ':' + durSecStr;
 }
