@@ -120,6 +120,16 @@ def info_obj_builder():
 			album['artist'] = artist
 			albums_list.append(album)
 
+
+	for x in tempList:
+		if 'album' not in x:
+			if 'file' in x and x['file'].endswith('.mp3'):
+				album = {}
+				album['albumname'] = 'none'
+				album['pic']= 'none'
+				album['artist'] = x['artist'] if 'artist' in x else 'none'
+				albums_list.append(album)
+
 	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
 
 
