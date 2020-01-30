@@ -218,12 +218,8 @@ def seek():
 
 @app.route('/api/next', methods = ['GET'])
 def next_song():
-	x = client.status()
 	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
 		client.next()
-	elif client.status()['state'] != 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
-		client.seekid(x['nextsongid'],0)
-		client.pause()
 	return json.dumps(return_current_song())
 
 def song_stripper(s):
@@ -313,7 +309,7 @@ def startup_info_builder():
 def get_state():
 	return json.dumps({'state': client.status()['state']})
 
-@app.route('/play_selected', methods = ['POST'])
+@app.route('/api/play_selected', methods = ['POST'])
 def play_selected():
 	req = request.get_json()
 	id = req['id']
