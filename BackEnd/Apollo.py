@@ -77,6 +77,7 @@ def AlbumArtGenerator(album,artist):
 		return 'none'
 
 def info_obj_builder():
+	#this function has morphed into one of the worst functions i've ever written. I'll fix it later -Omar
 	global info
 	albums_artist = set(())
 	albums =   artists = set()
@@ -129,6 +130,15 @@ def info_obj_builder():
 				album['pic']= 'none'
 				album['artist'] = x['artist'] if 'artist' in x else 'none'
 				albums_list.append(album)
+
+	for x in tempList:
+		if 'artist' not in x:
+			if 'file' in x and x['file'].endswith('.mp3'):
+				temp_artist = {}
+				temp_artist['name'] = 'none'
+				temp_artist['albums'] = 'none'
+				
+
 
 	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
 
