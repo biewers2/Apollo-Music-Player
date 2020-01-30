@@ -224,6 +224,7 @@ def next_song():
 		client.next()
 	elif client.status()['state'] != 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
 		client.seekid(x['nextsongid'],0)
+		client.pause()
 	return json.dumps(return_current_song())
 
 def song_stripper(s):
