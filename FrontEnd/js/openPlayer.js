@@ -149,7 +149,19 @@ function generateLibrary() {
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
     var song = document.createElement("tr");
-
+    /*
+    var id= library[i].id;
+    id = parse.JSON(id);
+    song.setAttribute ('onclick' , function idSendPlay() {
+      fetch('http://localhost:5000/api/play_selected', {method: 'POST', mode: "cors", body: id, headers:{"Content-Type": 'application/json'}
+      })
+      .then(function(response){
+         return response.text();
+      })
+      .then(function(text){
+      });
+    });
+    */
       var cell = document.createElement("td");
       var songName = document.createTextNode(library[i].title);
       cell.appendChild(songName);
