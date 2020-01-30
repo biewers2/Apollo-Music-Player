@@ -171,13 +171,15 @@ td{
 }
 
 .progressBar {
+  /*padding-left: 50%;*/
   padding-left: 10%;
   width: 90%;
+  padding-right: 10%;
 }
 
-.bar{
-  width: 80%;
-  padding-bottom: 3%;
+.progressClass{
+  width: 100%;
+  padding-left: 10%;
 }
 
 .volumeBar{
