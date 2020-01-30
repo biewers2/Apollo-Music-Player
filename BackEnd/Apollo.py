@@ -278,5 +278,31 @@ def startup_info_builder():
 def get_state():
 	return json.dumps({'state': client.status()['state']})
 
+@app.route('/play_selected', methods = ['POST'])
+def play_selected():
+	req = request.get_json()
+	id = req['id']
+	client.playid(id)
+	return 'OK',200
+
+@app.route('/api/repeatSong', methods = ['POST'])
+def repeat_song():
+	client.single(1)
+	client.repeat(1)
+	return 'Ok',200
+
+@app.route('/api/repeat', methods = ['POST'])
+def repeat_playlist():
+	client.repeat(1)
+	client.single(0)
+	return 'Ok',200
+
+@app.route('/api/repeatoff', methods = ['POST'])
+def repeat_off():
+	client.repeat(0)
+	client.single(0)
+	return 'Ok',200
+
+
 startup_func()
 
