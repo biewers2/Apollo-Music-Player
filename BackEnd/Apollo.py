@@ -65,7 +65,6 @@ def songBuilder(song, attributes):
 			curr_song[x] = 'none'	
 	return curr_song
 
-
 def AlbumArtGenerator(album,artist):
 	api_key = 'd1915a9d435d47526a61dc0210978583'
 	retVal = 'http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=' + api_key +'&artist='  + artist + '&album=' + album + '&format=json'
@@ -284,10 +283,32 @@ def return_current_song():
 		pass
 	return json.dumps(curr_song)
 
-@app.route('/api/shuffle', methods = ['POST'])
+@app.route('/api/shuffle', methods = ['POST']) #this will shuffle what is in the queue. It would not need to be changed if you had loaded a playlist
 def shuffle():
+	global current_playlist
+	current_playlist = client.playlistinfo()
+
 	client.shuffle()
+
 	return 'OK',200
+
+@app.route('/api/unshuffle', methods = ['POST']) #this will work under the assumption you had been playing from all of your music and not a specific playlist
+def unshuffle():
+	client.rescan() 
+	#play_pause() not sure if we should pause before we do our stuff
+	playlistlength = int(client.status()['playlistlength']) #accoutnig for 0 based positions
+		
+	for song in range(1,playlistlength):
+		client.delete(1)
+
+	pos=0
+	for songs in current_playlist: #builds a queue with all songs.
+		if songs['file'] != client.playlistinfo()[0]['file']: #skips over current song playing or paused on
+			client.add(songs['file'])
+			pos += 1
+		else:
+			client.move(0,pos) #takes care of current song
+	return 'OK', 200
 
 @app.route('/api/obj_list', methods = ['GET'])
 def startup_info_builder():
@@ -324,4 +345,3 @@ def repeat_off():
 
 
 startup_func()
-
