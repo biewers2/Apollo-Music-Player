@@ -84,13 +84,15 @@ def info_obj_builder():
 	client.rescan()
 	tempList = client.listallinfo()
 	for x in tempList:
-		try:
-			albums_artist.add((x['album'],x['artist']))
-			albums.add(x['album'])
-			artists.add(x['artist'])
-			songs.append((songBuilder(x,['title','artist','album','duration'])))
-		except:
-			continue
+		if 'file' in x and x['file'].endswith('.mp3'):
+			try:
+
+				albums_artist.add((x['album'],x['artist'])) if 'album' in x and 'artist' in x else albums_artist
+				albums.add(x['album']) if 'album' in x else albums.add('none')
+				artists.add(x['artist']) if 'artist' in x else artists
+				songs.append((songBuilder(x,['title','artist','album','duration'])))
+			except:
+				continue
 	albums_list = []
 	artists_list = []
 	seen = []
@@ -117,8 +119,7 @@ def info_obj_builder():
 			album['pic'] = AlbumArtGenerator(albums,artist)  #make this one call
 			album['artist'] = artist
 			albums_list.append(album)
-			
-	
+
 	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
 
 
