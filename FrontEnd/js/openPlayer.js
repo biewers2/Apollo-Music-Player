@@ -5,6 +5,7 @@ function boot(){
 }
 
 function boot2(){
+  currentlyPlaying();
   addAlbums();
   addPlaylists();
   addArtists();
@@ -103,7 +104,6 @@ function fetchAllSongs() {
     return response.json();
     }).then(function (obj) {
     console.log('POST response: ');
-    console.log(obj);
     objList = obj;
     console.log(objList);
     boot2();
@@ -115,7 +115,6 @@ function generateLibrary() {
   library = objList.songs;
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
-    console.log('Array Test: ' + library[i].title)
     var song = document.createElement("tr");
 
       var cell = document.createElement("td");
@@ -150,7 +149,6 @@ function generateLibrary() {
 function addAlbums() { 
   var library = [];
   library = objList.albums;
-  console.log('hello : ' + library);
   for(var i = 0; i < library.length; i++){
      if ((library[i].pic == null) || (library[i].pic == "none")){
         var img = document.createElement('img');
@@ -204,7 +202,6 @@ function addPlaylists() {
 function addArtists() { 
   var library = [];
   library = objList.artists;
-  console.log('Array Test push: ' + library)
   let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
@@ -313,11 +310,20 @@ function shuffle()
     });
 }
 
-function currentlyPlaying(){
-  let obj = JSON.parse('{"title": "Let It Go", "artist": "Demi Lovato", "album": "Frozen", "duration": "256.549", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png"}');
-
-  document.getElementById('currentAlbum').setAttribute('src' , obj.pic);
-  document.getElementById('returnCurrentSong').innerHTML = obj.title;
-  document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
-
+function currentlyPlaying() {
+  fetch('http://localhost:5000/api/get_current', {method: 'GET', mode: 'cors'})
+  .then(function(response) {
+    return response.json();
+    })
+    .then(function (obj) {
+    console.log(obj);
+    console.log(obj.palette[0]);
+    var r = obj.palette[0][0];
+    var g = obj.palette[0][1];
+    var b = obj.palette[0][2];
+    document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    document.getElementById('currentAlbum').setAttribute('src', obj.pic);
+    document.getElementById('returnCurrentSong').innerHTML = obj.title;
+    document.getElementById('returnCurrentArtist').innerHTML = obj.artist;    
+  });
 }
