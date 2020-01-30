@@ -417,3 +417,34 @@ function secondsTo_MMSS(seconds) {
   durSecStr = String(durSec);
   return durMinStr + ':' + durSecStr;
 }
+
+/*async function seek(val) //needs to be changed since the master changed a lot
+{
+  //songLength = library[i].duration;
+  var library = await fetchAllSongs();
+  var songLength = library[i].duration;
+  var pBar = document.getElementById('bar');
+  video.addEventListener('timeupdate', function() {
+    var percent = Math.floor((100 / video.duration) * video.currentTime);
+    pBar.value = percent;
+    pBar.getElementsByTagName('span')[0].innerHTML = percent;
+  }, false);
+
+
+  var asJSON = JSON.stringify({'bar':val});
+  console.log(asJSON)
+
+  //POST
+  var response = await fetch('http://localhost:5000/seek', {
+            method: 'POST',
+            mode: "cors",
+            body: asJSON,
+            headers:{
+                "Content-Type": 'application/json'
+            }
+  });
+  var textResponse = await response.text();
+    console.log('textResponse');
+
+    console.log(text);
+}*/
