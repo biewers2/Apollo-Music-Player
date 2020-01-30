@@ -77,19 +77,23 @@ def AlbumArtGenerator(album,artist):
 		return 'none'
 
 def info_obj_builder():
+	#this function has morphed into one of the worst functions i've ever written. I'll fix it later -Omar
+	global info
 	albums_artist = set(())
 	albums =   artists = set()
 	songs = []
 	client.rescan()
 	tempList = client.listallinfo()
 	for x in tempList:
-		try:
-			albums_artist.add((x['album'],x['artist']))
-			albums.add(x['album'])
-			artists.add(x['artist'])
-			songs.append((songBuilder(x,['title','artist','album','duration'])))
-		except:
-			continue
+		if 'file' in x and x['file'].endswith('.mp3'):
+			try:
+
+				albums_artist.add((x['album'],x['artist'])) if 'album' in x and 'artist' in x else albums_artist
+				albums.add(x['album']) if 'album' in x else albums.add('none')
+				artists.add(x['artist']) if 'artist' in x else artists
+				songs.append((songBuilder(x,['title','artist','album','duration'])))
+			except:
+				continue
 	albums_list = []
 	artists_list = []
 	seen = []
@@ -99,26 +103,44 @@ def info_obj_builder():
 			artist_seen.append(artist)
 			temp_artist = {}
 			artists_albums = []
-			temp_artist['Name'] = artist
+			temp_artist['name'] = artist
 			artists_albums.append(AlbumArtGenerator(albums,artist))
-			temp_artist['Albums'] = artists_albums
+			temp_artist['albums'] = artists_albums
 			artists_list.append(temp_artist)
 		else:
 			if albums not in seen :
 				for x in artists_list:
-					if x['Name'] == artist:
-						x["Albums"].append(AlbumArtGenerator(albums,artist))
+					if x['name'] == artist:
+						x["albums"].append(AlbumArtGenerator(albums,artist))
 						break		
 		if albums not in seen:
 			album = {}
 			seen.append(albums)
-			album["AlbumName"] = albums
-			album['Pic'] = AlbumArtGenerator(albums,artist)  #make this one call
-			album['Artist'] = artist
+			album["albumname"] = albums
+			album['pic'] = AlbumArtGenerator(albums,artist)  #make this one call
+			album['artist'] = artist
 			albums_list.append(album)
-	retVal = [songs,albums_list,artists_list]
-	return retVal
-	#return json.dumps(retVal)
+
+
+	for x in tempList:
+		if 'album' not in x:
+			if 'file' in x and x['file'].endswith('.mp3'):
+				album = {}
+				album['albumname'] = 'none'
+				album['pic']= 'none'
+				album['artist'] = x['artist'] if 'artist' in x else 'none'
+				albums_list.append(album)
+
+	for x in tempList:
+		if 'artist' not in x:
+			if 'file' in x and x['file'].endswith('.mp3'):
+				temp_artist = {}
+				temp_artist['name'] = 'none'
+				temp_artist['albums'] = 'none'
+				artists_list.append(temp_artist)
+
+	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
+
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
@@ -228,8 +250,7 @@ def return_current_song(): #will currently return an empty list if nothing is re
 			#print()###############################
 		curr_song['duration'] = song['duration']
 		curr_song['elapsed'] = elapsed
-		curr_song['AlbumArtMedium'] = AlbumArtGenerator(song['album'],song['artist'],'medium')
-		curr_song['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist'],'mega')
+		curr_song['pic'] = AlbumArtGenerator(song['album'],song['artist'])
 	except:
 		pass
 	return json.dumps(curr_song)

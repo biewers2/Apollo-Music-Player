@@ -1,5 +1,10 @@
+var objList;
+
 function boot(){
   fetchAllSongs();
+}
+
+function boot2(){
   addAlbums();
   addPlaylists();
   addArtists();
@@ -54,17 +59,63 @@ function current() {
   }
  }
 
-async function fetchAllSongs() {
-  const response = await fetch('http://localhost:5000/api/all_songs', {method: 'GET', mode: 'cors'});
-  const allSongs = await response.json();
-  return allSongs;
-  //Using "await" for all async functions instead of ".then()"
+function shuffle() {
+  var x = document.getElementById("shuffle");
+  if (x.style.color === "white") {
+    x.style.color = "#f7931E";
+     /* shuffle on*/
+  } else {
+    x.style.color = "white";
+     /* shuffle off*/
+  }
 }
 
-async function generateLibrary() {
-  var library = await fetchAllSongs();
+function repeat() {
+  var x = document.getElementById("rewind");
+  if (x.style.color === "white") {
+    x.style.color = "#f7931E";
+    /* repeat playlist on*/
+  } else {
+    x.style.color = "white";
+     /* repeat off*/
+  }
+}
+
+function repeatSong() {
+  var x = document.getElementById("rewind");
+  var y = document.getElementById("rewindSong");
+  if (x.style.display === "inline") {
+    x.style.display = "none";
+    y.style.display = "inline";
+    /* repeat song on*/
+  } else {
+    x.style.color = "white";
+    x.style.display = "inline";
+    y.style.display = "none";
+     /* repeat off*/
+  }
+ 
+}
+
+function fetchAllSongs() {
+  fetch('http://localhost:5000/api/obj_list', {method: 'GET', mode: 'cors'})
+  .then(function(response) {
+    return response.json();
+    }).then(function (obj) {
+    console.log('POST response: ');
+    console.log(obj);
+    objList = obj;
+    console.log(objList);
+    boot2();
+  });
+}
+
+function generateLibrary() {
+  var library = [];
+  library = objList.songs;
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
+    console.log('Array Test: ' + library[i].title)
     var song = document.createElement("tr");
 
       var cell = document.createElement("td");
@@ -96,40 +147,44 @@ async function generateLibrary() {
   }
 }
 
-async function addAlbums() { 
-  var library = await fetchAllSongs();
+function addAlbums() { 
+  var library = [];
+  library = objList.albums;
+  console.log('hello : ' + library);
   for(var i = 0; i < library.length; i++){
-     if ((library[i].albumArt == null) || (library[i].albumArt == "none")){
+     if ((library[i].pic == null) || (library[i].pic == "none")){
         var img = document.createElement('img');
         img.setAttribute("src", "./images/AlbumArt-01.png");
         img.classList.add("square");
         img.classList.add("albumType");
-        img.setAttribute("id", library[i].album);
+        img.setAttribute("id", library[i].pic);
         document.getElementById("mainAlbums").append(img);
     }
     else 
     {
       var img = document.createElement('img');
-      img.setAttribute("src" , library[i].albumArt);
+      img.setAttribute("src" , library[i].pic);
       img.classList.add("square");
       img.classList.add("albumType");
-      img.setAttribute("id" , library[i].album);
+      img.setAttribute("id" , library[i].pic);
       document.getElementById("mainAlbums").append(img);
+      console.log(img);
     }
   }
   albumButtons();
 }
 
-async function albumButtons(){
-  var library = await fetchAllSongs();
+function albumButtons(){
+  var library = [];
+  library = objList.albums;
   for(var i = 0; i < library.length; i++){
-    if (library[i].albumArt == "./images/Logo1.png"){
+    if (library[i].pic == "./images/Logo1.png"){
       continue;
     }
     else 
     {
-    document.getElementById(library[i].album).setAttribute('onclick' ,function changePlaying() {
-      document.getElementById('currentAlbum').src=library[i].albumArt;
+    document.getElementById(library[i].pic).setAttribute('onclick' ,function changePlaying() {
+      document.getElementById('currentAlbum').src=library[i];
     });
   }
 }
@@ -146,15 +201,16 @@ function addPlaylists() {
       document.getElementById("mainPlaylists").append(img);
 }
 
-
-async function addArtists() { 
-  var library = await fetchAllSongs();
+function addArtists() { 
+  var library = [];
+  library = objList.artists;
+  console.log('Array Test push: ' + library)
   let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
 
   for (var i=0; i < library.length; i++){
-    artistSet.add(library[i].artist);
+    artistSet.add(library[i].name);
   };
 
   let artistArray = Array.from(artistSet);
@@ -248,11 +304,20 @@ function SetVolume(val)
 
 function shuffle()
 {
-    var j = fetch('http://localhost:5000/shuffle', { method: 'POST', mode: 'cors' });
+    var j = fetch('http://localhost:5000/api/shuffle', { method: 'POST', mode: 'cors' });
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
         console.log('POST response: ');
         console.log(text);
     });
+}
+
+function currentlyPlaying(){
+  let obj = JSON.parse('{"title": "Let It Go", "artist": "Demi Lovato", "album": "Frozen", "duration": "256.549", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png"}');
+
+  document.getElementById('currentAlbum').setAttribute('src' , obj.pic);
+  document.getElementById('returnCurrentSong').innerHTML = obj.title;
+  document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+
 }

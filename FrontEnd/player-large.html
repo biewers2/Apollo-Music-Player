@@ -49,12 +49,13 @@
 			<progress class="bar" max="100" value="80"></progress>
 		</i>
 		<div class="playbackControls link">
-			<i onclick="shuffle()"class="fas fa-random"></i>
+			<i onclick="shuffle()" id="shuffle" class="fas fa-random"></i>
 			<i onclick="prevSong()"class="backButton fas fa-step-backward"></i>
 			<i onclick="togglePlaying()" id="play" class="playButton fas fa-play"></i>
-			<i  onclick="toggleStopped()" id="pause" class="fas fa-pause pause"></i>
+			<i onclick="toggleStopped()" id="pause" class="fas fa-pause pause"></i>
 			<i onclick="nextSong()"class="ffButton fas fa-step-forward"></i>
-			<i class="fas fa-redo-alt"></i>
+			<i onclick="repeat()" ondblclick="repeatSong()"  class="fas fa-redo-alt" id="rewind"  id="rewind"></i>
+			<i onclick="repeatSong()" id="rewindSong" class="fas fa-history" ></i>
 		</div>
 		<div class="volumeBar">
 			<input id="vol-control" class="volume" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)">	
