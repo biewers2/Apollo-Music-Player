@@ -324,7 +324,12 @@ function currentlyPlaying() {
     var g = obj.palette[0][1];
     var b = obj.palette[0][2];
     document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
-    document.getElementById('currentAlbum').setAttribute('src', obj.pic);
+    if (obj.pic == '' | obj.pic == null) {
+      document.getElementById('currentAlbum').setAttribute('src', "./images/Logo1.png");
+    }
+    else {
+      document.getElementById('currentAlbum').setAttribute('src', obj.pic);
+    }
     document.getElementById('returnCurrentSong').innerHTML = obj.title;
     document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
     setInterval(currentlyPlaying(), 750);
