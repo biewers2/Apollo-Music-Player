@@ -13,24 +13,30 @@
 Music Player using MPD
 '''
 # dependencies
-import musicpd, json, subprocess, os, time, requests, traceback, logging
+import musicpd, json, subprocess, os, sys, io, time, requests, traceback, logging
 import xml.etree.ElementTree as ET
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
 from waitress import serve
+from colorthief import ColorThief
+if sys.version_info < (3, 0):
+    from urllib2 import urlopen
+else:
+    from urllib.request import urlopen
 
 # initialization
 app = Flask(__name__) #Flask
 CORS(app, resources=r'/api/*', allow_headers= ['Content-Type', 'Access-Control-Allow-Origin']) #Cross Origin for JSON
-logging.getLogger('flask_cors').level = logging.DEBUG #Debug
+#logging.getLogger('flask_cors').level = logging.DEBUG #Debug with CORS
 client = musicpd.MPDClient() #mpd client
 desired_volume = 50 #volume at start = 50
+info = []
 
 # functions
 def startup_func():
-	global desired_volume,client
+	global desired_volume,client,info
 	program = 'C:/mpd/mpd.exe' #make sure your path is correct
 	args = 'C:/mpd/mpd.conf' #make sure your path is correct
 	try:
@@ -47,6 +53,7 @@ def startup_func():
 		for songs in temp_list: #builds a queue with all songs. can also use a playlist
 			if 'file' in songs and songs['file'].endswith('.mp3'):
 				client.add(songs['file'])
+	info = info_obj_builder()
 	return 'OK'
 
 def songBuilder(song, attributes): 
@@ -73,21 +80,41 @@ def AlbumArtGenerator(album,artist):
 	except:
 		return 'none'
 
-@app.route('/api/obj_list', methods = ['GET'])
 def info_obj_builder():
+	#this function has morphed into one of the worst functions i've ever written. I'll fix it later -Omar
+	global info
 	albums_artist = set(())
 	albums =   artists = set()
 	songs = []
 	client.rescan()
 	tempList = client.listallinfo()
+
+
+	ids = []
+	list_for_ids = client.playlistinfo()
+	for x in list_for_ids:
+		temp = {}
+		temp['name'] = x['title']
+		temp['id'] = x['id']
+		ids.append(temp)
+	#x = client.
 	for x in tempList:
-		try:
-			albums_artist.add((x['album'],x['artist']))
-			albums.add(x['album'])
-			artists.add(x['artist'])
-			songs.append((songBuilder(x,['title','artist','album','duration'])))
-		except:
-			continue
+		if 'file' in x and x['file'].endswith('.mp3'):
+			try:
+
+				albums_artist.add((x['album'],x['artist'])) if 'album' in x and 'artist' in x else albums_artist
+				albums.add(x['album']) if 'album' in x else albums.add('none')
+				artists.add(x['artist']) if 'artist' in x else artists
+				temp_song = (songBuilder(x,['title','artist','album','duration']))
+				#songs.append((songBuilder(x,['title','artist','album','duration'])))
+				for y in ids:
+					if y['name'] == x['title']:
+						temp_song['id'] = y['id']
+						songs.append(temp_song)
+						break
+				#songs.append('songid':x['id'])
+			except:
+				continue
 	albums_list = []
 	artists_list = []
 	seen = []
@@ -97,25 +124,53 @@ def info_obj_builder():
 			artist_seen.append(artist)
 			temp_artist = {}
 			artists_albums = []
-			temp_artist['Name'] = artist
+			temp_artist['name'] = artist
 			artists_albums.append(AlbumArtGenerator(albums,artist))
-			temp_artist['Albums'] = artists_albums
+			temp_artist['albums'] = artists_albums
 			artists_list.append(temp_artist)
 		else:
 			if albums not in seen :
 				for x in artists_list:
-					if x['Name'] == artist:
-						x["Albums"].append(AlbumArtGenerator(albums,artist))
+					if x['name'] == artist:
+						x["albums"].append(AlbumArtGenerator(albums,artist))
 						break		
 		if albums not in seen:
 			album = {}
 			seen.append(albums)
-			album["AlbumName"] = albums
-			album['Pic'] = AlbumArtGenerator(albums,artist)  #make this one call
-			album['Artist'] = artist
+			album["albumname"] = albums
+			album['pic'] = AlbumArtGenerator(albums,artist)  #make this one call
+			album['artist'] = artist
 			albums_list.append(album)
-	retVal =[songs,albums_list,artists_list]
-	return json.dumps(retVal)
+
+
+	for x in tempList:
+		if 'album' not in x:
+			if 'file' in x and x['file'].endswith('.mp3'):
+				if 'none' not in seen:
+					album = {}
+					seen.append('none')
+					album['albumname'] = 'none'
+					album['pic']= 'none'
+					album['artist'] = x['artist'] if 'artist' in x else 'none'
+					albums_list.append(album)
+
+	
+
+	for x in tempList:
+		if 'artist' not in x:
+			if 'file' in x and x['file'].endswith('.mp3'):
+				if 'none' not in artist_seen:
+					temp_artist = {}
+					artist_seen.append('none')
+					temp_artist['name'] = 'none'
+					temp_artist['albums'] = 'none'
+					artists_list.append(temp_artist)
+				
+				
+
+
+	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
+
 
 @app.route('/api/play', methods = ['POST'])
 def play_pause():
@@ -163,17 +218,12 @@ def seek():
 
 @app.route('/api/next', methods = ['GET'])
 def next_song():
+	x = client.status()
 	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
 		client.next()
-	return json.dumps(return_current_song())
-
-@app.route('/api/previous', methods = ['GET'])
-def prev_song():
-	if client.status()['state'] == 'play': #this is a check
-		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
-			client.seekcur(0)
-		elif client.status()['song'] != '0':
-			client.previous()
+	elif client.status()['state'] != 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
+		client.seekid(x['nextsongid'],0)
+		client.pause()
 	return json.dumps(return_current_song())
 
 def song_stripper(s):
@@ -207,26 +257,23 @@ def get_volume():
 	retVal = {'volume':desired_volume}
 	return json.dumps(retVal) 
 
-@app.route('/api/get_cur', methods = ['GET'])
-def return_current_song(): #will currently return an empty list if nothing is return from client.currentsong()
-	#song = client.currentsong()
-	#x = client.playlistinfo(0)[0]
-	attributes = ['file', 'title', 'artist','album','date','duration']
+@app.route('/api/get_current', methods = ['GET'])
+def return_current_song():
+	attributes = ['artist', 'album', 'title', 'duration', 'elapsed', 'pic', 'palette']
 	status = client.status()
 	song = client.currentsong() if status['state'] != 'stop' else client.playlistinfo(0)[0]
 	elapsed = status['elapsed'] if status['state'] != 'stop' else '0'
 	curr_song = songBuilder(song, attributes) if status['state'] != 'stop' else songBuilder(client.playlistinfo(0)[0], attributes)
-
 	try:
-		#client.next() ###################
-		curr_song['title'] = curr_song.pop('file')
 		curr_song['title'] = song_stripper(curr_song['title'])
-		#if curr_song['title'] == 'Let it go (test)':
-			#print()###############################
 		curr_song['duration'] = song['duration']
 		curr_song['elapsed'] = elapsed
-		curr_song['AlbumArtMedium'] = AlbumArtGenerator(song['album'],song['artist'],'medium')
-		curr_song['AlbumArtMega'] = AlbumArtGenerator(song['album'],song['artist'],'mega')
+		curr_song['pic'] = AlbumArtGenerator(song['album'],song['artist'])
+		fd = urlopen(curr_song['pic'])
+		f = io.BytesIO(fd.read())
+		color_thief = ColorThief(f)
+		palette = color_thief.get_palette(color_count=3)
+		curr_song['palette'] = palette
 	except:
 		pass
 	return json.dumps(curr_song)
@@ -260,5 +307,39 @@ def unshuffle():
 				client.move(0,pos) #takes care of current song
 	
 		return 'OK', 200
+
+@app.route('/api/obj_list', methods = ['GET'])
+def startup_info_builder():
+	return json.dumps(info)
+
+@app.route('/cur_state', methods = ['GET'])
+def get_state():
+	return json.dumps({'state': client.status()['state']})
+
+@app.route('/play_selected', methods = ['POST'])
+def play_selected():
+	req = request.get_json()
+	id = req['id']
+	client.playid(id)
+	return 'OK',200
+
+@app.route('/api/repeatSong', methods = ['POST'])
+def repeat_song():
+	client.single(1)
+	client.repeat(1)
+	return 'Ok',200
+
+@app.route('/api/repeat', methods = ['POST'])
+def repeat_playlist():
+	client.repeat(1)
+	client.single(0)
+	return 'Ok',200
+
+@app.route('/api/repeatoff', methods = ['POST'])
+def repeat_off():
+	client.repeat(0)
+	client.single(0)
+	return 'Ok',200
+
 
 startup_func()

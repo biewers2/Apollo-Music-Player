@@ -1,5 +1,11 @@
+var objList;
+
 function boot(){
   fetchAllSongs();
+}
+
+function boot2(){
+  currentlyPlaying();
   addAlbums();
   addPlaylists();
   addArtists();
@@ -41,32 +47,121 @@ function go2Artists(){
 }
 
 function current() {
-  
   if (document.getElementById("currentCue").style.display = "none"){
    document.getElementById("currentCue").style.display = "block";
   }
- }
+}
 
- function closeCurrent() {
-  
+function closeCurrent() {
   if (document.getElementById("currentCue").style.display = "block"){
    document.getElementById("currentCue").style.display = "none";
   }
- }
-
-async function fetchAllSongs() {
-  const response = await fetch('http://localhost:5000/api/all_songs', {method: 'GET', mode: 'cors'});
-  const allSongs = await response.json();
-  return allSongs;
-  //Using "await" for all async functions instead of ".then()"
 }
 
-async function generateLibrary() {
-  var library = await fetchAllSongs();
+function shuffle() {
+  var x = document.getElementById("shuffle");
+  if (x.style.color === "white") {
+    x.style.color = "#f7931E";
+     /* shuffle on*/
+  } else {
+    x.style.color = "white";
+     /* shuffle off*/
+  }
+}
+
+function repeatSong() {
+    var j = fetch('http://localhost:5000/api/repeatSong', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+
+    var x = document.getElementById("rewind");
+    var y = document.getElementById("rewindSong");
+    if (x.style.display === "inline") {
+        x.style.display = "none";
+        y.style.display = "inline";
+        /* repeat song on*/
+    } else {
+        x.style.color = "white";
+        x.style.display = "inline";
+        y.style.display = "none";
+        /* repeat off*/
+    }
+}
+
+function repeat() {
+    var j = fetch('http://localhost:5000/api/repeat', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+
+    var x = document.getElementById("rewind");
+    if (x.style.color === "white") {
+        x.style.color = "#f7931E";
+        /* repeat playlist on*/
+    } else {
+        x.style.color = "white";
+        /* repeat off*/
+    }
+}
+
+function repeatoff() {
+    var j = fetch('http://localhost:5000/api/repeatoff', { method: 'POST', mode: 'cors' });
+    j.then(function (response) { //fask should have printed 
+        return response.text();
+    }).then(function (text) {
+        console.log('POST response: ');
+        console.log(text);
+    });
+
+    var x = document.getElementById("rewind");
+    var y = document.getElementById("rewindSong");
+
+    if (y.style.display === "inline" || x.style.color === "#f7931E") {
+        x.style.color = "white";
+        x.style.display = "inline";
+        y.style.display = "none";
+        /* repeat song off*/
+    }
+}
+
+function fetchAllSongs() {
+  fetch('http://localhost:5000/api/obj_list', {method: 'GET', mode: 'cors'})
+  .then(function(response) {
+    return response.json();
+    }).then(function (obj) {
+    //console.log('POST response: ');
+    objList = obj;
+    //console.log(objList);
+    boot2();
+  });
+}
+
+function generateLibrary() {
+  var library = [];
+  library = objList.songs;
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
     var song = document.createElement("tr");
-
+    /*
+    var id= library[i].id;
+    id = parse.JSON(id);
+    song.setAttribute ('onclick' , function idSendPlay() {
+      fetch('http://localhost:5000/api/play_selected', {method: 'POST', mode: "cors", body: id, headers:{"Content-Type": 'application/json'}
+      })
+      .then(function(response){
+         return response.text();
+      })
+      .then(function(text){
+      });
+    });
+    */
       var cell = document.createElement("td");
       var songName = document.createTextNode(library[i].title);
       cell.appendChild(songName);
@@ -96,40 +191,43 @@ async function generateLibrary() {
   }
 }
 
-async function addAlbums() { 
-  var library = await fetchAllSongs();
+function addAlbums() { 
+  var library = [];
+  library = objList.albums;
   for(var i = 0; i < library.length; i++){
-     if ((library[i].albumArt == null) || (library[i].albumArt == "none")){
+     if ((library[i].pic == null) || (library[i].pic == "none")){
         var img = document.createElement('img');
         img.setAttribute("src", "./images/AlbumArt-01.png");
         img.classList.add("square");
         img.classList.add("albumType");
-        img.setAttribute("id", library[i].album);
+        img.setAttribute("id", library[i].pic);
         document.getElementById("mainAlbums").append(img);
     }
     else 
     {
       var img = document.createElement('img');
-      img.setAttribute("src" , library[i].albumArt);
+      img.setAttribute("src" , library[i].pic);
       img.classList.add("square");
       img.classList.add("albumType");
-      img.setAttribute("id" , library[i].album);
+      img.setAttribute("id" , library[i].pic);
       document.getElementById("mainAlbums").append(img);
+      //console.log(img);
     }
   }
   albumButtons();
 }
 
-async function albumButtons(){
-  var library = await fetchAllSongs();
+function albumButtons(){
+  var library = [];
+  library = objList.albums;
   for(var i = 0; i < library.length; i++){
-    if (library[i].albumArt == "./images/Logo1.png"){
+    if (library[i].pic == "./images/Logo1.png"){
       continue;
     }
     else 
     {
-    document.getElementById(library[i].album).setAttribute('onclick' ,function changePlaying() {
-      document.getElementById('currentAlbum').src=library[i].albumArt;
+    document.getElementById(library[i].pic).setAttribute('onclick' ,function changePlaying() {
+      document.getElementById('currentAlbum').src=library[i];
     });
   }
 }
@@ -146,15 +244,15 @@ function addPlaylists() {
       document.getElementById("mainPlaylists").append(img);
 }
 
-
-async function addArtists() { 
-  var library = await fetchAllSongs();
+function addArtists() { 
+  var library = [];
+  library = objList.artists;
   let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
 
   for (var i=0; i < library.length; i++){
-    artistSet.add(library[i].artist);
+    artistSet.add(library[i].name);
   };
 
   let artistArray = Array.from(artistSet);
@@ -183,8 +281,9 @@ function togglePlaying()
     j.then(function(response) { //fask should have printed 
     return response.text();
     }).then(function (text) {
-    console.log('POST response: ');
-    console.log(text);
+    currentlyPlaying();
+    //console.log('POST response: ');
+    //console.log(text);
   });
 }
 
@@ -195,7 +294,7 @@ function toggleStopped()
   document.getElementById("play").style.display = "inline";
 
   fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'}).then(function(response) {
-    console.log(response);
+    //console.log(response);
   });
 }
 
@@ -204,8 +303,9 @@ function nextSong()
   fetch('http://localhost:5000/api/next', {method: 'GET', mode: 'cors'}).then(function(response) {
   return response.text();
   }).then(function (text) {
-  console.log('POST response: ');
-  console.log(text);
+  currentlyPlaying();
+  //console.log('POST response: ');
+  //console.log(text);
   });
 }
 
@@ -214,20 +314,21 @@ function prevSong()
   fetch('http://localhost:5000/api/previous', {method: 'GET', mode: 'cors'}).then(function(response) { 
   return response.text();
   }).then(function (text) {
-    console.log('GET response: ');
-    console.log(text);
+    currentlyPlaying();
+    //console.log('GET response: ');
+    //console.log(text);
   });
 }
 
 function SetVolume(val) 
 {
   var player = document.getElementById('vol-control');
-  console.log('Before: ' + player.volume);
+  //console.log('Before: ' + player.volume);
   player.volume = val / 100;
-  console.log('After: ' + player.volume);
+  //console.log('After: ' + player.volume);
 
   var asJSON = JSON.stringify({'volume':val});
-  console.log(asJSON)
+  //console.log(asJSON)
 
   //POST
   fetch('http://localhost:5000/api/volume', {
@@ -240,9 +341,9 @@ function SetVolume(val)
   }).then(function(response){
     return response.text();
   }).then(function(text){
-    console.log('POST reponse: ');
+    //console.log('POST reponse: ');
 
-    console.log(text);
+    //console.log(text);
   });
 }
 
@@ -252,7 +353,61 @@ function shuffle()
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
-        console.log('POST response: ');
-        console.log(text);
+        currentlyPlaying();
+        //console.log('POST response: ');
+        //console.log(text);
     });
+}
+
+function currentlyPlaying() {
+  fetch('http://localhost:5000/api/get_current', {method: 'GET', mode: 'cors'})
+  .then(function(response) {
+    return response.json();
+    })
+    .then(function (obj) {
+    //console.log(obj);
+    //console.log(obj.palette[0]);
+    var r = obj.palette[0][0];
+    var g = obj.palette[0][1];
+    var b = obj.palette[0][2];
+    document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    if (obj.pic == '' || obj.pic == null || obj.pic == 'none') {
+      document.getElementById('currentAlbum').setAttribute('src', "./images/AlbumArt-01.png");
+    }
+    else {
+      document.getElementById('currentAlbum').setAttribute('src', obj.pic);
+    }
+    document.getElementById('returnCurrentSong').innerHTML = obj.title;
+    document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+    document.getElementById('returnCurrentDuration').innerHTML = secondsTo_MMSS(obj.duration);
+    document.getElementById('returnCurrentElapsed').innerHTML = secondsTo_MMSS(obj.elapsed);
+    setInterval(currentlyPlaying(), 1000);
+    setInterval(progressBar(obj), 500);
+    delete obj
+  });
+}
+
+function progressBar(obj) {
+  var bar = document.getElementById("progBar");
+    barPercent = (obj.elapsed / obj.duration) * 100;
+    bar.style.width = String(barPercent) + '%';
+}
+
+function secondsTo_MMSS(seconds) {
+  durMin = seconds / 60;
+  durSec = seconds % 60;
+  durMin = durMin.toFixed(0);
+  durSec = durSec.toFixed(0);
+  function pad(value) {
+    if(value < 10) {
+        return '0' + value;
+    } else {
+        return value;
+    }
+  }
+  durMin = pad(durMin);
+  durSec = pad(durSec);
+  durMinStr = String(durMin);
+  durSecStr = String(durSec);
+  return durMinStr + ':' + durSecStr;
 }
