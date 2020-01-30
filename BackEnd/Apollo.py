@@ -223,6 +223,15 @@ def next_song():
 		client.next()
 	return json.dumps(return_current_song())
 
+@app.route('/api/previous', methods = ['GET'])
+def prev_song():
+	if client.status()['state'] == 'play': #this check prevented a crash on my system that didn't happen on other peoples
+		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
+			client.seekcur(0)
+		elif client.status()['song'] != '0':
+			client.previous()		
+	return json.dumps(return_current_song())
+
 def song_stripper(s):
 	#finds last slash in filename to remove directories
 	index_of_slash = s.rfind('/')
