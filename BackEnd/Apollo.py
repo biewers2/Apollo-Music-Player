@@ -259,7 +259,7 @@ def return_current_song():
 		fd = urlopen(curr_song['pic'])
 		f = io.BytesIO(fd.read())
 		color_thief = ColorThief(f)
-		palette = color_thief.get_palette(color_count=3)
+		palette = color_thief.get_palette(color_count=2)
 		curr_song['palette'] = palette
 	except:
 		pass
