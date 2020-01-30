@@ -297,5 +297,12 @@ def startup_info_builder():
 def get_state():
 	return json.dumps({'state': client.status()['state']})
 
+@app.route('/play_selected', methods = ['POST'])
+def play_selected():
+	req = request.get_json()
+	id = req['id']
+	client.playid(id)
+	return 'OK',200
+
 startup_func()
 
