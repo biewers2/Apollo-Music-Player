@@ -20,10 +20,18 @@ body{
 
 #mainArtists {
   display: none;
+  float: left;
+  width: 80%;
+  position: relative;
+  padding-left: 5%;
 }
 
 #mainSearch{
   display: none;
+  float: left;
+  width: 98%;
+  position: relative;
+  padding-left: 5%;
 }
 
 .mainPages{
@@ -40,14 +48,17 @@ body{
 .navigation-bar{
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  top: 0;
-  background-color: #1A1A1A;
+  padding-bottom: 1%;
+  margin-top: -4px;
+  height: 20%;
+  background-color:rgba(107, 107, 107, 0.171);
   overflow: hidden;
 }
 
 #search , .searchText{
   width: 90%;
 }
+
 #currentCue{
   display: none;
 }
@@ -116,36 +127,47 @@ td{
 }
 
 .searchButton{
-  padding-top: 2.5%;
+  padding-top: 2.9%;
   padding-right: 5%;
   float: right;
+  background-color: transparent;
 
+}
+.songSearch{
+  padding-top: 2.5%;
+  padding-right: 1%;
+  float: right;
+  background-color: transparent;
 }
 .albums{
   padding-top: 2.5%;
   padding-right: 5%;
   float: right;
-
+  background-color: transparent;
 }
 .playlist{
   float: right;
   padding-right: 5%;
   padding-top: 2.5%;
-
-
+  background-color: transparent;
 }
 
 .artists{
   float: right;
   padding-right: 5%;
   padding-top: 2.5%;
+  background-color: transparent;
 }
 
 .currentlyPlaying{
   float: left;
-  width: 31%;
-  position: fixed;
-
+  width: 380px;
+  height: 100%;
+  margin-top: -200px;
+  margin-bottom: 0px;
+  padding-top: 15%;
+  padding-bottom: 50%;
+  position: static;
 }
 
 .playerAlbumArt{
@@ -156,28 +178,21 @@ td{
 }
 
 .currentArtist{
+  opacity: 0.5;
   padding-left: 10%;
-  font-size: 20px;
-  font-family: "Helvetica Neue";
+  padding-top: 1%;
+  font-size: 12px;
+  font-family: "Azonix";
   font-weight: 200;
-  padding-bottom: 10%;
+  padding-bottom: 5%;
 }
 
 .currentSong{
   padding-left: 10%;
-  font-size: 20px;
-  font-family: "Helvetica Neue";
+  padding-top: 5%;
+  font-size: 15px;
+  font-family: "Azonix";
   font-weight: 200;
-}
-
-.progressBar {
-  padding-left: 10%;
-  width: 90%;
-}
-
-.bar{
-  width: 80%;
-  padding-bottom: 3%;
 }
 
 .volumeBar{
@@ -193,42 +208,86 @@ td{
   margin-right: 10%;
 }
 
-.backButton{
+.backButton {
+  opacity: 0.6;
+  padding-left: 10%;
+  padding-top: .5%;
+}
+
+.backButton:hover {
+  opacity: 1;
   padding-left: 10%;
   padding-top: .5%;
 }
 
 .playButton{
+  opacity: 0.6;
+  margin-left: 25%;
+  margin-right: 25%;
+
+}
+
+.playButton:hover{
+  opacity: 1;
   margin-left: 25%;
   margin-right: 25%;
 
 }
 
 .ffButton{
+  opacity: 0.6;
+  padding-right: 10%;
+  padding-top: .5%;
+}
+
+.ffButton:hover{
+  opacity: 1;
   padding-right: 10%;
   padding-top: .5%;
 }
 
 .volume{
+  opacity: 0.95;
+  padding-left: 10%;
+  width: 90%;
+  max-width: 100%;
+}
+
+.volume:hover{
+  opacity: 1;
   padding-left: 10%;
   width: 90%;
   max-width: 100%;
 }
 
 .Shuffle{
-  float: left;
-  padding-left: 15%;
+  opacity: 0.6;
+}
+
+.Shuffle:hover{
+  opacity: 1;
 }
 
 .Repeat{
-  float: right;
-  padding-right: 10%;
+  opacity: 0.6;
+}
+
+.Repeat:hover{
+  opacity: 1;
 }
 
 .albumArt{
+  opacity: 1;
   max-width: 30%;
   float: left;
-  padding-top: 10%;
+  padding-top: 0%;
+}
+
+.albumArt:hover{
+  opacity: 0.8;
+  max-width: 30%;
+  float: left;
+  padding-top: 0%;
 }
 
 .exit{
@@ -327,3 +386,4 @@ td{
   display: none;
   color: #f7931E;
 }
+

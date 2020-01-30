@@ -5,6 +5,7 @@ function boot(){
 }
 
 function boot2(){
+  currentlyPlaying();
   addAlbums();
   addPlaylists();
   addArtists();
@@ -46,18 +47,16 @@ function go2Artists(){
 }
 
 function current() {
-  
   if (document.getElementById("currentCue").style.display = "none"){
    document.getElementById("currentCue").style.display = "block";
   }
- }
+}
 
- function closeCurrent() {
-  
+function closeCurrent() {
   if (document.getElementById("currentCue").style.display = "block"){
    document.getElementById("currentCue").style.display = "none";
   }
- }
+}
 
 function shuffle() {
   var x = document.getElementById("shuffle");
@@ -102,10 +101,9 @@ function fetchAllSongs() {
   .then(function(response) {
     return response.json();
     }).then(function (obj) {
-    console.log('POST response: ');
-    console.log(obj);
+    //console.log('POST response: ');
     objList = obj;
-    console.log(objList);
+    //console.log(objList);
     boot2();
   });
 }
@@ -115,7 +113,6 @@ function generateLibrary() {
   library = objList.songs;
   var songList = document.getElementById("libraryBody");
   for (var i = 0; i < library.length; i++) {
-    console.log('Array Test: ' + library[i].title)
     var song = document.createElement("tr");
 
       var cell = document.createElement("td");
@@ -150,7 +147,6 @@ function generateLibrary() {
 function addAlbums() { 
   var library = [];
   library = objList.albums;
-  console.log('hello : ' + library);
   for(var i = 0; i < library.length; i++){
      if ((library[i].pic == null) || (library[i].pic == "none")){
         var img = document.createElement('img');
@@ -168,7 +164,7 @@ function addAlbums() {
       img.classList.add("albumType");
       img.setAttribute("id" , library[i].pic);
       document.getElementById("mainAlbums").append(img);
-      console.log(img);
+      //console.log(img);
     }
   }
   albumButtons();
@@ -204,7 +200,6 @@ function addPlaylists() {
 function addArtists() { 
   var library = [];
   library = objList.artists;
-  console.log('Array Test push: ' + library)
   let artistSet = new Set();
   var artistTable = document.createElement('table');
   artistTable.classList.add("artistDisplay");
@@ -239,8 +234,9 @@ function togglePlaying()
     j.then(function(response) { //fask should have printed 
     return response.text();
     }).then(function (text) {
-    console.log('POST response: ');
-    console.log(text);
+    currentlyPlaying();
+    //console.log('POST response: ');
+    //console.log(text);
   });
 }
 
@@ -251,7 +247,7 @@ function toggleStopped()
   document.getElementById("play").style.display = "inline";
 
   fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'}).then(function(response) {
-    console.log(response);
+    //console.log(response);
   });
 }
 
@@ -260,8 +256,9 @@ function nextSong()
   fetch('http://localhost:5000/api/next', {method: 'GET', mode: 'cors'}).then(function(response) {
   return response.text();
   }).then(function (text) {
-  console.log('POST response: ');
-  console.log(text);
+  currentlyPlaying();
+  //console.log('POST response: ');
+  //console.log(text);
   });
 }
 
@@ -270,20 +267,21 @@ function prevSong()
   fetch('http://localhost:5000/api/previous', {method: 'GET', mode: 'cors'}).then(function(response) { 
   return response.text();
   }).then(function (text) {
-    console.log('GET response: ');
-    console.log(text);
+    currentlyPlaying();
+    //console.log('GET response: ');
+    //console.log(text);
   });
 }
 
 function SetVolume(val) 
 {
   var player = document.getElementById('vol-control');
-  console.log('Before: ' + player.volume);
+  //console.log('Before: ' + player.volume);
   player.volume = val / 100;
-  console.log('After: ' + player.volume);
+  //console.log('After: ' + player.volume);
 
   var asJSON = JSON.stringify({'volume':val});
-  console.log(asJSON)
+  //console.log(asJSON)
 
   //POST
   fetch('http://localhost:5000/api/volume', {
@@ -296,9 +294,9 @@ function SetVolume(val)
   }).then(function(response){
     return response.text();
   }).then(function(text){
-    console.log('POST reponse: ');
+    //console.log('POST reponse: ');
 
-    console.log(text);
+    //console.log(text);
   });
 }
 
@@ -308,16 +306,61 @@ function shuffle()
     j.then(function (response) { //fask should have printed 
         return response.text();
     }).then(function (text) {
-        console.log('POST response: ');
-        console.log(text);
+        currentlyPlaying();
+        //console.log('POST response: ');
+        //console.log(text);
     });
 }
 
-function currentlyPlaying(){
-  let obj = JSON.parse('{"title": "Let It Go", "artist": "Demi Lovato", "album": "Frozen", "duration": "256.549", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png"}');
+function currentlyPlaying() {
+  fetch('http://localhost:5000/api/get_current', {method: 'GET', mode: 'cors'})
+  .then(function(response) {
+    return response.json();
+    })
+    .then(function (obj) {
+    //console.log(obj);
+    //console.log(obj.palette[0]);
+    var r = obj.palette[0][0];
+    var g = obj.palette[0][1];
+    var b = obj.palette[0][2];
+    document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    if (obj.pic == '' || obj.pic == null || obj.pic == 'none') {
+      document.getElementById('currentAlbum').setAttribute('src', "./images/AlbumArt-01.png");
+    }
+    else {
+      document.getElementById('currentAlbum').setAttribute('src', obj.pic);
+    }
+    document.getElementById('returnCurrentSong').innerHTML = obj.title;
+    document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+    document.getElementById('returnCurrentDuration').innerHTML = secondsTo_MMSS(obj.duration);
+    document.getElementById('returnCurrentElapsed').innerHTML = secondsTo_MMSS(obj.elapsed);
+    setInterval(currentlyPlaying(), 1000);
+    setInterval(progressBar(obj), 500);
+    delete obj
+  });
+}
 
-  document.getElementById('currentAlbum').setAttribute('src' , obj.pic);
-  document.getElementById('returnCurrentSong').innerHTML = obj.title;
-  document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+function progressBar(obj) {
+  var bar = document.getElementById("progBar");
+    barPercent = (obj.elapsed / obj.duration) * 100;
+    bar.style.width = String(barPercent) + '%';
+}
 
+function secondsTo_MMSS(seconds) {
+  durMin = seconds / 60;
+  durSec = seconds % 60;
+  durMin = durMin.toFixed(0);
+  durSec = durSec.toFixed(0);
+  function pad(value) {
+    if(value < 10) {
+        return '0' + value;
+    } else {
+        return value;
+    }
+  }
+  durMin = pad(durMin);
+  durSec = pad(durSec);
+  durMinStr = String(durMin);
+  durSecStr = String(durSec);
+  return durMinStr + ':' + durSecStr;
 }

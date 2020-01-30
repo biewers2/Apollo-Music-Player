@@ -14,6 +14,7 @@
 	<script src="https://kit.fontawesome.com/ab83053a15.js" crossorigin="anonymous"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="./css/playerLarge.css"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<script src="./js/openPlayer.js"></script>
 
 </head>
@@ -21,6 +22,7 @@
 
 <dir class="navigation-bar">
 		<i onclick="openSearch()" role="button" aria-expanded="false" class="fas fa-search searchButton navigation-bar"></i>
+		<i class="songSearch  navigation-bar" href="#" onclick="openSearch()" style="font-family: Azonix">Songs</i>
 		<i class="albums  navigation-bar" href="#" onclick="go2Albums()" style="font-family: Azonix">Albums</i>
 		<i class="playlist  navigation-bar" href="#"onclick="go2Playlists()" style="font-family: Azonix">Playlists</i>
 		<i class="artists  navigation-bar" href="#"onclick="go2Artists()" style="font-family: Azonix">Artists</i>
@@ -32,29 +34,36 @@
 	</div>
 </dir>
 
-	<div id="currentlyPlaying"class="currentlyPlaying">
+	<div id="currentlyPlaying"class="currentlyPlaying"style="background-color: rgb(26, 26, 26)">
         <div class="currentlyShowing">
 			<i href="#" class = "artwork" id="returnCurrentAlbum"  onclick="filterSelection()"><img id="currentAlbum"class="playerAlbumArt" src="./images/Logo.png"/>
 			</i>
 		</div>
 		<div class="currentSong link">
-			<i id="returnCurrentSong"  href="#" onclick="filterSelection()" >
+			<i id="returnCurrentSong" onclick="filterSelection()" >
 			</i>
 		</div>
 		<div class="currentArtist link">
-			<i id="returnCurrentArtist" href="#" onclick="filterSelection()" >
+			<i id="returnCurrentArtist" onclick="filterSelection()" >
 			</i>
 		</div>
-		<i class="progressBar">
-			<progress class="bar" max="100" value="80"></progress>
-		</i>
+		<div class="w3-container">
+			<div class="w3-light-grey w3-round"">
+			  <div id="progBar" class="w3-green w3-round" style="height:7px;width:0%"></div>
+			</div>
+		<div class="durations">
+			<i class="elapsed" href="#" style="font-family: Azonix" id="returnCurrentElapsed"></i>
+			<i class="duration" href="#" style="font-family: Azonix" id="returnCurrentDuration"></i>
+		</div>
+			<br>
+		</div>
 		<div class="playbackControls link">
-			<i onclick="shuffle()" id="shuffle" class="fas fa-random"></i>
+			<i onclick="shuffle()" id="shuffle" class="Shuffle fas fa-random"></i>
 			<i onclick="prevSong()"class="backButton fas fa-step-backward"></i>
 			<i onclick="togglePlaying()" id="play" class="playButton fas fa-play"></i>
 			<i onclick="toggleStopped()" id="pause" class="fas fa-pause pause"></i>
 			<i onclick="nextSong()"class="ffButton fas fa-step-forward"></i>
-			<i onclick="repeat()" ondblclick="repeatSong()"  class="fas fa-redo-alt" id="rewind"  id="rewind"></i>
+			<i onclick="repeat()" ondblclick="repeatSong()"  class="Repeat fas fa-redo-alt" id="rewind"  id="rewind"></i>
 			<i onclick="repeatSong()" id="rewindSong" class="fas fa-history" ></i>
 		</div>
 		<div class="volumeBar">

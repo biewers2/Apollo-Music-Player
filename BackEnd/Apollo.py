@@ -29,7 +29,7 @@ else:
 # initialization
 app = Flask(__name__) #Flask
 CORS(app, resources=r'/api/*', allow_headers= ['Content-Type', 'Access-Control-Allow-Origin']) #Cross Origin for JSON
-logging.getLogger('flask_cors').level = logging.DEBUG #Debug
+#logging.getLogger('flask_cors').level = logging.DEBUG #Debug with CORS
 client = musicpd.MPDClient() #mpd client
 desired_volume = 50 #volume at start = 50
 info = []
@@ -273,6 +273,10 @@ def shuffle():
 @app.route('/api/obj_list', methods = ['GET'])
 def startup_info_builder():
 	return json.dumps(info)
+
+@app.route('/cur_state', methods = ['GET'])
+def get_state():
+	return json.dumps({'state': client.status()['state']})
 
 startup_func()
 
