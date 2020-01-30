@@ -27,8 +27,9 @@ body{
 }
 
 .mainPages{
+  float: right;
   margin-left: 30%;
-  width: 70%;
+  width: 65%;
   transition: margin-left .5s;
   padding-top: 5%;
   z-index: 1;
@@ -145,6 +146,7 @@ td{
   float: left;
   width: 31%;
   position: fixed;
+  height: 100%;
 
 }
 
@@ -180,6 +182,20 @@ td{
 .progressClass{
   width: 100%;
   padding-left: 10%;
+}
+#songProgress{
+  float:left;
+  max-width: 10%;
+  font-weight: 100;
+  padding-left: 10%;
+  padding-top: 2%;
+  padding-bottom: 3%;
+}
+.duration{
+  width: 100%;
+}
+#duration{
+  float: right;
 }
 
 .volumeBar{
@@ -247,10 +263,6 @@ td{
   font-size: 20px;
   font-family: "Helvetica Neue";
   font-weight: 200;
-}
-
-.duration{
-  float: right;
 }
 
 .artistDisplay{
