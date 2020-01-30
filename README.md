@@ -14,18 +14,18 @@ Javascript<br>
 Python<br>
 
 # Our Top Notch Authors:
-Adam Biewer <br>
-Anthony Bustos <br>
-Omar Cataldo <br>
-Gabriel Fulk <br>
-Ronny Onano <br>
-Dustin Osweiler<br>
-Morgan Robinson<br>
-Jacqueline Rodriguez<br>
-Santana Rodriguez<br>
-Sam Santiago<br>
-Jaxon Stout<br>
-Sophia Tajnai<br>
-Caleb Collar <br>
+Adam Biewer <abiewer@carthage.edu><br>
+Anthony Bustos <abustos@carthage.edu><br>
+Omar Cataldo <ocataldo@carthage.edu><br>
+Gabriel Fulk <gfulk@carthage.edu><br>
+Ronny Onano <ronano@carthage.edu><br>
+Dustin Osweiler <dosweiler@carthage.edu><br>
+Morgan Robinson <mrobinson4@carthage.edu><br>
+Jacqueline Rodriguez <jrodriguez4@carthage.edu><br>
+Santana Rodriguez <srodriguez@carthage.edu><br>
+Sam Santiago <ssantiago1@carthage.edu><br>
+Jaxon Stout <jstout@carthage.edu><br>
+Sophia Tajnai <stajnai@carthage.edu><br>
+Caleb Collar <ccollar@carthage.edu><br>
 
 # Project Trello: https://trello.com/b/azIscc9q/apollo-music-player
