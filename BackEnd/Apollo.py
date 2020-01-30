@@ -322,6 +322,10 @@ def repeat_off():
 	client.single(0)
 	return 'Ok',200
 
+@app.route('/shuffle', methods = ['POST'])
+def shuffle():
+	client.shuffle()
+	return 'OK',200
 
 startup_func()
 
