@@ -1,7 +1,7 @@
-var objList;
+var objList = JSON.parse('{"songs": [{"title": "Let It Go", "artist": "Demi Lovato", "album": "Frozen", "duration": "256.549"}, {"title": "Lost In The Woods (Weezer Version) | CAPEJAMS.ORG", "artist": "Weezer", "album": "Weezer", "duration": "184.947"}, {"title": "Lost In The Woods (Weezer Version) | CAPEJAMS.ORG", "artist": "Weezer", "album": "Weezer test album", "duration": "184.947"}, {"title": "All Is Found | CAPEJAMS.ORG", "artist": "Evan Rachel Wood", "album": "Frozen II | CAPEJAMS.ORG", "duration": "126.328"}, {"title": "Some Things Never Change | CAPEJAMS.ORG", "artist": "Kristen Bell, Idina Menzel, Josh Gad, Jonathan Groff & Cast of Frozen II", "album": "Frozen II | CAPEJAMS.ORG", "duration": "209.998"}, {"title": "Into The Unknown | CAPEJAMS.ORG", "artist": "Idina Menzel & AURORA", "album": "Frozen II | CAPEJAMS.ORG", "duration": "194.900"}, {"title": "When I Am Older | CAPEJAMS.ORG", "artist": "Josh Gad", "album": "Frozen II | CAPEJAMS.ORG", "duration": "111.464"}, {"title": "Reindeer(s) Are Better Than People (Cont.) | CAPEJAMS.ORG", "artist": "Jonathan Groff", "album": "Frozen II | CAPEJAMS.ORG", "duration": "26.410"}, {"title": "Lost In The Woods | CAPEJAMS.ORG", "artist": "Jonathan Groff", "album": "Frozen II | CAPEJAMS.ORG", "duration": "180.793"}, {"title": "Show Yourself | CAPEJAMS.ORG", "artist": "Idina Menzel & Evan Rachel Wood", "album": "Frozen II | CAPEJAMS.ORG", "duration": "260.937"}, {"title": "The Next Right Thing | CAPEJAMS.ORG", "artist": "Kristen Bell", "album": "Frozen II | CAPEJAMS.ORG", "duration": "216.816"}, {"title": "Into The Unknown (Panic! At The Disco Version) | CAPEJAMS.ORG", "artist": "Panic! At the Disco", "album": "Frozen II | CAPEJAMS.ORG", "duration": "189.179"}, {"title": "All Is Found (Kacey Musgraves Version) | CAPEJAMS.ORG", "artist": "Kacey Musgraves", "album": "Frozen II | CAPEJAMS.ORG", "duration": "183.771"}, {"title": "Lost In The Woods (Weezer Version) | CAPEJAMS.ORG", "artist": "Weezer", "album": "Frozen II | CAPEJAMS.ORG", "duration": "184.947"}, {"title": "No Excuses", "artist": "NF", "album": "The Search", "duration": "201.822"}], "albums": [{"albumname": "Frozen II | CAPEJAMS.ORG", "pic": "none", "artist": "Weezer"}, {"albumname": "Weezer", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png", "artist": "Weezer"}, {"albumname": "Weezer test album", "pic": "none", "artist": "Weezer"}, {"albumname": "The Search", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/fa0877837fb245157e221f8c68aa0d06.png", "artist": "NF"}, {"albumname": "Frozen", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a7349492601f4acccaa7db4c91959a9d.png", "artist": "Demi Lovato"}], "artists": [{"name": "Weezer", "albums": ["none", "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png", "none"]}, {"name": "Kristen Bell", "albums": ["none"]}, {"name": "Idina Menzel & Evan Rachel Wood", "albums": ["none"]}, {"name": "Josh Gad", "albums": ["none"]}, {"name": "Jonathan Groff", "albums": ["none"]}, {"name": "Idina Menzel & AURORA", "albums": ["none"]}, {"name": "NF", "albums": ["https://lastfm.freetls.fastly.net/i/u/300x300/fa0877837fb245157e221f8c68aa0d06.png"]}, {"name": "Kacey Musgraves", "albums": ["none"]}, {"name": "Panic! At the Disco", "albums": ["none"]}, {"name": "Kristen Bell, Idina Menzel, Josh Gad, Jonathan Groff & Cast of Frozen II", "albums": ["none"]}, {"name": "Demi Lovato", "albums": ["https://lastfm.freetls.fastly.net/i/u/300x300/a7349492601f4acccaa7db4c91959a9d.png"]}, {"name": "Evan Rachel Wood", "albums": ["none"]}]}');
 
 function boot(){
-  fetchAllSongs();
+  boot2();
 }
 
 function boot2(){
@@ -97,7 +97,7 @@ function repeatSong() {
   }
  
 }
-
+/*
 function fetchAllSongs() {
   fetch('http://localhost:5000/api/obj_list', {method: 'GET', mode: 'cors'})
   .then(function(response) {
@@ -109,7 +109,7 @@ function fetchAllSongs() {
     boot2();
   });
 }
-
+*/
 function generateLibrary() {
   var library = [];
   library = objList.songs;
@@ -239,6 +239,7 @@ function togglePlaying()
     console.log('POST response: ');
     console.log(text);
   });
+    move();
 }
 
 function toggleStopped()
@@ -309,7 +310,7 @@ function shuffle()
         console.log(text);
     });
 }
-
+/*
 function currentlyPlaying() {
   fetch('http://localhost:5000/api/get_current', {method: 'GET', mode: 'cors'})
   .then(function(response) {
@@ -327,8 +328,22 @@ function currentlyPlaying() {
     document.getElementById('returnCurrentArtist').innerHTML = obj.artist;    
   });
 }
+*/
+
+function currentlyPlaying(){
+  let obj = JSON.parse('{"title": "Let It Go", "artist": "Demi Lovato", "album": "Frozen", "duration": "256.549", "pic": "https://lastfm.freetls.fastly.net/i/u/300x300/a986774f52c2438fbe38f019812d3896.png"}');
+
+  document.getElementById('currentAlbum').setAttribute('src' , obj.pic);
+  document.getElementById('returnCurrentSong').innerHTML = obj.title;
+  document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
+  var songLength = obj.duration/60;
+  songLength = songLength.toFixed(2);
+  document.getElementById('duration').innerHTML = songLength;
+}
+
 
 function move() { //only moves the progress bar but won't seek 
+
   var progress = document.getElementById("progressBar");
   var width = 0;
   var id = setInterval(frame, 1000);
@@ -338,7 +353,11 @@ function move() { //only moves the progress bar but won't seek
       clearInterval(id);
     } else {
       width++;
-      progress.value = width
+      seconds = width/100;
+      seconds = seconds/60;
+      seconds = seconds.toFixed(2);
+      progress.value = width;
+      document.getElementById('songProgress').innerHTML = width;
     }
   }
 }
