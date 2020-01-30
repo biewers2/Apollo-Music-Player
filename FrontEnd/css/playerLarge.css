@@ -20,10 +20,18 @@ body{
 
 #mainArtists {
   display: none;
+  float: left;
+  width: 80%;
+  position: relative;
+  padding-left: 5%;
 }
 
 #mainSearch{
   display: none;
+  float: left;
+  width: 98%;
+  position: relative;
+  padding-left: 5%;
 }
 
 .mainPages{
@@ -41,13 +49,14 @@ body{
   position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
-  background-color: #1A1A1A;
+  background-color: transparent;
   overflow: hidden;
 }
 
 #search , .searchText{
   width: 90%;
 }
+
 #currentCue{
   display: none;
 }
@@ -143,9 +152,13 @@ td{
 
 .currentlyPlaying{
   float: left;
-  width: 31%;
-  position: fixed;
-
+  width: 380px;
+  height: 100%;
+  margin-top: -200px;
+  margin-bottom: 0px;
+  padding-top: 15%;
+  padding-bottom: 50%;
+  position: static;
 }
 
 .playerAlbumArt{
@@ -168,18 +181,6 @@ td{
   font-size: 20px;
   font-family: "Helvetica Neue";
   font-weight: 200;
-}
-
-.progressBar {
-  /*padding-left: 50%;*/
-  padding-left: 10%;
-  width: 90%;
-  padding-right: 10%;
-}
-
-.progressClass{
-  width: 100%;
-  padding-left: 10%;
 }
 
 .volumeBar{

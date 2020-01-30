@@ -101,9 +101,9 @@ function fetchAllSongs() {
   .then(function(response) {
     return response.json();
     }).then(function (obj) {
-    console.log('POST response: ');
+    //console.log('POST response: ');
     objList = obj;
-    console.log(objList);
+    //console.log(objList);
     boot2();
   });
 }
@@ -164,7 +164,7 @@ function addAlbums() {
       img.classList.add("albumType");
       img.setAttribute("id" , library[i].pic);
       document.getElementById("mainAlbums").append(img);
-      console.log(img);
+      //console.log(img);
     }
   }
   albumButtons();
@@ -235,8 +235,8 @@ function togglePlaying()
     return response.text();
     }).then(function (text) {
     currentlyPlaying();
-    console.log('POST response: ');
-    console.log(text);
+    //console.log('POST response: ');
+    //console.log(text);
   });
 }
 
@@ -247,7 +247,7 @@ function toggleStopped()
   document.getElementById("play").style.display = "inline";
 
   fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'}).then(function(response) {
-    console.log(response);
+    //console.log(response);
   });
 }
 
@@ -257,8 +257,8 @@ function nextSong()
   return response.text();
   }).then(function (text) {
   currentlyPlaying();
-  console.log('POST response: ');
-  console.log(text);
+  //console.log('POST response: ');
+  //console.log(text);
   });
 }
 
@@ -268,20 +268,20 @@ function prevSong()
   return response.text();
   }).then(function (text) {
     currentlyPlaying();
-    console.log('GET response: ');
-    console.log(text);
+    //console.log('GET response: ');
+    //console.log(text);
   });
 }
 
 function SetVolume(val) 
 {
   var player = document.getElementById('vol-control');
-  console.log('Before: ' + player.volume);
+  //console.log('Before: ' + player.volume);
   player.volume = val / 100;
-  console.log('After: ' + player.volume);
+  //console.log('After: ' + player.volume);
 
   var asJSON = JSON.stringify({'volume':val});
-  console.log(asJSON)
+  //console.log(asJSON)
 
   //POST
   fetch('http://localhost:5000/api/volume', {
@@ -294,9 +294,9 @@ function SetVolume(val)
   }).then(function(response){
     return response.text();
   }).then(function(text){
-    console.log('POST reponse: ');
+    //console.log('POST reponse: ');
 
-    console.log(text);
+    //console.log(text);
   });
 }
 
@@ -307,8 +307,8 @@ function shuffle()
         return response.text();
     }).then(function (text) {
         currentlyPlaying();
-        console.log('POST response: ');
-        console.log(text);
+        //console.log('POST response: ');
+        //console.log(text);
     });
 }
 
@@ -318,8 +318,8 @@ function currentlyPlaying() {
     return response.json();
     })
     .then(function (obj) {
-    console.log(obj);
-    console.log(obj.palette[0]);
+    //console.log(obj);
+    //console.log(obj.palette[0]);
     var r = obj.palette[0][0];
     var g = obj.palette[0][1];
     var b = obj.palette[0][2];
