@@ -137,8 +137,7 @@ def info_obj_builder():
 				temp_artist = {}
 				temp_artist['name'] = 'none'
 				temp_artist['albums'] = 'none'
-				
-
+				artists_list.append(temp_artist)
 
 	return 	{'songs':songs,'albums':albums_list,'artists':artists_list}
 
