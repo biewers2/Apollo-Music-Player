@@ -219,17 +219,11 @@ def seek():
 
 @app.route('/api/next', methods = ['GET'])
 def next_song():
+	x = client.status()
 	if client.status()['state'] == 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
 		client.next()
-	return json.dumps(return_current_song())
-
-@app.route('/api/previous', methods = ['GET'])
-def prev_song():
-	if client.status()['state'] == 'play': #this is a check
-		if float(client.status()['elapsed']) > 3.: #if the song has played for over 3 seconds, start it over. otherwise play the previous song
-			client.seekcur(0)
-		elif client.status()['song'] != '0':
-			client.previous()
+	elif client.status()['state'] != 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
+		client.seekid(x['nextsongid'],0)
 	return json.dumps(return_current_song())
 
 def song_stripper(s):
