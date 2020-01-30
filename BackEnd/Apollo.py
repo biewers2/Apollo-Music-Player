@@ -274,5 +274,9 @@ def shuffle():
 def startup_info_builder():
 	return json.dumps(info)
 
+@app.route('/cur_state', methods = ['GET'])
+def get_state():
+	return json.dumps({'state': client.status()['state']})
+
 startup_func()
 
