@@ -327,3 +327,18 @@ function currentlyPlaying() {
     document.getElementById('returnCurrentArtist').innerHTML = obj.artist;    
   });
 }
+
+function move() { //only moves the progress bar but won't seek 
+  var progress = document.getElementById("progressBar");
+  var width = 0;
+  var id = setInterval(frame, 1000);
+
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+    } else {
+      width++;
+      progress.value = width
+    }
+  }
+}
