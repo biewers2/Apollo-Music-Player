@@ -16,6 +16,8 @@ powershell -Command pip install requests
 
 powershell -Command pip install waitress
 
+powershell -Command pip install colorthief
+
 ECHO ### You are up to date ###
 
 TIMEOUT /T 5
