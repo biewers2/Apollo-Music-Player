@@ -61,11 +61,28 @@ function closeCurrent() {
 function shuffle() {
   var x = document.getElementById("shuffle");
   if (x.style.color === "white") {
-    x.style.color = "#f7931E";
+      x.style.color = "#f7931E";
+       /* shuffle on*/
+      var j = fetch('http://localhost:5000/api/shuffle', { method: 'POST', mode: 'cors' });
+      j.then(function (response) { //fask should have printed 
+          return response.text();
+      }).then(function (text) {
+          currentlyPlaying();
+          //console.log('POST response: ');
+          //console.log(text);
+      });
      /* shuffle on*/
   } else {
     x.style.color = "white";
-     /* shuffle off*/
+  /* shuffle off*/
+      var j = fetch('http://localhost:5000/api/unshuffle', { method: 'POST', mode: 'cors' });
+      j.then(function (response) { //fask should have printed 
+          return response.text();
+      }).then(function (text) {
+          currentlyPlaying();
+          //console.log('POST response: ');
+          //console.log(text);
+      });
   }
 }
 
@@ -347,17 +364,6 @@ function SetVolume(val)
   });
 }
 
-function shuffle()
-{
-    var j = fetch('http://localhost:5000/api/shuffle', { method: 'POST', mode: 'cors' });
-    j.then(function (response) { //fask should have printed 
-        return response.text();
-    }).then(function (text) {
-        currentlyPlaying();
-        //console.log('POST response: ');
-        //console.log(text);
-    });
-}
 
 function currentlyPlaying() {
   fetch('http://localhost:5000/api/get_current', {method: 'GET', mode: 'cors'})
