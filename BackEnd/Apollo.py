@@ -89,16 +89,6 @@ def info_obj_builder():
 	songs = []
 	client.rescan()
 	tempList = client.listallinfo()
-
-
-	ids = []
-	list_for_ids = client.playlistinfo()
-	for x in list_for_ids:
-		temp = {}
-		temp['name'] = x['title']
-		temp['id'] = x['id']
-		ids.append(temp)
-	#x = client.
 	for x in tempList:
 		if 'file' in x and x['file'].endswith('.mp3'):
 			try:
@@ -106,14 +96,7 @@ def info_obj_builder():
 				albums_artist.add((x['album'],x['artist'])) if 'album' in x and 'artist' in x else albums_artist
 				albums.add(x['album']) if 'album' in x else albums.add('none')
 				artists.add(x['artist']) if 'artist' in x else artists
-				temp_song = (songBuilder(x,['title','artist','album','duration']))
-				#songs.append((songBuilder(x,['title','artist','album','duration'])))
-				for y in ids:
-					if y['name'] == x['title']:
-						temp_song['id'] = y['id']
-						songs.append(temp_song)
-						break
-				#songs.append('songid':x['id'])
+				songs.append((songBuilder(x,['title','artist','album','duration'])))
 			except:
 				continue
 	albums_list = []
@@ -154,8 +137,6 @@ def info_obj_builder():
 					album['pic']= 'none'
 					album['artist'] = x['artist'] if 'artist' in x else 'none'
 					albums_list.append(album)
-
-	
 
 	for x in tempList:
 		if 'artist' not in x:
@@ -296,36 +277,6 @@ def startup_info_builder():
 @app.route('/cur_state', methods = ['GET'])
 def get_state():
 	return json.dumps({'state': client.status()['state']})
-
-@app.route('/play_selected', methods = ['POST'])
-def play_selected():
-	req = request.get_json()
-	id = req['id']
-	client.playid(id)
-	return 'OK',200
-
-@app.route('/api/repeatSong', methods = ['POST'])
-def repeat_song():
-	client.single(1)
-	client.repeat(1)
-	return 'Ok',200
-
-@app.route('/api/repeat', methods = ['POST'])
-def repeat_playlist():
-	client.repeat(1)
-	client.single(0)
-	return 'Ok',200
-
-@app.route('/api/repeatoff', methods = ['POST'])
-def repeat_off():
-	client.repeat(0)
-	client.single(0)
-	return 'Ok',200
-
-@app.route('/shuffle', methods = ['POST'])
-def shuffle():
-	client.shuffle()
-	return 'OK',200
 
 startup_func()
 
