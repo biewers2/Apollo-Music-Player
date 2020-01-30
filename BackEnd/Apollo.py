@@ -242,21 +242,14 @@ def get_volume():
 	return json.dumps(retVal) 
 
 @app.route('/api/get_current', methods = ['GET'])
-def return_current_song(): #will currently return an empty list if nothing is return from client.currentsong()
-	#song = client.currentsong()
-	#x = client.playlistinfo(0)[0]
-	attributes = ['title', 'artist', 'album', 'date', 'duration', 'pic', 'palette']
+def return_current_song():
+	attributes = ['artist', 'album', 'title', 'duration', 'elapsed', 'pic', 'palette']
 	status = client.status()
 	song = client.currentsong() if status['state'] != 'stop' else client.playlistinfo(0)[0]
 	elapsed = status['elapsed'] if status['state'] != 'stop' else '0'
 	curr_song = songBuilder(song, attributes) if status['state'] != 'stop' else songBuilder(client.playlistinfo(0)[0], attributes)
-
 	try:
-		#client.next() ###################
-		curr_song['title'] = curr_song.pop('file')
 		curr_song['title'] = song_stripper(curr_song['title'])
-		#if curr_song['title'] == 'Let it go (test)':
-			#print()###############################
 		curr_song['duration'] = song['duration']
 		curr_song['elapsed'] = elapsed
 		curr_song['pic'] = AlbumArtGenerator(song['album'],song['artist'])
