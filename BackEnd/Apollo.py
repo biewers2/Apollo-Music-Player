@@ -248,9 +248,9 @@ def get_volume():
 def return_current_song():
 	attributes = ['artist', 'album', 'title', 'duration', 'elapsed', 'pic', 'palette']
 	status = client.status()
-	song = client.currentsong() if status['state'] != 'stop' else client.playlistinfo(0)[0]
+	song = client.currentsong() if status['state'] != 'stop' else client.playlistinfo[0][0]
 	elapsed = status['elapsed'] if status['state'] != 'stop' else '0'
-	curr_song = songBuilder(song, attributes) if status['state'] != 'stop' else songBuilder(client.playlistinfo(0)[0], attributes)
+	curr_song = songBuilder(song, attributes) if status['state'] != 'stop' else songBuilder(client.playlistinfo[0][0], attributes)
 	try:
 		curr_song['title'] = song_stripper(curr_song['title'])
 		curr_song['duration'] = song['duration']
