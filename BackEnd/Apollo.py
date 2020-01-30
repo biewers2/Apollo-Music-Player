@@ -15,7 +15,7 @@ Music Player using MPD
 # dependencies
 import musicpd, json, subprocess, os, sys, io, time, requests, traceback, logging
 import xml.etree.ElementTree as ET
-from subprocess import Popen, CREATE_NEW_CONSOLE
+#from subprocess import Popen, CREATE_NEW_CONSOLE
 from flask import Flask, render_template, request, redirect, Response
 from flask_cors import CORS 
 from urllib.request import urlopen
@@ -95,7 +95,10 @@ def info_obj_builder():
 	list_for_ids = client.playlistinfo()
 	for x in list_for_ids:
 		temp = {}
-		temp['name'] = x['title']
+		try:
+			temp['name'] = x['title']
+		except: 
+			temp['name']='none'
 		temp['id'] = x['id']
 		ids.append(temp)
 	#x = client.
@@ -225,6 +228,12 @@ def next_song():
 	elif client.status()['state'] != 'play' and int(client.status()['song']) != int(client.status()['playlistlength']) -1:
 		client.seekid(x['nextsongid'],0)
 		client.pause()
+	return json.dumps(return_current_song())
+
+@app.route('/api/previous', methods=['GET'])
+def prev_song():
+	#x = client.status()
+	client.previous()
 	return json.dumps(return_current_song())
 
 def song_stripper(s):
