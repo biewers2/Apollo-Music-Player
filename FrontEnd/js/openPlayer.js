@@ -12,37 +12,29 @@ function boot2(){
   generateLibrary();
 }
 
-function openSearch() {
- if (document.getElementById("mainSearch").style.display = "none"){
-  document.getElementById("mainSearch").style.display = "block";
-  document.getElementById("mainPlaylists").style.display = "none";
-  document.getElementById("mainArtists").style.display = "none";
-  document.getElementById("mainAlbums").style.display = "none";
- }
-}
+// Controls what the main display is showing.
+var openController = {
+  elements: [ 'mainSearch', 'mainPlaylists', 'mainArtists', 'mainAlbums' ],
+  currOpen: 'mainSearch',
 
-function go2Playlists(){
-  if (document.getElementById("mainPlaylists").style.display = "none"){
-  document.getElementById("mainPlaylists").style.display = "block";
-  document.getElementById("mainArtists").style.display = "none";
-  document.getElementById("mainAlbums").style.display = "none";
-  document.getElementById("mainSearch").style.display = "none";
-  }
-}
-function go2Albums(){
-  if (document.getElementById("mainAlbums").style.display = "none"){
-  document.getElementById("mainAlbums").style.display = "block";
-  document.getElementById("mainPlaylists").style.display = "none"
-  document.getElementById("mainArtists").style.display = "none"
-  document.getElementById("mainSearch").style.display = "none"
-  }
-}
-function go2Artists(){
-  if (document.getElementById("mainArtists").style.display = "none"){
-  document.getElementById("mainArtists").style.display = "block";
-  document.getElementById("mainPlaylists").style.display = "none";
-  document.getElementById("mainAlbums").style.display = "none";
-  document.getElementById("mainSearch").style.display = "none";
+  // Generates a function that opens menu item 'element'.
+  open: function(element) {
+    return () => {
+      this.element = element;
+      if (!openController.elements.includes(element))
+        console.log("Err: " + element + " can not be opened.");
+      else if (element !== openController.currOpen) {
+        // Hides the currently opened display.
+        console.log("Closing " + openController.currOpen + ".");
+        document.getElementById(openController.currOpen).style.display = "none";
+        // Shows the respective display.
+        console.log("Opening " + this.element + ".");
+        document.getElementById(element).style.display = "block";
+        // Updates as the new currently opened element.
+        openController.currOpen = element;
+      }
+      else console.log(element + " is already opened.");
+    };
   }
 }
 

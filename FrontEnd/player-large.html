@@ -2,9 +2,7 @@
 <html>
 <head>
 	<body onload="boot()">
-	<title>
-		Apollo
-	</title>
+	<title>Apollo</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -15,28 +13,28 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="./css/playerLarge.css"/>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<script src="./js/openPlayer.js"></script>
-
+	<script src="js/openPlayer.js"></script>
+	<script src="js/display.js"></script>
 </head>
 <body>	
-
-<dir class="navigation-bar">
-		<i onclick="openSearch()" role="button" aria-expanded="false" class="fas fa-search searchButton navigation-bar"></i>
-		<i class="songSearch  navigation-bar" href="#" onclick="openSearch()" style="font-family: Azonix">Songs</i>
-		<i class="albums  navigation-bar" href="#" onclick="go2Albums()" style="font-family: Azonix">Albums</i>
-		<i class="playlist  navigation-bar" href="#"onclick="go2Playlists()" style="font-family: Azonix">Playlists</i>
-		<i class="artists  navigation-bar" href="#"onclick="go2Artists()" style="font-family: Azonix">Artists</i>
-	<div class="logoContainer">
-		<img id="logoBTN" class="logo-button" data-toggle="collapse" data-target="currentlyPlaying"src="./images/Logo.png"/>
+	<div class="navigation-bar">
+		<div id="menu-mnt">
+			<i onclick="openController.open('mainSearch')"
+			role="button"
+			aria-expanded="false"
+			class="fas fa-search searchButton navigation-bar"></i>
+			<!-- Menu items will be added here. -->
+		</div>
+		<div class="logoContainer">
+			<img id="logoBTN" class="logo-button" data-toggle="collapse" data-target="currentlyPlaying"src="./images/Logo.png"/>
+		</div>
+		<div class="apolloBrand" href="#">
+			APOLLO
+		</div>
 	</div>
-	<div class="apolloBrand" href="#">
-		APOLLO
-	</div>
-</dir>
-
 	<div id="currentlyPlaying"class="currentlyPlaying"style="background-color: rgb(26, 26, 26)">
-        <div class="currentlyShowing">
-			<i href="#" class = "artwork" id="returnCurrentAlbum"  onclick="filterSelection()"><img id="currentAlbum"class="playerAlbumArt" src="./images/Logo.png"/>
+		<div class="currentlyShowing">
+			<i href="#" class = "artwork" id="returnCurrentAlbum" onclick="filterSelection()"><img id="currentAlbum"class="playerAlbumArt" src="./images/Logo.png"/>
 			</i>
 		</div>
 		<div class="currentSong link">
@@ -49,7 +47,7 @@
 		</div>
 		<div class="w3-container">
 			<div class="w3-light-grey w3-round"">
-			  <div id="progBar" class="w3-green w3-round" style="height:7px;width:0%"></div>
+				<div id="progBar" class="w3-green w3-round" style="height:7px;width:0%"></div>
 			</div>
 		<div class="durations">
 			<i class="elapsed" href="#" style="font-family: Azonix" id="returnCurrentElapsed"></i>
@@ -71,7 +69,6 @@
 			</input>
 		</div>
 	</div>
-
 	<div class = "mainPages">
 		<div id="currentCue">
 			<button id="exit" onclick="closeCurrent()">X</button>
@@ -127,5 +124,5 @@
 	</script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
-</body>
+</body
 </html>
