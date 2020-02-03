@@ -1,22 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<body onload="boot()">
 	<title>Apollo</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" inegrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Baumans&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/ab83053a15.js" crossorigin="anonymous"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          inegrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Baumans&display=swap"
+          rel="stylesheet">
+
+    <!-- Font -->
+    <script src="https://kit.fontawesome.com/ab83053a15.js" crossorigin="anonymous"></script>
+    <!-- JQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 	<link rel="stylesheet" href="./css/playerLarge.css"/>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<script src="js/openPlayer.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!-- Program scripts -->
 	<script src="js/display.js"></script>
+	<script src="js/openPlayer.js"></script>
+    <script src="js/global.js"></script>
 </head>
-<body>	
+<body>
 	<div class="navigation-bar">
 		<div id="menu-mnt">
 			<i onclick="openController.open('mainSearch')"
@@ -46,7 +62,7 @@
 			</i>
 		</div>
 		<div class="w3-container">
-			<div class="w3-light-grey w3-round"">
+			<div class="w3-light-grey w3-round">
 				<div id="progBar" class="w3-green w3-round" style="height:7px;width:0%"></div>
 			</div>
 		<div class="durations">
@@ -70,7 +86,7 @@
 		</div>
 	</div>
 	<div class = "mainPages">
-		<div id="currentCue">
+		<div id="currentQueue">
 			<button id="exit" onclick="closeCurrent()">X</button>
 			<img id="Qart" src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/attachment_68585523.jpg?auto=format&q=60&fit=max&w=930">
 			<div id="header"><h1>CUETITLE</h1></div>
@@ -88,7 +104,6 @@
 				  </tbody>
 				  </table>
 			</div>
-
 		</div>
 		<div id="mainArtists">
 		</div>
@@ -124,5 +139,5 @@
 	</script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
-</body
+</body>
 </html>
