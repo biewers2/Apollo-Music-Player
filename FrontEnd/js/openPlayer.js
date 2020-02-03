@@ -1,411 +1,391 @@
-var objList;
-
-function boot(){
-  fetchAllSongs();
-}
-
-function boot2(){
-  currentlyPlaying();
-  addAlbums();
-  addPlaylists();
-  addArtists();
-  generateLibrary();
-}
-
-// Controls what the main display is showing.
-var openController = {
-  elements: [ 'mainSearch', 'mainPlaylists', 'mainArtists', 'mainAlbums' ],
-  currOpen: 'mainSearch',
-
-  // Generates a function that opens menu item 'element'.
-  open: function(element) {
-    return () => {
-      this.element = element;
-      if (!openController.elements.includes(element))
-        console.log("Err: " + element + " can not be opened.");
-      else if (element !== openController.currOpen) {
-        // Hides the currently opened display.
-        console.log("Closing " + openController.currOpen + ".");
-        document.getElementById(openController.currOpen).style.display = "none";
-        // Shows the respective display.
-        console.log("Opening " + this.element + ".");
-        document.getElementById(element).style.display = "block";
-        // Updates as the new currently opened element.
-        openController.currOpen = element;
-      }
-      else console.log(element + " is already opened.");
-    };
-  }
-}
-
 function current() {
-  if (document.getElementById("currentCue").style.display = "none"){
-   document.getElementById("currentCue").style.display = "block";
-  }
+    currQueue = document.getElementById("currentQueue")
+    if (currQueue.style.display = "none") {
+        currQueue.style.display = "block";
+    }
 }
 
 function closeCurrent() {
-  if (document.getElementById("currentCue").style.display = "block"){
-   document.getElementById("currentCue").style.display = "none";
-  }
+    currQueue = document.getElementById('currentQueue');
+    if (currQueue.style.display = "block"){
+        currQueue.style.display = "none";
+    }
 }
 
+
 function shuffle() {
-  var x = document.getElementById("shuffle");
-  if (x.style.color === "white") {
-      x.style.color = "#f7931E";
-       /* shuffle on*/
-      var j = fetch('http://localhost:5000/api/shuffle', { method: 'POST', mode: 'cors' });
-      j.then(function (response) { //fask should have printed 
-          return response.text();
-      }).then(function (text) {
-          currentlyPlaying();
-          //console.log('POST response: ');
-          //console.log(text);
-      });
-     /* shuffle on*/
-  } else {
-    x.style.color = "white";
-  /* shuffle off*/
-      var j = fetch('http://localhost:5000/api/unshuffle', { method: 'POST', mode: 'cors' });
-      j.then(function (response) { //fask should have printed 
-          return response.text();
-      }).then(function (text) {
-          currentlyPlaying();
-          //console.log('POST response: ');
-          //console.log(text);
-      });
-  }
+    var shuf = document.getElementById("shuffle");
+    if (shuf.style.color === "white") {
+        shuf.style.color = "#f7931E";
+
+        /* Shuffle turning on... */
+        fetch(
+            TEMP_API_LINK + 'shuffle',
+            { method: 'POST', mode: 'cors' }
+        ).then((response) => { 
+            // (Flask should have printed)
+            return response.text();
+        }).then((text) => {
+            currentlyPlaying();
+            // console.log('POST response: ');
+            // console.log(text);
+        });
+        /* Shuffle turned on! */
+    }
+    else {
+        shuf.style.color = "white";
+
+        /* Shuffle turning off... */
+        fetch(
+            TEMP_API_LINK + 'unshuffle',
+            { method: 'POST', mode: 'cors' }
+        ).then((response) => { 
+            // (Flask should have printed)
+            return response.text();
+        }).then((text) => {
+            currentlyPlaying();
+            // console.log('POST response: ');
+            // console.log(text);
+        });
+    }
 }
 
 function repeatSong() {
-    var j = fetch('http://localhost:5000/api/repeatSong', { method: 'POST', mode: 'cors' });
-    j.then(function (response) { //fask should have printed 
+    fetch(
+        TEMP_API_LINK + 'repeatSong',
+        { method: 'POST', mode: 'cors' }
+    ).then((response) => {
+        // (Flask should have printed)
         return response.text();
-    }).then(function (text) {
-        console.log('POST response: ');
-        console.log(text);
+    }).then((text) => {
+        // console.log('POST response: ');
+        // console.log(text);
     });
 
-    var x = document.getElementById("rewind");
-    var y = document.getElementById("rewindSong");
-    if (x.style.display === "inline") {
-        x.style.display = "none";
-        y.style.display = "inline";
-        /* repeat song on*/
-    } else {
-        x.style.color = "white";
-        x.style.display = "inline";
-        y.style.display = "none";
-        /* repeat off*/
+    var rewind = document.getElementById("rewind");
+    var song = document.getElementById("rewindSong");
+    /* Turns repeat 'on'. */
+    if (rewind.style.display === "inline") {
+        rewind.style.display = "none";
+        song.style.display = "inline";
+    }
+    /* Turns repeat 'off'. */
+    else {
+        rewind.style.color = "white";
+        rewind.style.display = "inline";
+        song.style.display = "none";
     }
 }
 
 function repeat() {
-    var j = fetch('http://localhost:5000/api/repeat', { method: 'POST', mode: 'cors' });
-    j.then(function (response) { //fask should have printed 
+    fetch(
+        TEMP_API_LINK + 'repeat',
+        { method: 'POST', mode: 'cors' }
+    ).then((response) => {
+        // (Flask should have printed)
         return response.text();
-    }).then(function (text) {
+    }).then((text) => {
         console.log('POST response: ');
         console.log(text);
     });
 
-    var x = document.getElementById("rewind");
-    if (x.style.color === "white") {
-        x.style.color = "#f7931E";
-        /* repeat playlist on*/
-    } else {
-        x.style.color = "white";
-        /* repeat off*/
-    }
+    var rewind = document.getElementById("rewind");
+    if (rewind.style.color === "white") /* Turns repeat playlist 'on'. */
+        rewind.style.color = "#f7931E";
+    else rewind.style.color = "white";  /* Turns repeat playlist 'off'. */
 }
 
 function repeatoff() {
-    var j = fetch('http://localhost:5000/api/repeatoff', { method: 'POST', mode: 'cors' });
-    j.then(function (response) { //fask should have printed 
+    fetch(
+        TEMP_API_LINK + 'repeatoff',
+        { method: 'POST', mode: 'cors' }
+    ).then((response) => {
+        // (Flask should have printed)
         return response.text();
-    }).then(function (text) {
+    }).then((text) => {
         console.log('POST response: ');
         console.log(text);
     });
 
-    var x = document.getElementById("rewind");
-    var y = document.getElementById("rewindSong");
+    var rewind = document.getElementById("rewind");
+    var rewindSong = document.getElementById("rewindSong");
 
-    if (y.style.display === "inline" || x.style.color === "#f7931E") {
-        x.style.color = "white";
-        x.style.display = "inline";
-        y.style.display = "none";
-        /* repeat song off*/
+    /* Turns repeat song 'off'. */
+    if (rewindSong.style.display === "inline" || rewind.style.color === "#f7931E") {
+        rewind.style.color = "white";
+        rewind.style.display = "inline";
+        rewindSong.style.display = "none";
     }
 }
 
 function fetchAllSongs() {
-  fetch('http://localhost:5000/api/obj_list', {method: 'GET', mode: 'cors'})
-  .then(function(response) {
-    return response.json();
-    }).then(function (obj) {
-    //console.log('POST response: ');
-    objList = obj;
-    //console.log(objList);
-    boot2();
-  });
+    fetch(
+        TEMP_API_LINK + 'obj_list',
+        { method: 'GET', mode: 'cors' }
+    ).then((response) => {
+        return response.json();
+    }).then((obj) => {
+        //console.log('POST response: ');
+        objList = obj;
+        //console.log(objList);
+    });
 }
 
 function generateLibrary() {
-  var library = [];
-  library = objList.songs;
-  var songList = document.getElementById("libraryBody");
-  for (var i = 0; i < library.length; i++) {
-    var song = document.createElement("tr");
-    /*
-    var id= library[i].id;
-    id = parse.JSON(id);
-    song.setAttribute ('onclick' , function idSendPlay() {
-      fetch('http://localhost:5000/api/play_selected', {method: 'POST', mode: "cors", body: id, headers:{"Content-Type": 'application/json'}
-      })
-      .then(function(response){
-         return response.text();
-      })
-      .then(function(text){
-      });
-    });
-    */
-      var cell = document.createElement("td");
-      var songName = document.createTextNode(library[i].title);
-      cell.appendChild(songName);
-      song.appendChild(cell);
+    var library = [];
+    library = objList.songs;
+    var songList = document.getElementById("libraryBody");
+    for (var i = 0; i < library.length; i++) {
+        var song = document.createElement("tr");
+        /*
+        var id= library[i].id;
+        id = parse.JSON(id);
+        song.setAttribute ('onclick' , function idSendPlay() {
+        fetch('http://localhost:5000/api/play_selected', {method: 'POST', mode: "cors", body: id, headers:{"Content-Type": 'application/json'}
+        })
+        .then(function(response){
+        return response.text();
+        })
+        .then(function(text){
+        });
+        });
+        */
+        var cell = document.createElement("td");
+        var songName = document.createTextNode(library[i].title);
+        cell.appendChild(songName);
+        song.appendChild(cell);
 
-      cell = document.createElement("td");
-      var artistName = document.createTextNode(library[i].artist);
-      cell.appendChild(artistName);
-      song.appendChild(cell);
-
-
-      cell = document.createElement("td");
-      var albumName = document.createTextNode(library[i].album);
-      cell.appendChild(albumName);
-      song.appendChild(cell);
+        cell = document.createElement("td");
+        var artistName = document.createTextNode(library[i].artist);
+        cell.appendChild(artistName);
+        song.appendChild(cell);
 
 
-      cell = document.createElement("td");
-      songLength = library[i].duration;
-      minutes = (songLength/60);
-      minutes = minutes.toFixed(2);
-      var duration = document.createTextNode(minutes);
-      cell.appendChild(duration);
-      song.appendChild(cell);
+        cell = document.createElement("td");
+        var albumName = document.createTextNode(library[i].album);
+        cell.appendChild(albumName);
+        song.appendChild(cell);
 
-    songList.appendChild(song);
-  }
+
+        cell = document.createElement("td");
+        songLength = library[i].duration;
+        minutes = (songLength/60);
+        minutes = minutes.toFixed(2);
+        var duration = document.createTextNode(minutes);
+        cell.appendChild(duration);
+        song.appendChild(cell);
+
+        songList.appendChild(song);
+    }
 }
 
 function addAlbums() { 
-  var library = [];
-  library = objList.albums;
-  for(var i = 0; i < library.length; i++){
-     if ((library[i].pic == null) || (library[i].pic == "none")){
-        var img = document.createElement('img');
-        img.setAttribute("src", "./images/AlbumArt-01.png");
-        img.classList.add("square");
-        img.classList.add("albumType");
-        img.setAttribute("id", library[i].pic);
-        document.getElementById("mainAlbums").append(img);
+    let library = [];
+    library = objList.albums;
+    for (let i = 0; i < library.length; i++) {
+        if (library[i].pic == null || library[i].pic == "none") {
+            var img = document.createElement('img');
+            img.setAttribute("src", "./images/AlbumArt-01.png");
+            img.classList.add("square");
+            img.classList.add("albumType");
+            img.setAttribute("id", library[i].pic);
+            document.getElementById("mainAlbums").append(img);
+        }
+        else {
+            var img = document.createElement('img');
+            img.setAttribute("src" , library[i].pic);
+            img.classList.add("square");
+            img.classList.add("albumType");
+            img.setAttribute("id" , library[i].pic);
+            document.getElementById("mainAlbums").append(img);
+            //console.log(img);
+        }
     }
-    else 
-    {
-      var img = document.createElement('img');
-      img.setAttribute("src" , library[i].pic);
-      img.classList.add("square");
-      img.classList.add("albumType");
-      img.setAttribute("id" , library[i].pic);
-      document.getElementById("mainAlbums").append(img);
-      //console.log(img);
-    }
-  }
-  albumButtons();
+    albumButtons();
 }
 
-function albumButtons(){
-  var library = [];
-  library = objList.albums;
-  for(var i = 0; i < library.length; i++){
-    if (library[i].pic == "./images/Logo1.png"){
-      continue;
+function albumButtons() {
+    let library = [];
+    library = objList.albums;
+    for (let i = 0; i < library.length; i++) {
+        if (library[i].pic == "./images/Logo1.png") {
+            continue;
+        }
+        else {
+            document.getElementById(library[i].pic).setAttribute('onclick' ,function changePlaying() {
+                document.getElementById('currentAlbum').src=library[i];
+            });
+        }
     }
-    else 
-    {
-    document.getElementById(library[i].pic).setAttribute('onclick' ,function changePlaying() {
-      document.getElementById('currentAlbum').src=library[i];
-    });
-  }
-}
 }
 
 function addPlaylists() { 
-      var img = document.createElement('img');
-      img.setAttribute('onclick', function newPlaylist(){
+    let img = document.createElement('img');
+    img.setAttribute('onclick', function newPlaylist(){
         document.getElementById("mainPlaylist").append(img);
-      });
-      img.src = "https://cdn.pixabay.com/photo/2018/11/13/21/43/instagram-3814051_1280.png"
-      img.classList.add("square");
-      img.setAttribute("onclick" , "current()")
-      document.getElementById("mainPlaylists").append(img);
+    });
+    img.src = "https://cdn.pixabay.com/photo/2018/11/13/21/43/instagram-3814051_1280.png"
+    img.classList.add("square");
+    img.setAttribute("onclick" , "current()")
+    document.getElementById("mainPlaylists").append(img);
 }
 
 function addArtists() { 
-  var library = [];
-  library = objList.artists;
-  let artistSet = new Set();
-  var artistTable = document.createElement('table');
-  artistTable.classList.add("artistDisplay");
+    // Remove duplicates and sort.
+    let artists = Array.from(new Set(objList.artists)).sort();
 
-  for (var i=0; i < library.length; i++){
-    artistSet.add(library[i].name);
-  };
+    // Create table of artists.
+    let artistTable = document.createElement('table');
+    artistTable.classList.add("artistDisplay");
+    for (artist of artists) {
+        var row = document.createElement("tr");
+        var datum = document.createElement("td");
+        var artistNode = document.createTextNode(artist);
 
-  let artistArray = Array.from(artistSet);
-  artistArray.sort();
-  for(var i =0; i<artistArray.length; i++){
-
-    var row = document.createElement("tr");
-
-    var artistName = document.createElement("td");
-    var artist = document.createTextNode(artistArray[i]);
-    artistName.append(artist);
-    row.append(artistName);
-    row.setAttribute("id" , "artist-" + artistArray[i]);
-    artistTable.append(row);
-  } 
-
-  document.getElementById("mainArtists").append(artistTable);
+        datum.append(artistNode);
+        row.append(datum);
+        row.id = "artist-" + artist;
+        artistTable.append(row);
+    } 
+    document.getElementById("mainArtists").append(artistTable);
 }
 
-function togglePlaying()
-{
-  document.getElementById("pause").style.display = "inline";
-  document.getElementById("play").style.display = "none";
-  
-  var j =fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'});
-    j.then(function(response) { //fask should have printed 
-    return response.text();
-    }).then(function (text) {
-    currentlyPlaying();
-    //console.log('POST response: ');
-    //console.log(text);
-  });
+function togglePlaying() {
+    // Set play to 'on'.
+    document.getElementById("pause").style.display = "inline";
+    document.getElementById("play").style.display = "none";
+
+    fetch(
+        TEMP_API_LINK + 'play',
+        { method: 'POST', mode: 'cors' }
+    ).then((response) => {
+        // (Flask should have printed)
+        return response.text();
+    }).then((text) => {
+        currentlyPlaying();
+        console.log('POST response: ');
+        console.log(text);
+    });
 }
 
-function toggleStopped()
-{
-    
-  document.getElementById("pause").style.display = "none";
-  document.getElementById("play").style.display = "inline";
+function toggleStopped() {
+    document.getElementById("pause").style.display = "none";
+    document.getElementById("play").style.display = "inline";
 
-  fetch('http://localhost:5000/api/play', {method: 'POST', mode: 'cors'}).then(function(response) {
-    //console.log(response);
-  });
+    fetch(
+        TEMP_API_LINK + 'play',
+        { method: 'POST', mode: 'cors' }
+    ).then((response) => {
+        console.log(response);
+    });
 }
 
-function nextSong()
-{
-  fetch('http://localhost:5000/api/next', {method: 'GET', mode: 'cors'}).then(function(response) {
-  return response.text();
-  }).then(function (text) {
-  currentlyPlaying();
-  //console.log('POST response: ');
-  //console.log(text);
-  });
+function nextSong() {
+    fetch(
+        TEMP_API_LINK + 'next',
+        { method: 'GET', mode: 'cors' }
+    ).then((response) => {
+        return response.text();
+    }).then((text) => {
+        currentlyPlaying();
+        console.log('POST response: ');
+        console.log(text);
+    });
 }
 
-function prevSong()
-{
-  fetch('http://localhost:5000/api/previous', {method: 'GET', mode: 'cors'}).then(function(response) { 
-  return response.text();
-  }).then(function (text) {
-    currentlyPlaying();
-    //console.log('GET response: ');
-    //console.log(text);
-  });
+function prevSong() {
+    fetch(
+        TEMP_API_LINK + 'previous',
+        { method: 'GET', mode: 'cors' }
+    ).then((response) => { 
+        return response.text();
+    }).then((text) => {
+        currentlyPlaying();
+        console.log('GET response: ');
+        console.log(text);
+    });
 }
 
-function SetVolume(val) 
-{
-  var player = document.getElementById('vol-control');
-  //console.log('Before: ' + player.volume);
-  player.volume = val / 100;
-  //console.log('After: ' + player.volume);
+function SetVolume(val) {
+    let player = document.getElementById('vol-control');
+    console.log('Before: ' + player.volume);
+    player.volume = val / 100;
+    console.log('After: ' + player.volume);
 
-  var asJSON = JSON.stringify({'volume':val});
-  //console.log(asJSON)
+    let asJSON = JSON.stringify({'volume':val});
+    console.log(asJSON)
 
-  //POST
-  fetch('http://localhost:5000/api/volume', {
+    fetch(
+        TEMP_API_LINK + 'volume',
+        {
             method: 'POST',
             mode: "cors",
             body: asJSON,
-            headers:{
+            headers: {
                 "Content-Type": 'application/json'
             }
-  }).then(function(response){
-    return response.text();
-  }).then(function(text){
-    //console.log('POST reponse: ');
-
-    //console.log(text);
-  });
+        }
+    ).then((response) => {
+        return response.text();
+    }).then((text) => {
+        console.log('POST reponse: ');
+        console.log(text);
+    });
 }
 
 
 function currentlyPlaying() {
-  fetch('http://localhost:5000/api/get_current', {method: 'GET', mode: 'cors'})
-  .then(function(response) {
-    return response.json();
-    })
-    .then(function (obj) {
-    //console.log(obj);
-    //console.log(obj.palette[0]);
-    var r = obj.palette[0][0];
-    var g = obj.palette[0][1];
-    var b = obj.palette[0][2];
-    document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
-    if (obj.pic == '' || obj.pic == null || obj.pic == 'none') {
-      document.getElementById('currentAlbum').setAttribute('src', "./images/AlbumArt-01.png");
-    }
-    else {
-      document.getElementById('currentAlbum').setAttribute('src', obj.pic);
-    }
-    document.getElementById('returnCurrentSong').innerHTML = obj.title;
-    document.getElementById('returnCurrentArtist').innerHTML = obj.artist;
-    document.getElementById('returnCurrentDuration').innerHTML = secondsTo_MMSS(obj.duration);
-    document.getElementById('returnCurrentElapsed').innerHTML = secondsTo_MMSS(obj.elapsed);
-    setInterval(currentlyPlaying(), 1000);
-    setInterval(progressBar(obj), 500);
-    delete obj
-  });
+    fetch(
+        TEMP_API_LINK + 'get_current',
+        { method: 'GET', mode: 'cors' }
+    ).then((response) => {
+        response.json().then(obj => {
+            console.log(obj);
+            console.log(obj.palette[0]);
+            let r = obj.palette[0][0],
+            g = obj.palette[0][1],
+            b = obj.palette[0][2];
+            document.getElementById('currentlyPlaying').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+            if (obj.pic == '' || obj.pic == null || obj.pic == 'none') {
+                document.getElementById('currentAlbum').setAttribute('src', "./images/AlbumArt-01.png");
+            }
+            else {
+                document.getElementById('currentAlbum').setAttribute('src', obj.pic);
+            }
+
+            let currents = {
+                returnCurrentSong:     obj.title,
+                returnCurrentArtist:   obj.artist,
+                returnCurrentDuration: secondsTo_MMSS(obj.duration),
+                returnCurrentElapsed:  secondsTo_MMSS(obj.elapsed)
+            };
+            for (curr in currents)
+                document.getElementById(curr).innerHTML = currents[curr];
+
+            setInterval(currentlyPlaying(), 1000);
+            setInterval(progressBar(obj), 500);
+        });
+    });
 }
 
-function progressBar(obj) {
-  var bar = document.getElementById("progBar");
-    barPercent = (obj.elapsed / obj.duration) * 100;
+function progressBar(song) {
+    let barPercent = (song.elapsed / song.duration) * 100;
+    let bar = document.getElementById("progBar");
     bar.style.width = String(barPercent) + '%';
 }
 
 function secondsTo_MMSS(seconds) {
-  durMin = seconds / 60;
-  durSec = seconds % 60;
-  durMin = durMin.toFixed(0);
-  durSec = durSec.toFixed(0);
-  function pad(value) {
-    if(value < 10) {
-        return '0' + value;
-    } else {
-        return value;
+    let _pad = (value) => {
+        if (value < 10) return '0' + value;
+        else return value;
     }
-  }
-  durMin = pad(durMin);
-  durSec = pad(durSec);
-  durMinStr = String(durMin);
-  durSecStr = String(durSec);
-  return durMinStr + ':' + durSecStr;
+
+    let durMin = seconds / 60,
+        durSec = seconds % 60,
+        durMin = durMin.toFixed(0),
+        durSec = durSec.toFixed(0);
+
+    durMinStr = String(_pad(durMin));
+    durSecStr = String(_pad(durSec));
+    return durMinStr + ':' + durSecStr;
 }
